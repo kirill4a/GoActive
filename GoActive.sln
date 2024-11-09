@@ -1,0 +1,84 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{14134D3F-60B2-4F16-ABAE-0E9AE191A9EA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{1C368A3F-122D-4FAD-9963-96D36C40FAA6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{E65FC243-59A2-471B-B319-530DC7D16E3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.WebApi", "src\api\GoActive.WebApi\GoActive.WebApi.csproj", "{51FFE49D-FB41-499B-9289-3F89BBA64F16}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Geo", "Geo", "{68E4B990-D9C6-44E0-9B18-6831B6FFD13B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workout", "Workout", "{E91AD24A-7614-4506-B7C7-7A74F69FA0ED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NordicSki", "NordicSki", "{8F3FE094-0A8B-49FC-9FDA-9B7E8C51B520}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Persistence", "Persistence", "{9D9EDF65-0B68-4A1D-964D-D1362E80AAF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Modules.Geo.Domain", "src\modules\geo\GoActive.Modules.Geo.Domain\GoActive.Modules.Geo.Domain.csproj", "{76983492-9E05-4926-83CD-AB77459F20C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solutionItems", ".solutionItems", "{EBA6CA2A-E131-4D32-8E1C-D7DEB41E13D2}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Directory.Packages.props = Directory.Packages.props
+		assets\c4diagrams\GoActiveFlow.drawio.png = assets\c4diagrams\GoActiveFlow.drawio.png
+		assets\c4diagrams\GoActiveFlow-FlowSchema.drawio.png = assets\c4diagrams\GoActiveFlow-FlowSchema.drawio.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0A407594-C3CE-416A-A276-5E0E93C0BD58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Modules.Geo.Domain.Tests", "tests\GoActive.Modules.Geo.Domain.Tests\GoActive.Modules.Geo.Domain.Tests.csproj", "{00A128B0-6453-4E8C-B49A-5CD5F20EDA3D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Modules.Geo.Application", "src\modules\geo\GoActive.Modules.Geo.Application\GoActive.Modules.Geo.Application.csproj", "{11E7303D-079F-47FC-9379-8EE2A4629F49}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{D010882A-97FC-447B-9F70-EFDCFACDC069}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Shared.Domain", "src\modules\shared\GoActive.Shared.Domain\GoActive.Shared.Domain.csproj", "{5159531E-45FC-4FB5-BF79-0459F10AE360}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{51FFE49D-FB41-499B-9289-3F89BBA64F16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51FFE49D-FB41-499B-9289-3F89BBA64F16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51FFE49D-FB41-499B-9289-3F89BBA64F16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51FFE49D-FB41-499B-9289-3F89BBA64F16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76983492-9E05-4926-83CD-AB77459F20C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76983492-9E05-4926-83CD-AB77459F20C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76983492-9E05-4926-83CD-AB77459F20C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76983492-9E05-4926-83CD-AB77459F20C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00A128B0-6453-4E8C-B49A-5CD5F20EDA3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00A128B0-6453-4E8C-B49A-5CD5F20EDA3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00A128B0-6453-4E8C-B49A-5CD5F20EDA3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00A128B0-6453-4E8C-B49A-5CD5F20EDA3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11E7303D-079F-47FC-9379-8EE2A4629F49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11E7303D-079F-47FC-9379-8EE2A4629F49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11E7303D-079F-47FC-9379-8EE2A4629F49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11E7303D-079F-47FC-9379-8EE2A4629F49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5159531E-45FC-4FB5-BF79-0459F10AE360}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5159531E-45FC-4FB5-BF79-0459F10AE360}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5159531E-45FC-4FB5-BF79-0459F10AE360}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5159531E-45FC-4FB5-BF79-0459F10AE360}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{51FFE49D-FB41-499B-9289-3F89BBA64F16} = {14134D3F-60B2-4F16-ABAE-0E9AE191A9EA}
+		{68E4B990-D9C6-44E0-9B18-6831B6FFD13B} = {1C368A3F-122D-4FAD-9963-96D36C40FAA6}
+		{E91AD24A-7614-4506-B7C7-7A74F69FA0ED} = {1C368A3F-122D-4FAD-9963-96D36C40FAA6}
+		{8F3FE094-0A8B-49FC-9FDA-9B7E8C51B520} = {1C368A3F-122D-4FAD-9963-96D36C40FAA6}
+		{9D9EDF65-0B68-4A1D-964D-D1362E80AAF8} = {E65FC243-59A2-471B-B319-530DC7D16E3C}
+		{76983492-9E05-4926-83CD-AB77459F20C1} = {68E4B990-D9C6-44E0-9B18-6831B6FFD13B}
+		{00A128B0-6453-4E8C-B49A-5CD5F20EDA3D} = {0A407594-C3CE-416A-A276-5E0E93C0BD58}
+		{11E7303D-079F-47FC-9379-8EE2A4629F49} = {68E4B990-D9C6-44E0-9B18-6831B6FFD13B}
+		{D010882A-97FC-447B-9F70-EFDCFACDC069} = {1C368A3F-122D-4FAD-9963-96D36C40FAA6}
+		{5159531E-45FC-4FB5-BF79-0459F10AE360} = {D010882A-97FC-447B-9F70-EFDCFACDC069}
+	EndGlobalSection
+EndGlobal
