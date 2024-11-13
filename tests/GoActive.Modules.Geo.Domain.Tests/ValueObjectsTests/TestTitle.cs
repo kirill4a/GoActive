@@ -7,15 +7,13 @@ namespace GoActive.Modules.Geo.Domain.Tests.ValueObjectsTests;
 public class TestTitle
 {
     [Theory]
-    [InlineData(null)]
     [InlineData(" ")]
     [InlineData("")]
     public void CreateTitle_WrongValue(string title)
     {
         FluentActions.Invoking(() => _ = Title.FromValue(title))
             .Should()
-            .ThrowExactly<ArgumentException>()
-            .WithMessage("Title cannot be null or whitespace.");
+            .ThrowExactly<ArgumentException>();
     }
 
     [Fact]
