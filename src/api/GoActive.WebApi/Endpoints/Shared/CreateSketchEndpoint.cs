@@ -5,6 +5,7 @@ using GoActive.WebApi.Infrastructure.Endpoints;
 using GoActive.WebApi.Infrastructure.Filters;
 using GoActive.Modules.Geo.Application.Commands;
 using System.Net;
+using Microsoft.OpenApi.Models;
 
 namespace GoActive.WebApi.Endpoints.Shared;
 
@@ -36,8 +37,12 @@ internal class CreateSketchEndpoint : IEndpoint
                         return TypedResults.CreatedAtRoute(result.Value);
                     })
             .WithRequestValidation<CreateSketchRequest>()
-            .WithName("CreateSketch")
-            .WithTags("Sketches")
             .ProducesProblem((int)HttpStatusCode.InternalServerError)
-            .WithOpenApi();
+            .WithOpenApi(options => new(options)
+            {
+                OperationId = "CreateSketch",
+                Description = "Use this method to create sketch (draft) you can customise later",
+                Tags = [new OpenApiTag() { Name = "Sketches" }],
+                Summary = "Creates sketch of fitness geo-object"
+            });
 }

@@ -10,28 +10,19 @@ internal class CreateSketchCommandHandler : IRequestHandler<CreateSketchCommand,
 {
     public Task<Result<Guid>> Handle(CreateSketchCommand command, CancellationToken cancellation)
     {
-        try
+        // TODO: check the existence of the same sketch and return Result.Fail if it is so
+        var newId = GeoDataId.FromValue(Guid.NewGuid());
+        var latitude = new Latitude(command.Location.Latitude);
+        var longitude = new Longitude(command.Location.Longitude);
+
+        var geoData = new GeoData(newId, Title.FromValue(command.Title))
         {
-            var newId = GeoDataId.FromValue(Guid.NewGuid());
-            var latitude = new Latitude(command.Location.Latitude);
-            var longitude = new Longitude(command.Location.Longitude);
+            CreatedAt = DateTime.UtcNow,
+            Center = new GeoCoordinate(Location: new(latitude, longitude), Altitude: default)
+        };
 
-            var geoData = new GeoData(newId, Title.FromValue(command.Title))
-            {
-                CreatedAt = DateTime.UtcNow,
-                Center = new GeoCoordinate(Location: new(latitude, longitude), Altitude: default)
-            };
+        //TODO: invoke save to database here
 
-            //TODO: invoke save to database here
-
-            return Task.FromResult(Result.Ok(geoData.Id.Value));
-        }
-        // TODO: catch the specific business excception
-        catch (Exception ex)
-        {
-
-            // TODO: log the exception
-            return Task.FromResult(Result.Fail<Guid>(ex.Message));
-        }
+        return Task.FromResult(Result.Ok(geoData.Id.Value));
     }
 }
