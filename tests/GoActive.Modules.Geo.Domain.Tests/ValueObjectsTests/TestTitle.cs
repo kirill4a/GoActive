@@ -9,26 +9,39 @@ public class TestTitle
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
-    public void CreateTitle_WrongValue(string title)
+    public void Create_FromWrongValue_ShouldThrowException(string title)
     {
-        FluentActions.Invoking(() => _ = Title.FromValue(title))
-            .Should()
-            .ThrowExactly<ArgumentException>();
+        // Act
+        var function = () => Title.FromValue(title);
+
+        // Assert
+        function.Should().ThrowExactly<ArgumentException>();
     }
 
     [Fact]
-    public void CreateTitle_NullCheckValue()
+    [Obsolete("Check all the wrong values in one method (via 'Should().Throw<ArgumentException>')")]
+    public void Create_FromNullValue_ShouldThrowException()
     {
-        FluentActions.Invoking(() => _ = Title.FromValue(null))
-            .Should()
-            .ThrowExactly<ArgumentNullException>();
+        // Arrange
+        string? value = null;
+
+        // Act
+        var function = () => Title.FromValue(value!);
+
+        // Assert 
+        function.Should().ThrowExactly<ArgumentNullException>();
     }
 
     [Fact]
-    public void CreateTitle_ValidValue()
+    public void Create_FromValidValue_ShouldCreated()
     {
+        // Arrange
         var value = "A valid title";
+
+        // Act
         var title = Title.FromValue(value);
+
+        // Assert
         title.Value.Should().Be(value);
     }
 }
