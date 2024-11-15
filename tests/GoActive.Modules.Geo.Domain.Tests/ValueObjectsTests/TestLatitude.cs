@@ -10,7 +10,7 @@ public class TestLatitude
     [InlineData([-90.0001d])]
     public void Create_FromWrongValue_ShouldThrowException(double latitude)
     {
-        // Arrange
+        // Act
         var function = () => new Latitude(latitude);
 
         // Assert

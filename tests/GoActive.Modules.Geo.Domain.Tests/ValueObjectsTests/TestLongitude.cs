@@ -10,7 +10,7 @@ public class TestLongitude
     [InlineData(-180.0001d)]
     public void Create_FromWrongValue_ShouldThrowException(double longitude)
     {
-        // Arrange
+        // Act
         var function = () => new Longitude(longitude);
 
         // Assert

@@ -11,7 +11,7 @@ public class TestTitle
     [InlineData(" ")]
     public void Create_FromWrongValue_ShouldThrowException(string title)
     {
-        // Arrange
+        // Act
         var function = () => Title.FromValue(title);
 
         // Assert
@@ -23,7 +23,10 @@ public class TestTitle
     public void Create_FromNullValue_ShouldThrowException()
     {
         // Arrange
-        var function = () => Title.FromValue(null!);
+        string? value = null;
+
+        // Act
+        var function = () => Title.FromValue(value!);
 
         // Assert 
         function.Should().ThrowExactly<ArgumentNullException>();
