@@ -8,18 +8,25 @@ public class TestLongitude
     [Theory]
     [InlineData(180.0001d)]
     [InlineData(-180.0001d)]
-    public void CreateLongitude_WrongValue(double longitude)
+    public void Create_FromWrongValue_ShouldThrowException(double longitude)
     {
-        FluentActions.Invoking(() => _ = new Longitude(longitude))
-                     .Should()
-                     .ThrowExactly<ArgumentOutOfRangeException>();
+        // Arrange
+        var function = () => new Longitude(longitude);
+
+        // Assert
+        function.Should().ThrowExactly<ArgumentOutOfRangeException>();
     }
 
     [Fact]
-    public void CreateLongitude_Ok()
+    public void Create_FromValidValue_ShouldCreated()
     {
+        // Arrange
         var value = 19.10002d;
+
+        // Act
         var longitude = new Longitude(value);
+
+        // Assert
         longitude.Value.Should().Be(value);
     }
 }
