@@ -19,12 +19,14 @@ internal class CreateSketchEndpoint : IEndpoint
                     {
                         var command = new CreateSketchCommand
                         {
+                            ActivityTypes = request.ActivityTypes.Aggregate((x, y) => x | y),
                             Title = request.Title,
                             Location = new()
                             {
                                 Latitude = request.Location.Latitude,
                                 Longitude = request.Location.Longitude
-                            }
+                            },
+                            Altitude = request.Altitude
                         };
 
                         var result = await sender.Send(command, cancellation);
