@@ -4,11 +4,14 @@ using GoActive.Modules.Geo.Domain.ValueObjects;
 
 namespace GoActive.Modules.Geo.Domain.Tests.ValueObjectsTests;
 
+
 public class TestTitle
 {
     [Theory]
     [InlineData("")]
     [InlineData(" ")]
+    [InlineData("a")]
+    [InlineData(" test value ")]
     public void CreateTitle_WrongValue(string title)
     {
         FluentActions.Invoking(() => _ = Title.FromValue(title))
@@ -19,9 +22,18 @@ public class TestTitle
     [Fact]
     public void CreateTitle_NullCheckValue()
     {
-        FluentActions.Invoking(() => _ = Title.FromValue(null))
+        FluentActions.Invoking(() => _ = Title.FromValue(null!))
             .Should()
             .ThrowExactly<ArgumentNullException>();
+    }
+
+    [Fact]
+    public void CreateTitle_MaxlengthValue()
+    {
+        var longString = new string('A', 101);
+        FluentActions.Invoking(() => _ = Title.FromValue(longString))
+            .Should()
+            .ThrowExactly<ArgumentException>();
     }
 
     [Fact]
