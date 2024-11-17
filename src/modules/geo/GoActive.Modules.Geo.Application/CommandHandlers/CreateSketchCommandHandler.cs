@@ -1,7 +1,7 @@
 using FluentResults;
 using MediatR;
 using GoActive.Modules.Geo.Application.Commands;
-using GoActive.Modules.Geo.Domain.GeoDataAggregate;
+using GoActive.Modules.Geo.Domain.SketchAggregate;
 using GoActive.Modules.Geo.Domain.ValueObjects;
 
 namespace GoActive.Modules.Geo.Application.CommandHandlers;
@@ -10,19 +10,22 @@ internal class CreateSketchCommandHandler : IRequestHandler<CreateSketchCommand,
 {
     public Task<Result<Guid>> Handle(CreateSketchCommand command, CancellationToken cancellation)
     {
-        // TODO: check the existence of the same sketch and return Result.Fail if it is so
-        var newId = GeoDataId.FromValue(Guid.NewGuid());
+        // TODO: check the existence of the same sketch and return Result.Fail if it is so        
+
         var latitude = new Latitude(command.Location.Latitude);
         var longitude = new Longitude(command.Location.Longitude);
+        var location = new GeoLocation(latitude, longitude);
+        Altitude? altitude = command.Altitude.HasValue ? new Altitude(command.Altitude.Value) : null;
 
-        var geoData = new GeoData(newId, Title.FromValue(command.Title))
-        {
-            CreatedAt = DateTime.UtcNow,
-            Center = new GeoCoordinate(Location: new(latitude, longitude), Altitude: default)
-        };
+        var newId = SketchId.FromValue(Guid.NewGuid());
+        var title = Title.FromValue(command.Title);
+        var locationPoint = altitude.HasValue
+            ? GeoCoordinate.FromLocationWithAltitude(location, altitude.Value)
+            : GeoCoordinate.FromLocation(location);
 
-        //TODO: invoke save to database here
+        var sketch = Sketch.Create(newId, title, locationPoint, command.ActivityTypes);
 
-        return Task.FromResult(Result.Ok(geoData.Id.Value));
+        //TODO: invoke save to database here (IUnitOfWork.CommitAsync())
+        return Task.FromResult(Result.Ok(sketch.Id.Value));
     }
 }

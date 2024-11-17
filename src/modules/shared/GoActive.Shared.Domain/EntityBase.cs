@@ -1,17 +1,16 @@
-﻿using MediatR;
-
-namespace GoActive.Shared.Domain;
+﻿namespace GoActive.Shared.Domain;
 
 // <summary>
-/// Base domain entity
+/// Base domain entity, implements equality by identifier
 /// </summary>
 public abstract class EntityBase<TId> where TId : IEquatable<TId>
 {
-    private readonly List<INotification> _domainEvents = [];
+    private readonly List<IDomainEvent> _domainEvents = [];
 
     protected EntityBase(TId id)
     {
-        ArgumentNullException.ThrowIfNull(id, nameof(id));
+        if (id?.Equals(default) ?? true)
+            throw new ArgumentNullException(nameof(id));
         Id = id;
     }
 
@@ -31,9 +30,26 @@ public abstract class EntityBase<TId> where TId : IEquatable<TId>
                   && left.GetType() == right.GetType()
                   && left.Id.Equals(right.Id));
 
-    public IReadOnlyCollection<INotification> DomainEvents => _domainEvents.AsReadOnly();
+    public override int GetHashCode() => Id.GetHashCode();
 
-    public void AddDomainEvent(INotification domainEvent) => _domainEvents.Add(domainEvent);
+    public override bool Equals(object? obj)
+    {
+        return IdEqualityComparer.Equals(this, obj as EntityBase<TId>);
+    }
+
+    public static bool operator ==(EntityBase<TId> left, EntityBase<TId> right)
+    {
+        return left?.GetHashCode() == right?.GetHashCode() || IdEqualityComparer.Equals(left, right);
+    }
+
+    public static bool operator !=(EntityBase<TId> left, EntityBase<TId> right)
+    {
+        return !(left == right);
+    }
+
+    public IReadOnlyCollection<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+
+    protected void AddDomainEvent(IDomainEvent domainEvent) => _domainEvents.Add(domainEvent);
 
     public void ClearDomainEvents() => _domainEvents.Clear();
 }
