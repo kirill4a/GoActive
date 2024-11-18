@@ -8,18 +8,25 @@ public class TestLatitude
     [Theory]
     [InlineData(90.0001d)]
     [InlineData([-90.0001d])]
-    public void CreateLatitude_WrongValue(double latitude)
+    public void Create_FromWrongValue_ShouldThrowException(double latitude)
     {
-        FluentActions.Invoking(() => _ = new Latitude(latitude))
-                     .Should()
-                     .ThrowExactly<ArgumentOutOfRangeException>();
+        // Act
+        var function = () => new Latitude(latitude);
+
+        // Assert
+        function.Should().ThrowExactly<ArgumentOutOfRangeException>();
     }
 
     [Fact]
-    public void CreateLatitude_Ok()
+    public void Create_FromValidValue_ShouldCreated()
     {
+        // Arrange
         var value = 42.11042d;
+
+        // Act
         var latitude = new Latitude(value);
+
+        // Assert
         latitude.Value.Should().Be(value);
     }
 }

@@ -10,7 +10,7 @@ public record Title
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(value);
 
-        if (value.Length != value.Trim().Length)
+        if(value.StartsWith(" ") || value.EndsWith(" "))
             throw new ArgumentException("Title value shouldn't contains heading and trailing white spaces.");
 
         return value.Length switch
