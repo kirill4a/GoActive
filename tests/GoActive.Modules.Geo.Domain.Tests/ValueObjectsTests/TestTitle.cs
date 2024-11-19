@@ -6,30 +6,20 @@ namespace GoActive.Modules.Geo.Domain.Tests.ValueObjectsTests;
 
 public class TestTitle
 {
+    public static readonly TheoryData<string> WrongValues = new()
+        {
+            null!,
+            "",
+            " "
+        };
+
     [Theory]
-    [InlineData("")]
-    [InlineData(" ")]
+    [MemberData(nameof(WrongValues))]
     public void Create_FromWrongValue_ShouldThrowException(string title)
     {
-        // Act
-        var function = () => Title.FromValue(title);
-
-        // Assert
-        function.Should().ThrowExactly<ArgumentException>();
-    }
-
-    [Fact]
-    [Obsolete("Check all the wrong values in one method (via 'Should().Throw<ArgumentException>')")]
-    public void Create_FromNullValue_ShouldThrowException()
-    {
-        // Arrange
-        string? value = null;
-
-        // Act
-        var function = () => Title.FromValue(value!);
-
-        // Assert 
-        function.Should().ThrowExactly<ArgumentNullException>();
+        FluentActions.Invoking(() => _ = Title.FromValue(title))
+            .Should()
+            .Throw<ArgumentException>();
     }
 
     [Fact]
