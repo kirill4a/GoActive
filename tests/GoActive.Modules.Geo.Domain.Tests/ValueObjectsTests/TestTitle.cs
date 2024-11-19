@@ -17,11 +17,9 @@ public class TestTitle
     [MemberData(nameof(WrongValues))]
     public void Create_FromWrongValue_ShouldThrowException(string title)
     {
-        // Act
-        var function = () => Title.FromValue(title);
-
-        // Assert
-        function.Should().Throw<ArgumentException>();
+        FluentActions.Invoking(() => _ = Title.FromValue(title))
+            .Should()
+            .Throw<ArgumentException>();
     }
 
     [Fact]

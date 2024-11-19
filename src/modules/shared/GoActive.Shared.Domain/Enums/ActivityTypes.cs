@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace GoActive.Shared.Domain.Enum;
+namespace GoActive.Shared.Domain.Enums;
 
 /// <summary>
 /// Available types of activities
