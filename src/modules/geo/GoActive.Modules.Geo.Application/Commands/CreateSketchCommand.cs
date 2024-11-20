@@ -1,12 +1,15 @@
 ﻿using MediatR;
 using FluentResults;
+using GoActive.Shared.Domain.Enums;
 
 namespace GoActive.Modules.Geo.Application.Commands;
 
 public sealed record CreateSketchCommand : IRequest<Result<Guid>>
 {
     public required string Title { get; init; }
+    public required ActivityTypes ActivityTypes { get; init; }
     public required SketchLocation Location { get; init; }
+    public double? Altitude { get; init; }
 
     public sealed record SketchLocation
     {

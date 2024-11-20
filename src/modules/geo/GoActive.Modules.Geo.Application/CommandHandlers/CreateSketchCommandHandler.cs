@@ -1,7 +1,7 @@
 using FluentResults;
 using MediatR;
 using GoActive.Modules.Geo.Application.Commands;
-using GoActive.Modules.Geo.Domain.GeoDataAggregate;
+using GoActive.Modules.Geo.Domain.SketchAggregate;
 using GoActive.Modules.Geo.Domain.ValueObjects;
 
 namespace GoActive.Modules.Geo.Application.CommandHandlers;
@@ -10,28 +10,22 @@ internal class CreateSketchCommandHandler : IRequestHandler<CreateSketchCommand,
 {
     public Task<Result<Guid>> Handle(CreateSketchCommand command, CancellationToken cancellation)
     {
-        try
-        {
-            var newId = GeoDataId.FromValue(Guid.NewGuid());
-            var latitude = new Latitude(command.Location.Latitude);
-            var longitude = new Longitude(command.Location.Longitude);
+        // TODO: check the existence of the same sketch and return Result.Fail if it is so        
 
-            var geoData = new GeoData(newId, Title.FromValue(command.Title))
-            {
-                CreatedAt = DateTime.UtcNow,
-                Center = new GeoCoordinate(Location: new(latitude, longitude), Altitude: default)
-            };
+        var latitude = new Latitude(command.Location.Latitude);
+        var longitude = new Longitude(command.Location.Longitude);
+        var location = new GeoLocation(latitude, longitude);
+        Altitude? altitude = command.Altitude.HasValue ? new Altitude(command.Altitude.Value) : null;
 
-            //TODO: invoke save to database here
+        var newId = SketchId.FromValue(Guid.NewGuid());
+        var title = Title.FromValue(command.Title);
+        var locationPoint = altitude.HasValue
+            ? GeoCoordinate.FromLocationWithAltitude(location, altitude.Value)
+            : GeoCoordinate.FromLocation(location);
 
-            return Task.FromResult(Result.Ok(geoData.Id.Value));
-        }
-        // TODO: catch the specific business excception
-        catch (Exception ex)
-        {
+        var sketch = Sketch.Create(newId, title, locationPoint, command.ActivityTypes);
 
-            // TODO: log the exception
-            return Task.FromResult(Result.Fail<Guid>(ex.Message));
-        }
+        //TODO: invoke save to database here (IUnitOfWork.CommitAsync())
+        return Task.FromResult(Result.Ok(sketch.Id.Value));
     }
 }

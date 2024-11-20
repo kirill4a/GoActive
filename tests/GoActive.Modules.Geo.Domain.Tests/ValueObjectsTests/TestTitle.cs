@@ -15,14 +15,16 @@ public class TestTitle
         " test value ",
         new string('A', 101),
     };
-
+  
     [Theory]
     [MemberData(nameof(WrongValues))]
     public void Create_FromWrongValue_ShouldThrowException(string title)
     {
-        FluentActions.Invoking(() => _ = Title.FromValue(title))
-            .Should()
-            .Throw<ArgumentException>();
+        // Act
+        var action = ()=> Title.FromValue(title);
+
+        // Assert
+        action.Should().Throw<ArgumentException>();
     }
 
     [Fact]

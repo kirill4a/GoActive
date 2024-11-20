@@ -8,7 +8,7 @@ public class CreateSketchRequestValidator : AbstractValidator<CreateSketchReques
 {
     public CreateSketchRequestValidator()
     {
-        RuleFor(r => r.ActivityType).NotEmpty().IsInEnum();
+        RuleFor(r => r.ActivityTypes).NotEmpty().ForEach(a => a.IsInEnum());
         RuleFor(r => r.Title).NotEmpty().MaximumLength(50);
         RuleFor(r => r.Location).NotNull();
     }
