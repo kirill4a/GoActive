@@ -15,7 +15,7 @@ public class TestTitle
         " test value ",
         new string('A', 101),
     };
-
+  
     [Theory]
     [MemberData(nameof(WrongValues))]
     public void Create_FromWrongValue_ShouldThrowException(string title)
