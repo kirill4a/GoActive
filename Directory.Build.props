@@ -18,9 +18,13 @@
         <RunTestsInParallel Condition="'$(RunTestsInParallel)' == ''" >true</RunTestsInParallel>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
         <NoWarn>$(NoWarn);</NoWarn>
     </PropertyGroup>
+
+    <PropertyGroup Condition="'$(IsTestProject)'!='true'">
+        <NoWarn>$(NoWarn);SA1122;</NoWarn>
+    </PropertyGroup>    
 
     <Import Project="$(MSBuildThisFileDirectory).msbuild\product.props" />
 
