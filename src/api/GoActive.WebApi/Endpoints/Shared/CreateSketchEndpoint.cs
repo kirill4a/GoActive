@@ -1,11 +1,11 @@
 using System.Net;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.OpenApi.Models;
 using MediatR;
 using GoActive.WebApi.Endpoints.Shared.Requests;
 using GoActive.WebApi.Infrastructure.Endpoints;
 using GoActive.WebApi.Infrastructure.Filters;
-using GoActive.Modules.Geo.Application.Commands;
-using Microsoft.OpenApi.Models;
+using GoActive.Modules.Geo.Application.Sketch.Create;
 
 namespace GoActive.WebApi.Endpoints.Shared;
 

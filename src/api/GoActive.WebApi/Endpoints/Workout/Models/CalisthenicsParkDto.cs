@@ -1,4 +1,4 @@
-using GoActive.WebApi.Endpoints.Shared.Models;
+using GoActive.Modules.Geo.Application.Shared.Dto;
 
 namespace GoActive.WebApi.Endpoints.Workout.Models;
 

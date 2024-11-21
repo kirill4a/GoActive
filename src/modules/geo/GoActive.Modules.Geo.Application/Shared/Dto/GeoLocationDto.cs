@@ -1,4 +1,4 @@
-namespace GoActive.WebApi.Endpoints.Shared.Models;
+namespace GoActive.Modules.Geo.Application.Shared.Dto;
 
 /// <summary>
 /// Represents the coordinate point on Earth surface

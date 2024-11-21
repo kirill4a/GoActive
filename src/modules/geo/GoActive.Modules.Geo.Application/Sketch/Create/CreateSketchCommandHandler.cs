@@ -1,10 +1,9 @@
 using FluentResults;
 using MediatR;
-using GoActive.Modules.Geo.Application.Commands;
 using GoActive.Modules.Geo.Domain.SketchAggregate;
 using GoActive.Modules.Geo.Domain.ValueObjects;
 
-namespace GoActive.Modules.Geo.Application.CommandHandlers;
+namespace GoActive.Modules.Geo.Application.Sketch.Create;
 
 internal class CreateSketchCommandHandler : IRequestHandler<CreateSketchCommand, Result<Guid>>
 {
@@ -22,7 +21,7 @@ internal class CreateSketchCommandHandler : IRequestHandler<CreateSketchCommand,
             ? GeoCoordinate.FromLocationWithAltitude(location, altitude.Value)
             : GeoCoordinate.FromLocation(location);
 
-        var sketch = Sketch.Create(newId, title, locationPoint, command.ActivityTypes);
+        var sketch = Domain.SketchAggregate.Sketch.Create(newId, title, locationPoint, command.ActivityTypes);
 
         // TODO: invoke save to database here (IUnitOfWork.CommitAsync())
         return Task.FromResult(Result.Ok(sketch.Id.Value));
