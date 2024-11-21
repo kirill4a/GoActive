@@ -17,7 +17,6 @@ internal class ConfigureSwaggerOptions : IConfigureNamedOptions<SwaggerGenOption
         _versionProvider = versionProvider;
     }
 
-
     public void Configure(string? name, SwaggerGenOptions options) => Configure(options);
 
     public void Configure(SwaggerGenOptions options)
@@ -30,7 +29,7 @@ internal class ConfigureSwaggerOptions : IConfigureNamedOptions<SwaggerGenOption
             var openApiInfo = new OpenApiInfo
             {
                 Title = $"{Constants.ApiName} {formattedVersion}",
-                Version = formattedVersion
+                Version = formattedVersion,
             };
             options.SwaggerDoc(description.GroupName, openApiInfo);
         }

@@ -8,12 +8,12 @@ namespace GoActive.Modules.Geo.Domain.Tests.SketchTests;
 
 public class TestSketch
 {
+    public static readonly TheoryData<SketchId, Title, GeoCoordinate, ActivityTypes> WrongArguments = [];
+
     private static readonly SketchId Id = SketchId.FromValue(Guid.NewGuid());
     private static readonly Title Title = Title.FromValue("QWERTY");
     private static readonly GeoCoordinate LocationPoint = GeoCoordinate.FromLocation(new(new(57.11d), new(37.08)));
     private static readonly ActivityTypes Activity = ActivityTypes.NordicSki;
-
-    public static readonly TheoryData<SketchId, Title, GeoCoordinate, ActivityTypes> WrongArguments = [];
 
     static TestSketch()
     {
@@ -22,7 +22,6 @@ public class TestSketch
         WrongArguments.Add(Id, Title, default, Activity);
         WrongArguments.Add(Id, Title, LocationPoint, default);
     }
-
 
     [Theory]
     [MemberData(nameof(WrongArguments))]

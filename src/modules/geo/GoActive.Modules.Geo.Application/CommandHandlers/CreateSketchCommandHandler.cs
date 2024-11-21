@@ -10,8 +10,7 @@ internal class CreateSketchCommandHandler : IRequestHandler<CreateSketchCommand,
 {
     public Task<Result<Guid>> Handle(CreateSketchCommand command, CancellationToken cancellation)
     {
-        // TODO: check the existence of the same sketch and return Result.Fail if it is so        
-
+        // TODO: check the existence of the same sketch and return Result.Fail if it is so
         var latitude = new Latitude(command.Location.Latitude);
         var longitude = new Longitude(command.Location.Longitude);
         var location = new GeoLocation(latitude, longitude);
@@ -25,7 +24,7 @@ internal class CreateSketchCommandHandler : IRequestHandler<CreateSketchCommand,
 
         var sketch = Sketch.Create(newId, title, locationPoint, command.ActivityTypes);
 
-        //TODO: invoke save to database here (IUnitOfWork.CommitAsync())
+        // TODO: invoke save to database here (IUnitOfWork.CommitAsync())
         return Task.FromResult(Result.Ok(sketch.Id.Value));
     }
 }

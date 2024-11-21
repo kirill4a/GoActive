@@ -17,5 +17,5 @@ public enum ActivityTypes
     /// <summary>
     /// Workout aka Calisthenics
     /// </summary>
-    Workout = 2
+    Workout = 2,
 }

@@ -1,0 +1,44 @@
+<Project>
+    <Import Condition="'$(IsPackable)'=='true'" Project="$(MSBuildThisFileDirectory).msbuild\package.props"/>
+
+    <PropertyGroup Condition=" '$(RunTestsInParallel)' == 'true' ">
+        <DefineConstants>$(DefineConstants);RunTestsInParallel;</DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(IsTestProject)'!='true'">
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <AnalysisLevel>latest</AnalysisLevel>
+        <AnalysisMode>Recommended</AnalysisMode>
+        <CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(IsTestProject)'!='true'">
+        <InternalsVisibleTo Include="GoActive.Modules.Shared.Tests"/>
+        <InternalsVisibleTo Include="GoActive.Modules.Geo.Domain.Tests"/>        
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(DisableStyleAnalyzers)'!='true'">
+        <PackageReference Include="StyleCop.Analyzers">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="SonarAnalyzer.CSharp">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <!--  Make userSecrets visible in projects -->
+
+    <PropertyGroup Condition="'$(UserSecretsId)'!=''">
+        <_UserProfile>$([System.Environment]::GetFolderPath(SpecialFolder.UserProfile))</_UserProfile>
+        <LocalSecrets>$(_UserProfile)\AppData\Roaming\Microsoft\UserSecrets\$(UserSecretsId)\secrets.json</LocalSecrets>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(LocalSecrets)'!='' AND Exists('$(LocalSecrets)')">
+        <None Include="$(LocalSecrets)">
+            <Link>appsettings.UserSecrets.json</Link>
+        </None>
+    </ItemGroup>
+
+</Project>

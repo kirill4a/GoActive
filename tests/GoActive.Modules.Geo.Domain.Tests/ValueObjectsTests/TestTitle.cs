@@ -28,7 +28,7 @@ public class TestTitle
         // Act
         var function = () => Title.FromValue(value!);
 
-        // Assert 
+        // Assert
         function.Should().ThrowExactly<ArgumentNullException>();
     }
 

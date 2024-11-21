@@ -8,7 +8,8 @@ namespace GoActive.Modules.Geo.Domain.SketchAggregate;
 
 public class Sketch : EntityBase<SketchId>
 {
-    private Sketch(SketchId id, Title title, GeoCoordinate locationPoint, ActivityTypes activityTypes) : base(id)
+    private Sketch(SketchId id, Title title, GeoCoordinate locationPoint, ActivityTypes activityTypes)
+        : base(id)
     {
         ArgumentNullException.ThrowIfNull(title);
 
@@ -24,19 +25,19 @@ public class Sketch : EntityBase<SketchId>
         ActivityTypes = activityTypes;
     }
 
+    public Title Title { get; }
+    public GeoCoordinate LocationPoint { get; }
+    public ActivityTypes ActivityTypes { get; }
+
     public static Sketch Create(SketchId id, Title title, GeoCoordinate locationPoint, ActivityTypes activityTypes)
     {
         var sketch = new Sketch(id, title, locationPoint, activityTypes)
         {
-            CreatedAt = DateTime.UtcNow
+            CreatedAt = DateTime.UtcNow,
         };
 
         sketch.AddDomainEvent(new SketchCreatedDomainEvent(sketch.Id));
 
         return sketch;
     }
-
-    public Title Title { get; }
-    public GeoCoordinate LocationPoint { get; }
-    public ActivityTypes ActivityTypes { get; }
 }

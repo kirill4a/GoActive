@@ -1,0 +1,15 @@
+<Project>
+    <PropertyGroup>
+        <AssemblyTitle>$(MSBuildProjectName)</AssemblyTitle>
+
+        <Year>$([System.DateTime]::Now.Year)</Year>
+        <ManufacturerName>Go Active</ManufacturerName>
+        <FullManufacturerName>$(ManufacturerName) DOO</FullManufacturerName>
+        <LegalTrademarks>$(ManufacturerName)</LegalTrademarks>
+
+        <Company>$(FullManufacturerName)</Company>
+        <Copyright>© $(Year) $(FullManufacturerName) ALL RIGHTS RESERVED.</Copyright>
+        <Authors>$(ManufacturerName)</Authors>
+        <Product>Go Active API</Product>
+    </PropertyGroup>
+</Project>

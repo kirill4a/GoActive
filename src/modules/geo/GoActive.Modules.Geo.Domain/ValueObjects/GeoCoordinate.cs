@@ -10,11 +10,11 @@ public readonly record struct GeoCoordinate
         Altitude = altitude;
     }
 
-    public static GeoCoordinate FromLocation(GeoLocation location) => new(location, default);
-    public static GeoCoordinate FromLocationWithAltitude(GeoLocation location, Altitude altitude) => new(location, altitude);
-
     public GeoLocation Location { get; }
     public Altitude? Altitude { get; }
+
+    public static GeoCoordinate FromLocation(GeoLocation location) => new(location, default);
+    public static GeoCoordinate FromLocationWithAltitude(GeoLocation location, Altitude altitude) => new(location, altitude);
 
     public Point ToPoint() => Altitude.HasValue
                                 ? new(Location.Latitude.Value, Location.Longitude.Value, Altitude.Value.Value)

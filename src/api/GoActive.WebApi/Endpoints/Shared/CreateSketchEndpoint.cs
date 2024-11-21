@@ -1,10 +1,10 @@
+using System.Net;
 using Microsoft.AspNetCore.Http.HttpResults;
 using MediatR;
 using GoActive.WebApi.Endpoints.Shared.Requests;
 using GoActive.WebApi.Infrastructure.Endpoints;
 using GoActive.WebApi.Infrastructure.Filters;
 using GoActive.Modules.Geo.Application.Commands;
-using System.Net;
 using Microsoft.OpenApi.Models;
 
 namespace GoActive.WebApi.Endpoints.Shared;
@@ -24,9 +24,9 @@ internal class CreateSketchEndpoint : IEndpoint
                             Location = new()
                             {
                                 Latitude = request.Location.Latitude,
-                                Longitude = request.Location.Longitude
+                                Longitude = request.Location.Longitude,
                             },
-                            Altitude = request.Altitude
+                            Altitude = request.Altitude,
                         };
 
                         var result = await sender.Send(command, cancellation);
@@ -36,6 +36,7 @@ internal class CreateSketchEndpoint : IEndpoint
                             var problemDetails = $"unexpected errors: {string.Join("; ", result.Errors)}";
                             return TypedResults.Problem(detail: problemDetails);
                         }
+
                         return TypedResults.CreatedAtRoute(result.Value);
                     })
             .WithRequestValidation<CreateSketchRequest>()
@@ -45,6 +46,6 @@ internal class CreateSketchEndpoint : IEndpoint
                 OperationId = "CreateSketch",
                 Description = "Use this method to create sketch (draft) you can customise later",
                 Tags = [new OpenApiTag() { Name = "Sketches" }],
-                Summary = "Creates sketch of fitness geo-object"
+                Summary = "Creates sketch of fitness geo-object",
             });
 }
