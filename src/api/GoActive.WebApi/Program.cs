@@ -70,4 +70,4 @@ if (!app.Environment.IsProduction())
 
 app.UseHttpsRedirection();
 
-app.Run();
+await app.RunAsync();

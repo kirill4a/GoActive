@@ -1,0 +1,31 @@
+<Project>
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <NoWarn>
+            $(NoWarn);
+            CA1062;CA1711;CA1507;
+            CS9107;
+            SA1010;SA1116;SA1129;SA1202;SA1210;SA1313;SA1505;SA1508;SA1519;
+            S927;S1133;S2139;S3267;S3875;S4144;
+        </NoWarn>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>latest</LangVersion>
+        <IsPackable>false</IsPackable>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <RunTestsInParallel Condition="'$(RunTestsInParallel)' == ''" >true</RunTestsInParallel>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+        <NoWarn>$(NoWarn);</NoWarn>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(IsTestProject)'!='true'">
+        <NoWarn>$(NoWarn);SA1122;</NoWarn>
+    </PropertyGroup>    
+
+    <Import Project="$(MSBuildThisFileDirectory).msbuild\product.props" />
+
+</Project>

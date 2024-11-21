@@ -8,6 +8,8 @@ public readonly record struct SketchId
         Value = value;
     }
 
+    public Guid Value { get; }
+
     public static SketchId FromValue(Guid value)
     {
         if (value == Guid.Empty)
@@ -15,6 +17,4 @@ public readonly record struct SketchId
 
         return new(value);
     }
-
-    public Guid Value { get; }
 }

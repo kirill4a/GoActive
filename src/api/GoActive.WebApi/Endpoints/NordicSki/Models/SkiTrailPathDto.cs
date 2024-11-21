@@ -1,7 +1,8 @@
 namespace GoActive.WebApi.Endpoints.NordicSki.Models;
 
-public record SkiTrailPathDto(string SkiingStyle,//TODO: convert to enum
-                              double Length,                                    
+// TODO: convert 'SkiingStyle' to enum
+public record SkiTrailPathDto(string SkiingStyle,
+                              double Length,
                               double MinHeight,
                               double MaxHeight,
                               double AscendingSummary,

@@ -6,7 +6,7 @@ namespace GoActive.Modules.Geo.Domain.Tests.SketchTests;
 
 public class TestSketchId
 {
-    public static readonly TheoryData<Guid> WrongArguments = new() { Guid.Empty, new Guid() };
+    public static readonly TheoryData<Guid> WrongArguments = new() { Guid.Empty, new Guid(new byte[16]) };
 
     [Theory]
     [MemberData(nameof(WrongArguments))]
@@ -38,7 +38,7 @@ public class TestSketchId
         // Act
         SketchId id = default;
 
-        // Assert        
+        // Assert
         id.Should().Be(default(SketchId));
         id.Value.Should().Be(Guid.Empty);
     }

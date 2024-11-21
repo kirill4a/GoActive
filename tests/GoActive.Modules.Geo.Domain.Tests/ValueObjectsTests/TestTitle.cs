@@ -21,7 +21,7 @@ public class TestTitle
     public void Create_FromWrongValue_ShouldThrowException(string title)
     {
         // Act
-        var action = ()=> Title.FromValue(title);
+        var action = () => Title.FromValue(title);
 
         // Assert
         action.Should().Throw<ArgumentException>();
