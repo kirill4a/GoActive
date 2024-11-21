@@ -1,5 +1,5 @@
+using GoActive.Modules.Geo.Application.Shared.Dto;
 using GoActive.Shared.Domain.Enums;
-using GoActive.WebApi.Endpoints.Shared.Models;
 
 namespace GoActive.WebApi.Endpoints.Shared.Requests;
 

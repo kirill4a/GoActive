@@ -2,6 +2,8 @@ namespace GoActive.Modules.Geo.Domain.ValueObjects;
 
 public record Title
 {
+    private const char Whitespace = ' ';
+
     private Title(string value) => Value = value;
 
     public string Value { get; }
@@ -10,7 +12,7 @@ public record Title
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(value);
 
-        if(value.StartsWith(" ") || value.EndsWith(" "))
+        if (value.StartsWith(Whitespace) || value.EndsWith(Whitespace))
             throw new ArgumentException("Title value shouldn't contains heading and trailing white spaces.");
 
         return value.Length switch

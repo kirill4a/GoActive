@@ -2,7 +2,7 @@
 using FluentResults;
 using GoActive.Shared.Domain.Enums;
 
-namespace GoActive.Modules.Geo.Application.Commands;
+namespace GoActive.Modules.Geo.Application.Sketch.Create;
 
 public sealed record CreateSketchCommand : IRequest<Result<Guid>>
 {

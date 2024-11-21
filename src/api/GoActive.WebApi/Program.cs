@@ -1,7 +1,7 @@
 using FluentValidation;
 using Asp.Versioning;
 using GoActive.WebApi.Infrastructure.Endpoints;
-using GoActive.Modules.Geo.Application.Commands;
+using GoActive.Modules.Geo.Application.Sketch.Create;
 using GoActive.WebApi.Infrastructure.OpenApi;
 using GoActive.WebApi.Infrastructure;
 
