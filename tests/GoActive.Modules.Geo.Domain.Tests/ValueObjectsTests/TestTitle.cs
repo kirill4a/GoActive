@@ -9,9 +9,10 @@ public class TestTitle
     public static readonly TheoryData<string> WrongValues = new()
     {
         null!,
-        "",
+        string.Empty,
         " ",
-        "a",
+        " test value",
+        "test value ",
         " test value ",
         new string('A', 101),
     };

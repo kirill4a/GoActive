@@ -22,7 +22,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 // Register Api Versioning
 builder.Services.AddApiVersioning(options =>
 {
-    options.DefaultApiVersion = Constants.DefaultApiVersion;
+    options.DefaultApiVersion = Constants.Versions.DefaultApiVersion;
     options.ReportApiVersions = true;
     options.AssumeDefaultVersionWhenUnspecified = true;
     options.ApiVersionReader = ApiVersionReader.Combine(
@@ -31,7 +31,7 @@ builder.Services.AddApiVersioning(options =>
 })
 .AddApiExplorer(options =>
 {
-    options.GroupNameFormat = $"'{Constants.ApiVersionPrefix}'{Constants.ApiVersionFormat}";
+    options.GroupNameFormat = $"'{Constants.Versions.ApiVersionPrefix}'{Constants.Versions.ApiVersionFormat}";
     options.SubstituteApiVersionInUrl = true;
 });
 
@@ -44,12 +44,12 @@ builder.Services.ConfigureOptions<ConfigureSwaggerOptions>();
 var app = builder.Build();
 
 var apiVersionSet = app.NewApiVersionSet()
-    .HasApiVersion(Constants.DefaultApiVersion)
+    .HasApiVersion(Constants.Versions.DefaultApiVersion)
     .ReportApiVersions()
     .Build();
 
 var versionedGroup = app
-    .MapGroup($"api/{Constants.ApiVersionPrefix}{{version:apiVersion}}")
+    .MapGroup($"api/{Constants.Versions.ApiVersionPrefix}{{version:apiVersion}}")
     .WithApiVersionSet(apiVersionSet);
 
 app.MapEndpoints(versionedGroup);
@@ -63,7 +63,7 @@ if (!app.Environment.IsProduction())
         {
             options.SwaggerEndpoint(
                 $"/swagger/{description.GroupName}/swagger.json",
-                $"{Constants.ApiName} {description.GroupName}");
+                $"{Constants.Versions.ApiName} {description.GroupName}");
         }
     });
 }

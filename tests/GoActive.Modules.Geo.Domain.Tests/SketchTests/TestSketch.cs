@@ -12,7 +12,7 @@ public class TestSketch
 
     private static readonly SketchId Id = SketchId.FromValue(Guid.NewGuid());
     private static readonly Title Title = Title.FromValue("QWERTY");
-    private static readonly GeoCoordinate LocationPoint = GeoCoordinate.FromLocation(new(new(57.11d), new(37.08)));
+    private static readonly GeoCoordinate LocationPoint = GeoCoordinate.FromLocation(GeoLocation.FromLatLon(57.11d, 37.08));
     private static readonly ActivityTypes Activity = ActivityTypes.NordicSki;
 
     static TestSketch()

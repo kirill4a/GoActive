@@ -10,9 +10,7 @@ internal class CreateSketchCommandHandler : IRequestHandler<CreateSketchCommand,
     public Task<Result<Guid>> Handle(CreateSketchCommand command, CancellationToken cancellation)
     {
         // TODO: check the existence of the same sketch and return Result.Fail if it is so
-        var latitude = new Latitude(command.Location.Latitude);
-        var longitude = new Longitude(command.Location.Longitude);
-        var location = new GeoLocation(latitude, longitude);
+        var location = GeoLocation.FromLatLon(command.Location.Latitude, command.Location.Longitude);
         Altitude? altitude = command.Altitude.HasValue ? new Altitude(command.Altitude.Value) : null;
 
         var newId = SketchId.FromValue(Guid.NewGuid());

@@ -18,7 +18,6 @@ public record Title
         return value.Length switch
         {
             > 100 => throw new ArgumentException("Title value cannot be longer than 100 characters."),
-            <= 1 => throw new ArgumentException("Title value must be more than one character."),
             _ => new(value),
         };
     }
