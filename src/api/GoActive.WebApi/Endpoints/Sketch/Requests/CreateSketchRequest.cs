@@ -1,7 +1,7 @@
 using GoActive.Modules.Geo.Application.Shared.Dto;
 using GoActive.Shared.Domain.Enums;
 
-namespace GoActive.WebApi.Endpoints.Shared.Requests;
+namespace GoActive.WebApi.Endpoints.Sketch.Requests;
 
 /// <summary>
 /// Request body for create object sketch

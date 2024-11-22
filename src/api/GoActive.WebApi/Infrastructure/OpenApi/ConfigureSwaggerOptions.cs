@@ -5,6 +5,8 @@ using Microsoft.OpenApi.Models;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
+using static GoActive.WebApi.Infrastructure.Constants.Versions;
+
 namespace GoActive.WebApi.Infrastructure.OpenApi;
 
 internal class ConfigureSwaggerOptions : IConfigureNamedOptions<SwaggerGenOptions>
@@ -23,12 +25,11 @@ internal class ConfigureSwaggerOptions : IConfigureNamedOptions<SwaggerGenOption
     {
         foreach (var description in _versionProvider.ApiVersionDescriptions)
         {
-            var formattedVersion =
-                $"{Constants.ApiVersionPrefix}{description.ApiVersion.ToString(Constants.ApiVersionFormat)}";
+            var formattedVersion = $"{ApiVersionPrefix}{description.ApiVersion.ToString(ApiVersionFormat)}";
 
             var openApiInfo = new OpenApiInfo
             {
-                Title = $"{Constants.ApiName} {formattedVersion}",
+                Title = $"{ApiName} {formattedVersion}",
                 Version = formattedVersion,
             };
             options.SwaggerDoc(description.GroupName, openApiInfo);

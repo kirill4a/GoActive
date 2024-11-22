@@ -5,8 +5,9 @@ using MediatR;
 using GoActive.Modules.Geo.Application.Sketch;
 using GoActive.WebApi.Infrastructure.Endpoints;
 using GoActive.Modules.Geo.Application.Sketch.Get;
+using GoActive.WebApi.Infrastructure;
 
-namespace GoActive.WebApi.Endpoints.Shared;
+namespace GoActive.WebApi.Endpoints.Sketch;
 
 internal class GetSketchEndpoint : IEndpoint
 {
@@ -31,5 +32,6 @@ internal class GetSketchEndpoint : IEndpoint
                     Description = "Use this method to get sketch (draft) you created previously",
                     Tags = [new OpenApiTag() { Name = "Sketches" }],
                     Summary = "Retrieves sketch of fitness geo-object",
-                });
+                })
+                .WithName(Constants.Routes.GetSketch);
 }

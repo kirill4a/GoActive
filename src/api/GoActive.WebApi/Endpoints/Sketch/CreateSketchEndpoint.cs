@@ -2,12 +2,13 @@ using System.Net;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.OpenApi.Models;
 using MediatR;
-using GoActive.WebApi.Endpoints.Shared.Requests;
+using GoActive.WebApi.Endpoints.Sketch.Requests;
 using GoActive.WebApi.Infrastructure.Endpoints;
 using GoActive.WebApi.Infrastructure.Filters;
 using GoActive.Modules.Geo.Application.Sketch.Create;
+using GoActive.WebApi.Infrastructure;
 
-namespace GoActive.WebApi.Endpoints.Shared;
+namespace GoActive.WebApi.Endpoints.Sketch;
 
 internal class CreateSketchEndpoint : IEndpoint
 {
@@ -37,7 +38,9 @@ internal class CreateSketchEndpoint : IEndpoint
                             return TypedResults.Problem(detail: problemDetails);
                         }
 
-                        return TypedResults.CreatedAtRoute(result.Value);
+                        return TypedResults.CreatedAtRoute(result.Value,
+                                                           routeName: Constants.Routes.GetSketch,
+                                                           routeValues: new { sketchId = result.Value });
                     })
             .WithRequestValidation<CreateSketchRequest>()
             .ProducesProblem((int)HttpStatusCode.InternalServerError)
