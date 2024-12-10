@@ -23,4 +23,9 @@ internal static class Constants
     {
         internal const string GetSketch = "GetSketch";
     }
+
+    internal static class Cors
+    {
+        internal const string Localhost = "localhost";
+    }
 }

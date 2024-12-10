@@ -2,8 +2,9 @@ using FluentValidation;
 using Asp.Versioning;
 using GoActive.WebApi.Infrastructure.Endpoints;
 using GoActive.Modules.Geo.Application.Sketch.Create;
-using GoActive.WebApi.Infrastructure.OpenApi;
 using GoActive.WebApi.Infrastructure;
+using GoActive.WebApi.Infrastructure.Cors;
+using GoActive.WebApi.Infrastructure.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +35,9 @@ builder.Services.AddApiVersioning(options =>
     options.GroupNameFormat = $"'{Constants.Versions.ApiVersionPrefix}'{Constants.Versions.ApiVersionFormat}";
     options.SubstituteApiVersionInUrl = true;
 });
+
+// Register CORS
+builder.Services.ConfigureCors();
 
 // Register Swagger OpenAPI
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -69,5 +73,6 @@ if (!app.Environment.IsProduction())
 }
 
 app.UseHttpsRedirection();
+app.UseCors(Constants.Cors.Localhost);
 
 await app.RunAsync();
