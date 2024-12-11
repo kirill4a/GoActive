@@ -5,7 +5,7 @@
         <Nullable>enable</Nullable>
         <NoWarn>
             $(NoWarn);
-            CA1062;CA1711;CA1507;
+            CA1062;CA1711;CA1725;CA1507;
             CS9107;
             SA1010;SA1116;SA1129;SA1202;SA1210;SA1313;SA1505;SA1508;SA1519;
             S927;S1133;S2139;S3267;S3875;S4144;

@@ -1,7 +1,6 @@
 using FluentValidation;
 using Asp.Versioning;
 using GoActive.WebApi.Infrastructure.Endpoints;
-using GoActive.Modules.Geo.Application.Sketch.Create;
 using GoActive.WebApi.Infrastructure;
 using GoActive.WebApi.Infrastructure.Cors;
 using GoActive.WebApi.Infrastructure.OpenApi;
@@ -11,11 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Register services in the container.
 builder.Services.AddEndpoints(typeof(Program).Assembly);
 
-// Register MediatR
-builder.Services.AddMediatR(options =>
-{
-    options.RegisterServicesFromAssemblyContaining<CreateSketchCommand>();
-});
+// Register Mediator library
+// Learn more on: https://github.com/martinothamar/Mediator
+builder.Services.AddMediator(options => options.ServiceLifetime = ServiceLifetime.Scoped);
 
 // Register validation
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();

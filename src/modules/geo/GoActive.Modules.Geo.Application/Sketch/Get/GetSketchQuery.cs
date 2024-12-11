@@ -1,6 +1,6 @@
 using FluentResults;
 
-using MediatR;
+using Mediator;
 
 namespace GoActive.Modules.Geo.Application.Sketch.Get;
 
@@ -8,4 +8,4 @@ namespace GoActive.Modules.Geo.Application.Sketch.Get;
 /// Query to retrieve sketch
 /// </summary>
 /// <param name="SketchId">Sketch indentifier</param>
-public readonly record struct GetSketchQuery(Guid SketchId) : IRequest<Result<SketchDto>>;
+public readonly record struct GetSketchQuery(Guid SketchId) : IQuery<Result<SketchDto>>;
