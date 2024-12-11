@@ -1,7 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.OpenApi.Models;
-using MediatR;
+using Mediator;
 using GoActive.Modules.Geo.Application.Sketch;
 using GoActive.WebApi.Infrastructure.Endpoints;
 using GoActive.Modules.Geo.Application.Sketch.Get;

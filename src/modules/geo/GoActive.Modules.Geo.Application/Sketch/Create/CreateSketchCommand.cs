@@ -1,10 +1,10 @@
-﻿using MediatR;
-using FluentResults;
+﻿using FluentResults;
+using Mediator;
 using GoActive.Shared.Domain.Enums;
 
 namespace GoActive.Modules.Geo.Application.Sketch.Create;
 
-public sealed record CreateSketchCommand : IRequest<Result<Guid>>
+public sealed record CreateSketchCommand : ICommand<Result<Guid>>
 {
     public required string Title { get; init; }
     public required ActivityTypes ActivityTypes { get; init; }

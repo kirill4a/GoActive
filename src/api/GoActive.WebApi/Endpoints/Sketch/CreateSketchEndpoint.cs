@@ -1,7 +1,7 @@
 using System.Net;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.OpenApi.Models;
-using MediatR;
+using Mediator;
 using GoActive.WebApi.Endpoints.Sketch.Requests;
 using GoActive.WebApi.Infrastructure.Endpoints;
 using GoActive.WebApi.Infrastructure.Filters;
