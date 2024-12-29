@@ -6,7 +6,10 @@ using GoActive.Shared.Domain.Extensions;
 
 namespace GoActive.Modules.Geo.Domain.SketchAggregate;
 
-public class Sketch : EntityBase<SketchId>
+/// <summary>
+/// The sketch (draft) of fitness object.
+/// </summary>
+public sealed class Sketch : EntityBase<SketchId>
 {
     private Sketch(SketchId id, Title title, GeoCoordinate locationPoint, ActivityTypes activityTypes)
         : base(id)
@@ -15,7 +18,7 @@ public class Sketch : EntityBase<SketchId>
 
         // Assuming that there is shouldn't be sport object at the sea point with coordinates 0:0 and altitude 0 (sea level)
         if (locationPoint == default)
-            throw new ArgumentException($"Incorrect location for sketch: {locationPoint}", nameof(locationPoint));
+            throw new ArgumentException($"Incorrect location for {nameof(Sketch)}: {locationPoint}", nameof(locationPoint));
 
         if (!activityTypes.IsFlagSuitable())
             throw new ArgumentException($"Incorrect activity type: {activityTypes}", nameof(activityTypes));
@@ -40,4 +43,6 @@ public class Sketch : EntityBase<SketchId>
 
         return sketch;
     }
+
+    public void Apply() => AddDomainEvent(new SketchAppliedDomainEvent(this));
 }

@@ -12,9 +12,6 @@ public readonly record struct SketchId
 
     public static SketchId FromValue(Guid value)
     {
-        if (value == Guid.Empty)
-            throw new ArgumentException("Value should be non-empty Guid", nameof(value));
-
-        return new(value);
+        return value == Guid.Empty ? throw new ArgumentException("Value should be non-empty Guid", nameof(value)) : new(value);
     }
 }

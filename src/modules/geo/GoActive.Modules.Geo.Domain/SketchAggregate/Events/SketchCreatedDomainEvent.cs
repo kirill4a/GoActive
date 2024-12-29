@@ -5,5 +5,5 @@ namespace GoActive.Modules.Geo.Domain.SketchAggregate.Events;
 /// <summary>
 /// Domain event occuring when sketch has been created
 /// </summary>
-/// <param name="Sketch"></param>
-public record SketchCreatedDomainEvent(SketchId SketchId) : IDomainEvent;
+/// <param name="SketchId">Identifier of the sketch.</param>
+public readonly record struct SketchCreatedDomainEvent(SketchId SketchId) : IDomainEvent;

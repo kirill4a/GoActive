@@ -22,6 +22,7 @@ internal static class Constants
     internal static class Routes
     {
         internal const string GetSketch = "GetSketch";
+        internal const string SearchSpots = "SearchSpots";
     }
 
     internal static class Cors
