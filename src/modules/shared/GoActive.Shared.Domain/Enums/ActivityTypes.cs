@@ -18,4 +18,14 @@ public enum ActivityTypes
     /// Workout aka Calisthenics
     /// </summary>
     Workout = 2,
+
+    /// <summary>
+    /// The roller (summer) skiing
+    /// </summary>
+    RollerSki = 3,
+
+    /// <summary>
+    /// The biathlon
+    /// </summary>
+    Biathlon = 4,
 }
