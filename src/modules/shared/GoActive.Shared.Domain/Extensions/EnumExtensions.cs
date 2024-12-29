@@ -7,6 +7,7 @@ public static class EnumExtensions
     /// </summary>
     /// <param name="flag">Value of Enum<T></param>
     /// <returns>True if value is in Enum<T>, otherwise false</returns>
+    /// <typeparam name="T"/>Type of enum.</typeparam>
     public static bool IsFlagSuitable<T>(this T flag)
         where T : struct, Enum
     {

@@ -1,6 +1,7 @@
 using FluentResults;
 
 using GoActive.Shared.Domain.Enums;
+using GoActive.Shared.Domain.Extensions;
 
 using Mediator;
 
@@ -24,7 +25,7 @@ public class SearchSpotsQueryHandler : IQueryHandler<SearchSpotsQuery, Result<Se
                                 .Where(x => TextPredicate(x, queryString) && ActivitiesPredicate(x, activities))
                                 .Select(x => new SearchSpotResult(x.Id.Value,
                                                                   x.Title.Value,
-                                                                  [x.Activities]))
+                                                                  x.Activities.FlagsToArray()))
                                 .ToArray();
 #pragma warning restore CS0618 // Type or member is obsolete
 
