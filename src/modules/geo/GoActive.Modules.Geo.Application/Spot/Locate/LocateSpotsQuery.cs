@@ -5,7 +5,7 @@ using GoActive.Shared.Domain.Enums;
 
 using Mediator;
 
-namespace GoActive.Modules.Geo.Application.Spot.Search;
+namespace GoActive.Modules.Geo.Application.Spot.Locate;
 
 /// <summary>
 /// Query to search spots by map
@@ -13,4 +13,4 @@ namespace GoActive.Modules.Geo.Application.Spot.Search;
 /// <param name="MapRegion">Map boundary to search within</param>
 /// <param name="ActivityTypes">Activities to search</param>
 public record class LocateSpotsQuery(IEnumerable<GeoLocationDto> MapRegion, params ActivityTypes[] ActivityTypes)
-    : IQuery<Result<IReadOnlyCollection<SpotDto>>>;
+    : IQuery<Result<LocateSpotResult[]>>;

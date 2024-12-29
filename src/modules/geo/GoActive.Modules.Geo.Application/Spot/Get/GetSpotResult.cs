@@ -1,12 +1,12 @@
 using GoActive.Modules.Geo.Application.Shared.Dto;
 using GoActive.Shared.Domain.Enums;
 
-namespace GoActive.Modules.Geo.Application.Spot;
+namespace GoActive.Modules.Geo.Application.Spot.Get;
 
 /// <summary>
 /// The spot of sport activity object.
 /// </summary>
-public sealed record SpotDto
+public sealed record GetSpotResult
 {
     /// <summary>
     /// Spot identidier
