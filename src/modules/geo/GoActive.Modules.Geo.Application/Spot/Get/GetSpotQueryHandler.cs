@@ -6,9 +6,9 @@ using Mediator;
 
 namespace GoActive.Modules.Geo.Application.Spot.Get;
 
-public sealed class GetSpotQueryHandler : IQueryHandler<GetSpotQuery, Result<SpotDto>>
+public sealed class GetSpotQueryHandler : IQueryHandler<GetSpotQuery, Result<GetSpotResult>>
 {
-    public ValueTask<Result<SpotDto>> Handle(GetSpotQuery query, CancellationToken cancellationToken)
+    public ValueTask<Result<GetSpotResult>> Handle(GetSpotQuery query, CancellationToken cancellationToken)
     {
         query.Deconstruct(out var spotId);
 
@@ -24,7 +24,7 @@ public sealed class GetSpotQueryHandler : IQueryHandler<GetSpotQuery, Result<Spo
 
         var result = spot is null
             ? Result.Fail($"Spot with id '{spotId}' was not found")
-            : Result.Ok(new SpotDto
+            : Result.Ok(new GetSpotResult
             {
                 Id = spot.Id.Value,
                 Title = spot.Title.Value,

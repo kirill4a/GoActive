@@ -10,4 +10,4 @@ namespace GoActive.Modules.Geo.Application.Spot.Get;
 /// Query to retrieve spot
 /// </summary>
 /// <param name="SpotId">Spot indentifier</param>
-public readonly record struct GetSpotQuery(SpotId SpotId) : IQuery<Result<SpotDto>>;
+public readonly record struct GetSpotQuery(SpotId SpotId) : IQuery<Result<GetSpotResult>>;
