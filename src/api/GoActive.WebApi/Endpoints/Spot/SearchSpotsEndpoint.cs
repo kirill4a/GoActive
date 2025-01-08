@@ -11,7 +11,7 @@ using GoActive.WebApi.Endpoints.Spot.Responses;
 
 namespace GoActive.WebApi.Endpoints.Spot;
 
-internal class SearchSpotsEndpoint : IEndpoint
+internal sealed class SearchSpotsEndpoint : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapGet("spots",

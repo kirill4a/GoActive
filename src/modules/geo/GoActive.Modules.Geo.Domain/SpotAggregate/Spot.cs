@@ -74,7 +74,7 @@ public sealed class Spot : EntityBase<SpotId>
     public static IReadOnlyCollection<Spot> InitialData => [
 
         Spot.Create(
-            SpotId.FromValue(Guid.NewGuid()),
+            SpotId.FromValue(Guid.Parse("7ce1bbcb-a370-4a54-bf5d-03a1890c3cd6")),
             Title.FromValue("Kontiolahti biathlon stadium"),
             GeoCoordinate.FromLocation(GeoLocation.FromLatLon(62.72097, 29.81627)),
             ActivityTypes.NordicSki | ActivityTypes.Biathlon,
@@ -85,7 +85,7 @@ public sealed class Spot : EntityBase<SpotId>
             "The best nordic ski and biathlon area in eastern Finland"),
 
         Spot.Create(
-            SpotId.FromValue(Guid.NewGuid()),
+            SpotId.FromValue(Guid.Parse("2bafb2ec-09fb-4165-9697-7d0cf5e6c6b5")),
             Title.FromValue("Hochfilzen biathlon stadium"),
             GeoCoordinate.FromLocation(GeoLocation.FromLatLon(47.475781, 12.637753)),
             ActivityTypes.NordicSki | ActivityTypes.Biathlon,
@@ -95,7 +95,7 @@ public sealed class Spot : EntityBase<SpotId>
             "The best nordic ski and biathlon area in Austria"),
 
         Spot.Create(
-            SpotId.FromValue(Guid.NewGuid()),
+            SpotId.FromValue(Guid.Parse("16015d87-9401-486b-bd3b-cba4cf1cb5c6")),
             Title.FromValue("Ancee - Le Grand Bornand biathlon stadium"),
             GeoCoordinate.FromLocation(GeoLocation.FromLatLon(45.940777944299896, 6.431652646031023)),
             ActivityTypes.NordicSki | ActivityTypes.Biathlon,

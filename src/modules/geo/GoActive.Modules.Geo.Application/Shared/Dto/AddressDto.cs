@@ -1,5 +1,3 @@
-using System.Text;
-
 namespace GoActive.Modules.Geo.Application.Shared.Dto;
 
 /// <summary>
@@ -7,8 +5,6 @@ namespace GoActive.Modules.Geo.Application.Shared.Dto;
 /// </summary>
 public sealed record AddressDto
 {
-    private const string Separator = ", ";
-
     /// <summary>
     /// Country
     /// </summary>
@@ -28,23 +24,4 @@ public sealed record AddressDto
     /// Street
     /// </summary>
     public string? Street { get; init; }
-
-    public override string ToString()
-    {
-        var builder = new StringBuilder();
-
-        if (!string.IsNullOrWhiteSpace(Street))
-            builder.AppendJoin(Separator, Street);
-
-        if (!string.IsNullOrWhiteSpace(Settlement))
-            builder.AppendJoin(Separator, Settlement);
-
-        if (!string.IsNullOrWhiteSpace(Region))
-            builder.AppendJoin(Separator, Region);
-
-        if (!string.IsNullOrWhiteSpace(Country))
-            builder.AppendJoin(Separator, Country);
-
-        return builder.ToString();
-    }
 }

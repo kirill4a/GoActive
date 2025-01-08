@@ -24,7 +24,10 @@ public class SearchSpotsQueryHandler : IQueryHandler<SearchSpotsQuery, Result<Se
         var searchResult = Domain.SpotAggregate.Spot.InitialData
                                 .Where(x => TextPredicate(x, queryString) && ActivitiesPredicate(x, activities))
                                 .Select(x => new SearchSpotResult(x.Id.Value,
+                                                                  new(x.LocationPoint.Location.Latitude.Value,
+                                                                      x.LocationPoint.Location.Longitude.Value),
                                                                   x.Title.Value,
+                                                                  x.Address?.ToString(),
                                                                   x.Activities.FlagsToArray()))
                                 .ToArray();
 #pragma warning restore CS0618 // Type or member is obsolete
