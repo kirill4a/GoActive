@@ -87,4 +87,23 @@ public class TestAddress
         // Assert
         contains.Should().BeTrue();
     }
+
+    [Theory]
+    [InlineData(null, null, null, "SI", "SI")]
+    [InlineData(null, null, "Upper Carniola", "SI", "Upper Carniola, SI")]
+    [InlineData(null, "Bled", null, "SI", "Bled, SI")]
+    [InlineData(null, "Bled", "Upper Carniola", "SI", "Bled, Upper Carniola, SI")]
+    [InlineData("Cesta Svobode", "Bled", null, "SI", "Cesta Svobode, Bled, SI")]
+    [InlineData("Cesta Svobode", "Bled", "Upper Carniola", "SI", "Cesta Svobode, Bled, Upper Carniola, SI")]
+    public void ToString_ShouldBeStringWithSeparator(string? street, string? settlement, string? region, string country, string expectedText)
+    {
+        // Arrange
+        var address = Address.Create(country, region, settlement, street);
+
+        // Act
+        var actualText = address.ToString();
+
+        // Assert
+        actualText.Should().Be(expectedText);
+    }
 }

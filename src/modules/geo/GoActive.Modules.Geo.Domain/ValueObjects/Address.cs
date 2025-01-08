@@ -1,8 +1,12 @@
+using System.Text;
+
 namespace GoActive.Modules.Geo.Domain.ValueObjects;
 
 public sealed record Address
 {
+    private const string Separator = ", ";
     private const char Whitespace = ' ';
+
     private const StringComparison IgnoreCase = StringComparison.OrdinalIgnoreCase;
 
     private Address(string country) => Country = country;
@@ -52,5 +56,14 @@ public sealed record Address
 
         if (part.StartsWith(Whitespace) || part.EndsWith(Whitespace))
             throw new ArgumentException($"Address {paramName} shouldn't contains heading and trailing white spaces.");
+    }
+
+    public override string ToString()
+    {
+        var builder = new StringBuilder();
+        var values = new string?[] { Street, Settlement, Region, Country }.Where(x => !string.IsNullOrWhiteSpace(x));
+        builder.AppendJoin(Separator, values);
+
+        return builder.ToString();
     }
 }

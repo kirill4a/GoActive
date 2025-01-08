@@ -23,6 +23,7 @@ internal static class Constants
     {
         internal const string GetSketch = "GetSketch";
         internal const string SearchSpots = "SearchSpots";
+        internal const string GetSpot = "GetSpot";
     }
 
     internal static class Cors
