@@ -8,13 +8,15 @@ using GoActive.WebApi.Infrastructure.Filters;
 using GoActive.Modules.Geo.Application.Sketch.Create;
 using GoActive.WebApi.Infrastructure;
 
+using SketchDto = GoActive.Modules.Geo.Application.Sketch.SketchDto;
+
 namespace GoActive.WebApi.Endpoints.Sketch;
 
 internal class CreateSketchEndpoint : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapPost("sketches/",
-                    async Task<Results<ProblemHttpResult, CreatedAtRoute<Guid>>> (CreateSketchRequest request,
+                    async Task<Results<ProblemHttpResult, CreatedAtRoute<SketchDto>>> (CreateSketchRequest request,
                                                                                   ISender sender,
                                                                                   CancellationToken cancellation) =>
                     {
