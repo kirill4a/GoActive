@@ -42,7 +42,7 @@ internal class CreateSketchEndpoint : IEndpoint
 
                         return TypedResults.CreatedAtRoute(result.Value,
                                                            routeName: Constants.Routes.GetSketch,
-                                                           routeValues: new { sketchId = result.Value });
+                                                           routeValues: new { sketchId = result.Value.Id });
                     })
             .WithRequestValidation<CreateSketchRequest>()
             .ProducesProblem((int)HttpStatusCode.InternalServerError)
