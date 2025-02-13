@@ -1,12 +1,8 @@
-using System.Text.Json.Serialization;
-
 namespace GoActive.Shared.Domain.Enums;
 
 /// <summary>
 /// Available types of activities
 /// </summary>
-[Flags]
-[JsonConverter(typeof(JsonStringEnumConverter<ActivityTypes>))]
 public enum ActivityTypes
 {
     /// <summary>

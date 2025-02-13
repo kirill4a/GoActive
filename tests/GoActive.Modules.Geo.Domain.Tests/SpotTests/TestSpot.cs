@@ -8,7 +8,7 @@ namespace GoActive.Modules.Geo.Domain.Tests.SpotTests;
 
 public class TestSpot
 {
-    public static readonly TheoryData<SpotId, Title, GeoCoordinate, ActivityTypes, Address, string> WrongArguments = [];
+    public static readonly TheoryData<SpotId, Title, GeoCoordinate, IReadOnlyCollection<ActivityTypes>, Address, string> WrongArguments = [];
 
     private static readonly SpotId Id = SpotId.FromValue(Guid.NewGuid());
     private static readonly Title Title = Title.FromValue("Test spot title");
@@ -19,10 +19,10 @@ public class TestSpot
 
     static TestSpot()
     {
-        WrongArguments.Add(default, Title, LocationPoint, Activity, Address, Description);
-        WrongArguments.Add(Id, null!, LocationPoint, Activity, Address, Description);
-        WrongArguments.Add(Id, Title, default, Activity, Address, Description);
-        WrongArguments.Add(Id, Title, LocationPoint, default, Address, Description);
+        WrongArguments.Add(default, Title, LocationPoint, [Activity], Address, Description);
+        WrongArguments.Add(Id, null!, LocationPoint, [Activity], Address, Description);
+        WrongArguments.Add(Id, Title, default, [Activity], Address, Description);
+        WrongArguments.Add(Id, Title, LocationPoint, default!, Address, Description);
     }
 
     [Theory]
@@ -30,7 +30,7 @@ public class TestSpot
     public void Create_FromWrongValues_ShouldThrowException(SpotId id,
                                                             Title title,
                                                             GeoCoordinate locationPoint,
-                                                            ActivityTypes activityTypes,
+                                                            IReadOnlyCollection<ActivityTypes> activityTypes,
                                                             Address address,
                                                             string description)
     {
@@ -45,14 +45,14 @@ public class TestSpot
     public void Create_FromValidValue_ShouldCreatedAndFilled()
     {
         // Act
-        var spot = Spot.Create(Id, Title, LocationPoint, Activity, Address, Description);
+        var spot = Spot.Create(Id, Title, LocationPoint, [Activity], Address, Description);
 
         // Assert
         spot.Should().NotBeNull();
         spot.Id.Should().Be(Id);
         spot.Title.Should().Be(Title);
         spot.LocationPoint.Should().Be(LocationPoint);
-        spot.Activities.Should().Be(Activity);
+        spot.Activities.Should().BeEquivalentTo([Activity]);
         spot.Description.Should().Be(Description);
         spot.CreatedAt.Should().BeBefore(DateTime.UtcNow);
         spot.UpdatedAt.Should().BeNull();
@@ -62,7 +62,7 @@ public class TestSpot
     public void Create_AfterCreated_ShouldHaveDomainEvent()
     {
         // Act
-        var spot = Spot.Create(Id, Title, LocationPoint, Activity);
+        var spot = Spot.Create(Id, Title, LocationPoint, [Activity]);
 
         // Assert
         spot.DomainEvents.Should().NotBeNullOrEmpty();
@@ -77,11 +77,11 @@ public class TestSpot
         var workoutActivity = ActivityTypes.Workout;
 
         // Act
-        var spotSki = Spot.Create(Id, Title, LocationPoint, skiActivity);
-        var spotWorkout = Spot.Create(Id, Title, LocationPoint, workoutActivity);
+        var spotSki = Spot.Create(Id, Title, LocationPoint, [skiActivity]);
+        var spotWorkout = Spot.Create(Id, Title, LocationPoint, [workoutActivity]);
 
         // Assert
-        spotSki.Activities.Should().NotBe(spotWorkout.Activities);
+        spotSki.Activities.Should().NotBeEquivalentTo(spotWorkout.Activities);
 
         spotSki.Id.Should().Be(spotWorkout.Id);
         spotSki.Should().NotBeSameAs(spotWorkout);

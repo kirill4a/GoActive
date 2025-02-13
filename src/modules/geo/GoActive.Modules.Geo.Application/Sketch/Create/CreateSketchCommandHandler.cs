@@ -31,7 +31,7 @@ public sealed class CreateSketchCommandHandler : ICommandHandler<CreateSketchCom
             new GeoLocationDto(
                 sketch.LocationPoint.Location.Latitude.Value,
                 sketch.LocationPoint.Location.Longitude.Value),
-            new List<ActivityTypes> { sketch.ActivityTypes });
+            sketch.ActivityTypes);
 
         // TODO: invoke save to database here (IUnitOfWork.CommitAsync())
         return ValueTask.FromResult(Result.Ok(sketchDto));

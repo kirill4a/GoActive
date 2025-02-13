@@ -1,7 +1,6 @@
 using FluentResults;
 
 using GoActive.Modules.Geo.Application.Shared.Dto;
-using GoActive.Shared.Domain.Extensions;
 
 using Mediator;
 
@@ -32,7 +31,7 @@ public sealed class GetSpotQueryHandler : IQueryHandler<GetSpotQuery, Result<Get
                 Location = new(
                                     spot.LocationPoint.Location.Latitude.Value,
                                     spot.LocationPoint.Location.Longitude.Value),
-                Activities = spot.Activities.FlagsToArray(),
+                Activities = spot.Activities,
                 Address = spot.Address is null ? null
                                     : new AddressDto
                                     {
