@@ -22,7 +22,7 @@ internal class CreateSketchEndpoint : IEndpoint
                     {
                         var command = new CreateSketchCommand
                         {
-                            ActivityTypes = request.ActivityTypes.Aggregate((x, y) => x | y),
+                            ActivityTypes = request.ActivityTypes,
                             Title = request.Title,
                             Location = new()
                             {

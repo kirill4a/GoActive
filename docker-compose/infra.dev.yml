@@ -1,0 +1,21 @@
+services:
+
+  postgis-geo:
+    image: postgis/postgis
+    hostname: postgis-geo
+    container_name: postgis-geo
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+  pgAdmin:
+    image: dpage/pgadmin4
+    hostname: pgAdmin
+    container_name: pgAdmin
+    ports:
+      - "5056:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@domain.com
+      PGADMIN_DEFAULT_PASSWORD: postgres

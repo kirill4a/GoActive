@@ -8,7 +8,7 @@ namespace GoActive.Modules.Geo.Domain.Tests.SketchTests;
 
 public class TestSketch
 {
-    public static readonly TheoryData<SketchId, Title, GeoCoordinate, ActivityTypes> WrongArguments = [];
+    public static readonly TheoryData<SketchId, Title, GeoCoordinate, IReadOnlyCollection<ActivityTypes>> WrongArguments = [];
 
     private static readonly SketchId Id = SketchId.FromValue(Guid.NewGuid());
     private static readonly Title Title = Title.FromValue("QWERTY");
@@ -17,10 +17,10 @@ public class TestSketch
 
     static TestSketch()
     {
-        WrongArguments.Add(default, Title, LocationPoint, Activity);
-        WrongArguments.Add(Id, null!, LocationPoint, Activity);
-        WrongArguments.Add(Id, Title, default, Activity);
-        WrongArguments.Add(Id, Title, LocationPoint, default);
+        WrongArguments.Add(default, Title, LocationPoint, [Activity]);
+        WrongArguments.Add(Id, null!, LocationPoint, [Activity]);
+        WrongArguments.Add(Id, Title, default, [Activity]);
+        WrongArguments.Add(Id, Title, LocationPoint, default!);
     }
 
     [Theory]
@@ -28,7 +28,7 @@ public class TestSketch
     public void Create_FromWrongValues_ShouldThrowException(SketchId id,
                                                             Title title,
                                                             GeoCoordinate locationPoint,
-                                                            ActivityTypes activityTypes)
+                                                            IReadOnlyCollection<ActivityTypes> activityTypes)
     {
         // Act
         var function = () => Sketch.Create(id, title, locationPoint, activityTypes);
@@ -41,14 +41,15 @@ public class TestSketch
     public void Create_FromValidValue_ShouldCreatedAndFilled()
     {
         // Act
-        var sketch = Sketch.Create(Id, Title, LocationPoint, Activity);
+        var expectedActivities = new ActivityTypes[] { Activity };
+        var sketch = Sketch.Create(Id, Title, LocationPoint, expectedActivities);
 
         // Assert
         sketch.Should().NotBeNull();
         sketch.Id.Should().Be(Id);
         sketch.Title.Should().Be(Title);
         sketch.LocationPoint.Should().Be(LocationPoint);
-        sketch.ActivityTypes.Should().Be(Activity);
+        sketch.ActivityTypes.Should().BeEquivalentTo(expectedActivities);
         sketch.CreatedAt.Should().BeBefore(DateTime.UtcNow);
         sketch.UpdatedAt.Should().BeNull();
     }
@@ -57,7 +58,7 @@ public class TestSketch
     public void Create_AfterCreated_ShouldHaveDomainEvent()
     {
         // Act
-        var sketch = Sketch.Create(Id, Title, LocationPoint, Activity);
+        var sketch = Sketch.Create(Id, Title, LocationPoint, [Activity]);
 
         // Assert
         sketch.DomainEvents.Should().NotBeNullOrEmpty();
@@ -72,11 +73,11 @@ public class TestSketch
         var workoutActivity = ActivityTypes.Workout;
 
         // Act
-        var sketchSki = Sketch.Create(Id, Title, LocationPoint, skiActivity);
-        var sketchWorkout = Sketch.Create(Id, Title, LocationPoint, workoutActivity);
+        var sketchSki = Sketch.Create(Id, Title, LocationPoint, [skiActivity]);
+        var sketchWorkout = Sketch.Create(Id, Title, LocationPoint, [workoutActivity]);
 
         // Assert
-        sketchSki.ActivityTypes.Should().NotBe(sketchWorkout.ActivityTypes);
+        sketchSki.ActivityTypes.Should().NotBeEquivalentTo(sketchWorkout.ActivityTypes);
 
         sketchSki.Id.Should().Be(sketchWorkout.Id);
         sketchSki.Should().NotBeSameAs(sketchWorkout);

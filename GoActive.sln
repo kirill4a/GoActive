@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solutionItems", ".solution
 		Directory.Packages.props = Directory.Packages.props
 		assets\c4diagrams\GoActiveFlow.drawio.png = assets\c4diagrams\GoActiveFlow.drawio.png
 		assets\c4diagrams\GoActiveFlow-FlowSchema.drawio.png = assets\c4diagrams\GoActiveFlow-FlowSchema.drawio.png
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0A407594-C3CE-416A-A276-5E0E93C0BD58}"
@@ -37,9 +39,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Modules.Geo.Applic
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{D010882A-97FC-447B-9F70-EFDCFACDC069}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Shared.Infrastructure", "src\modules\shared\GoActive.Shared.Infrastructure\GoActive.Shared.Infrastructure.csproj", "{5BB68ACB-9669-4FBB-969B-94DDCF48BB39}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Shared.Domain", "src\modules\shared\GoActive.Shared.Domain\GoActive.Shared.Domain.csproj", "{5159531E-45FC-4FB5-BF79-0459F10AE360}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Modules.Shared.Tests", "tests\GoActive.Modules.Shared.Tests\GoActive.Modules.Shared.Tests.csproj", "{4F515469-7E11-4782-8FB5-01093C8CBC12}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Geo", "Geo", "{ABBC9D48-12F3-035D-B9D5-E20A39667723}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Infrastructure.Storage.Geo", "src\infrastructure\persistence\sql\GoActive.Infrastructure.Storage.Geo\GoActive.Infrastructure.Storage.Geo.csproj", "{C042F2F5-9A57-4B95-997C-D82E67EC7B46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Infrastructure.Storage.Geo.Migrations", "src\infrastructure\persistence\sql\GoActive.Infrastructure.Storage.Geo.Migrations\GoActive.Infrastructure.Storage.Geo.Migrations.csproj", "{86331FF0-2F18-4E87-9E18-E8C74AEEBF06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,14 +71,22 @@ Global
 		{11E7303D-079F-47FC-9379-8EE2A4629F49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11E7303D-079F-47FC-9379-8EE2A4629F49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11E7303D-079F-47FC-9379-8EE2A4629F49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BB68ACB-9669-4FBB-969B-94DDCF48BB39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BB68ACB-9669-4FBB-969B-94DDCF48BB39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BB68ACB-9669-4FBB-969B-94DDCF48BB39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BB68ACB-9669-4FBB-969B-94DDCF48BB39}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5159531E-45FC-4FB5-BF79-0459F10AE360}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5159531E-45FC-4FB5-BF79-0459F10AE360}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5159531E-45FC-4FB5-BF79-0459F10AE360}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5159531E-45FC-4FB5-BF79-0459F10AE360}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4F515469-7E11-4782-8FB5-01093C8CBC12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F515469-7E11-4782-8FB5-01093C8CBC12}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F515469-7E11-4782-8FB5-01093C8CBC12}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F515469-7E11-4782-8FB5-01093C8CBC12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C042F2F5-9A57-4B95-997C-D82E67EC7B46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C042F2F5-9A57-4B95-997C-D82E67EC7B46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C042F2F5-9A57-4B95-997C-D82E67EC7B46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C042F2F5-9A57-4B95-997C-D82E67EC7B46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86331FF0-2F18-4E87-9E18-E8C74AEEBF06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86331FF0-2F18-4E87-9E18-E8C74AEEBF06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86331FF0-2F18-4E87-9E18-E8C74AEEBF06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86331FF0-2F18-4E87-9E18-E8C74AEEBF06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,7 +101,10 @@ Global
 		{00A128B0-6453-4E8C-B49A-5CD5F20EDA3D} = {0A407594-C3CE-416A-A276-5E0E93C0BD58}
 		{11E7303D-079F-47FC-9379-8EE2A4629F49} = {68E4B990-D9C6-44E0-9B18-6831B6FFD13B}
 		{D010882A-97FC-447B-9F70-EFDCFACDC069} = {1C368A3F-122D-4FAD-9963-96D36C40FAA6}
+		{5BB68ACB-9669-4FBB-969B-94DDCF48BB39} = {D010882A-97FC-447B-9F70-EFDCFACDC069}
 		{5159531E-45FC-4FB5-BF79-0459F10AE360} = {D010882A-97FC-447B-9F70-EFDCFACDC069}
-		{4F515469-7E11-4782-8FB5-01093C8CBC12} = {0A407594-C3CE-416A-A276-5E0E93C0BD58}
+		{ABBC9D48-12F3-035D-B9D5-E20A39667723} = {9D9EDF65-0B68-4A1D-964D-D1362E80AAF8}
+		{C042F2F5-9A57-4B95-997C-D82E67EC7B46} = {ABBC9D48-12F3-035D-B9D5-E20A39667723}
+		{86331FF0-2F18-4E87-9E18-E8C74AEEBF06} = {ABBC9D48-12F3-035D-B9D5-E20A39667723}
 	EndGlobalSection
 EndGlobal

@@ -1,0 +1,42 @@
+using GoActive.Infrastructure.Storage.Geo.Entities;
+using GoActive.Infrastructure.Storage.Geo.Extensions;
+using GoActive.Shared.Domain.Enums;
+using GoActive.Shared.Infrastructure;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace GoActive.Infrastructure.Storage.Geo.Configurations;
+
+internal class SpotConfiguration : IEntityTypeConfiguration<Spot>
+{
+    public void Configure(EntityTypeBuilder<Spot> builder)
+    {
+        builder.ToTable("spots");
+
+        builder.HasKey(x => x.Id);
+
+        builder
+            .Property(x => x.Title)
+            .HasMaxLength(100);
+
+        builder
+            .Property(x => x.ActivityTypes)
+            .HasDefaultValue(Array.Empty<ActivityTypes>())
+            .HasReadOnlyCollectionJsonConversion(JsonSerializerCustom.EnumSerializerOptions);
+
+        builder
+            .Property(x => x.Location)
+            .HasColumnType("geometry (point)");
+
+        builder
+            .HasIndex(x => x.Title)
+            .HasMethod("gin")
+            .HasOperators("gin_trgm_ops");
+
+        builder
+            .HasOne(x => x.Address)
+            .WithMany()
+            .HasForeignKey(x => x.AddressId);
+    }
+}
