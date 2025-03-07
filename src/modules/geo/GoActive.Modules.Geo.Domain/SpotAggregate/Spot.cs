@@ -134,6 +134,18 @@ public sealed class Spot : EntityBase<SpotId>
                 region: "Südtirol",
                 settlement: "Antholz"),
             "The Südtirol Arena, perfectly dropped below a stunning snow-capped peak, tops out the climb up the valley. Set at 1600-meters high, the Arena and surrounding tracks are almost guaranteed to look like a winter wonderland each January."),
+
+            Create(
+            SpotId.FromValue(Guid.Parse("c1f217ea-49f1-4f89-89c3-9df38c15015e")),
+            Title.FromValue("Lenzerheide - Roland Arena - World 2025 - f"),
+            GeoCoordinate.FromLocationWithAltitude(GeoLocation.FromLatLon(46.692222, 9.558333), new(1400)),
+            [ActivityTypes.NordicSki, ActivityTypes.Biathlon, ActivityTypes.RollerSki],
+            Address.Create(
+                country: "Switzerland",
+                region: "Graubünden",
+                settlement: "Lenzerheide"),
+            "The Roland Arena is located in Lantsch/Lenz, about five kilometres from the village centre of Lenzerheide. Thanks to the multifunctional building architecture, the arena has developed into a well-known sports hotspot and is a meeting place for elite and junior athletes, leisure athletes, clubs and sports associations."),
+
     ];
 #pragma warning restore SA1201 // Elements should appear in the correct order
 

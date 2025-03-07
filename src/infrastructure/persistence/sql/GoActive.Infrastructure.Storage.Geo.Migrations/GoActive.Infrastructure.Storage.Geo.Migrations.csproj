@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);CA1861;SA1122;S1186;SA1413;</NoWarn>
+    <UserSecretsId>ee28b0fb-2ee5-4b48-a0ef-d84288b63bed</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../GoActive.Infrastructure.Storage.Geo/GoActive.Infrastructure.Storage.Geo.csproj" />
+  </ItemGroup>
+
+</Project>

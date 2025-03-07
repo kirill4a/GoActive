@@ -11,6 +11,7 @@ public sealed record Address
 
     private Address(string country) => Country = country;
 
+    // TODO: Replace with value object Country(string alpha2Code, string alpha3Code, int numeric3Code, string name)
     public string Country { get; }
     public string? Region { get; private init; }
     public string? Settlement { get; private init; }
