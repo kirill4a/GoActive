@@ -8,21 +8,22 @@ namespace GoActive.Modules.Geo.Domain.Tests.SpotTests;
 
 public class TestSpot
 {
-    public static readonly TheoryData<SpotId, Title, GeoCoordinate, IReadOnlyCollection<ActivityTypes>, Address, string> WrongArguments = [];
+    public static readonly TheoryData<SpotId, Title, GeoCoordinate, IReadOnlyCollection<ActivityTypes>, AddressId, Address, string> WrongArguments = [];
 
     private static readonly SpotId Id = SpotId.FromValue(Guid.NewGuid());
     private static readonly Title Title = Title.FromValue("Test spot title");
     private static readonly GeoCoordinate LocationPoint = GeoCoordinate.FromLocation(GeoLocation.FromLatLon(57.11d, 37.08));
     private static readonly ActivityTypes Activity = ActivityTypes.NordicSki;
+    private static readonly AddressId AddressId = AddressId.FromValue(Guid.NewGuid());
     private static readonly Address Address = Address.Create("AQ");
     private static readonly string Description = "Any description";
 
     static TestSpot()
     {
-        WrongArguments.Add(default, Title, LocationPoint, [Activity], Address, Description);
-        WrongArguments.Add(Id, null!, LocationPoint, [Activity], Address, Description);
-        WrongArguments.Add(Id, Title, default, [Activity], Address, Description);
-        WrongArguments.Add(Id, Title, LocationPoint, default!, Address, Description);
+        WrongArguments.Add(default, Title, LocationPoint, [Activity], AddressId, Address, Description);
+        WrongArguments.Add(Id, null!, LocationPoint, [Activity], AddressId, Address, Description);
+        WrongArguments.Add(Id, Title, default, [Activity], AddressId, Address, Description);
+        WrongArguments.Add(Id, Title, LocationPoint, default!, AddressId, Address, Description);
     }
 
     [Theory]
@@ -31,11 +32,12 @@ public class TestSpot
                                                             Title title,
                                                             GeoCoordinate locationPoint,
                                                             IReadOnlyCollection<ActivityTypes> activityTypes,
+                                                            AddressId addressId,
                                                             Address address,
                                                             string description)
     {
         // Act
-        var function = () => Spot.Create(id, title, locationPoint, activityTypes, address, description);
+        var function = () => Spot.Create(id, title, locationPoint, activityTypes, addressId, address, description);
 
         // Assert
         function.Should().Throw<ArgumentException>();
@@ -45,7 +47,7 @@ public class TestSpot
     public void Create_FromValidValue_ShouldCreatedAndFilled()
     {
         // Act
-        var spot = Spot.Create(Id, Title, LocationPoint, [Activity], Address, Description);
+        var spot = Spot.Create(Id, Title, LocationPoint, [Activity], AddressId, Address, Description);
 
         // Assert
         spot.Should().NotBeNull();

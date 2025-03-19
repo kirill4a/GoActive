@@ -38,5 +38,10 @@ internal class Spot : Entity
     /// Activities available on the spot.
     /// </summary>
     public required IReadOnlyCollection<ActivityTypes> ActivityTypes { get; set; }
+
+    /// <summary>
+    /// Spot description.
+    /// </summary>
+    public string? Description { get; set; }
 }
 
