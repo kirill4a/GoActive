@@ -19,10 +19,10 @@ public class TestAddress
 
     [Theory]
     [ClassData(typeof(AddressValidTestData))]
-    public void Create_FromValidValue_ShouldCreated(string country, string region, string settlement, string street)
+    public void Create_FromValidValue_ShouldCreated(string country, string region, string settlement, string street, string building, string postCode)
     {
         // Act
-        var address = Address.Create(country, region, settlement, street);
+        var address = Address.Create(country, region, settlement, street, building, postCode);
 
         // Assert
         address.Should().NotBeNull();
@@ -30,6 +30,8 @@ public class TestAddress
         address.Region.Should().Be(region);
         address.Settlement.Should().Be(settlement);
         address.Street.Should().Be(street);
+        address.Building.Should().Be(building);
+        address.PostCode.Should().Be(postCode);
     }
 
     [Fact]
@@ -89,16 +91,22 @@ public class TestAddress
     }
 
     [Theory]
-    [InlineData(null, null, null, "SI", "SI")]
-    [InlineData(null, null, "Upper Carniola", "SI", "Upper Carniola, SI")]
-    [InlineData(null, "Bled", null, "SI", "Bled, SI")]
-    [InlineData(null, "Bled", "Upper Carniola", "SI", "Bled, Upper Carniola, SI")]
-    [InlineData("Cesta Svobode", "Bled", null, "SI", "Cesta Svobode, Bled, SI")]
-    [InlineData("Cesta Svobode", "Bled", "Upper Carniola", "SI", "Cesta Svobode, Bled, Upper Carniola, SI")]
-    public void ToString_ShouldBeStringWithSeparator(string? street, string? settlement, string? region, string country, string expectedText)
+    [InlineData(null, null, null, null, null, "SI", "SI")]
+    [InlineData(null, null, null, "Upper Carniola", "4283", "SI", "Upper Carniola, 4283, SI")]
+    [InlineData(null, null, "Bled", null, null, "SI", "Bled, SI")]
+    [InlineData(null, null, "Bled", "Upper Carniola", null, "SI", "Bled, Upper Carniola, SI")]
+    [InlineData("15a", "Cesta Svobode", "Bled", null, null, "SI", "15a, Cesta Svobode, Bled, SI")]
+    [InlineData("15a", "Cesta Svobode", "Bled", "Upper Carniola", "4283", "SI", "15a, Cesta Svobode, Bled, Upper Carniola, 4283, SI")]
+    public void ToString_ShouldBeStringWithSeparator(string building,
+                                                     string? street,
+                                                     string? settlement,
+                                                     string? region,
+                                                     string postCode,
+                                                     string country,
+                                                     string expectedText)
     {
         // Arrange
-        var address = Address.Create(country, region, settlement, street);
+        var address = Address.Create(country, region, settlement, street, building, postCode);
 
         // Act
         var actualText = address.ToString();

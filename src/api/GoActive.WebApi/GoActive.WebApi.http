@@ -1,6 +1,6 @@
-@GoActive.WebApi_HostAddress = http://localhost:5129
+@GoActive_WebApi_HostAddress = http://localhost:5129/api/v1-prealpha
 
-GET {{GoActive.WebApi_HostAddress}}/weatherforecast/
+GET {{GoActive_WebApi_HostAddress}}/version/
 Accept: application/json
 
 ###

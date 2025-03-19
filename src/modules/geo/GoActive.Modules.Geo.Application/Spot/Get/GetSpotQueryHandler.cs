@@ -22,6 +22,11 @@ public sealed class GetSpotQueryHandler : IQueryHandler<GetSpotQuery, Result<Get
 
 #pragma warning disable SA1118 // Parameter should not span multiple lines
 
+#pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
         var result = spot is null
             ? Result.Fail($"Spot with id '{spotId}' was not found")
             : Result.Ok(new GetSpotResult
@@ -42,6 +47,11 @@ public sealed class GetSpotQueryHandler : IQueryHandler<GetSpotQuery, Result<Get
                                     },
                 Description = spot.Description,
             });
+#pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning restore CS0618 // Type or member is obsolete
 #pragma warning restore SA1118 // Parameter should not span multiple lines
 #pragma warning restore S3358 // Ternary operators should not be nested
 

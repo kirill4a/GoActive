@@ -30,6 +30,10 @@ internal class SpotConfiguration : IEntityTypeConfiguration<Spot>
             .HasColumnType("geometry (point)");
 
         builder
+            .Property(x => x.Description)
+            .HasMaxLength(2048);
+
+        builder
             .HasIndex(x => x.Title)
             .HasMethod("gin")
             .HasOperators("gin_trgm_ops");

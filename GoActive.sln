@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Infrastructure.Sto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Infrastructure.Storage.Geo.Migrations", "src\infrastructure\persistence\sql\GoActive.Infrastructure.Storage.Geo.Migrations\GoActive.Infrastructure.Storage.Geo.Migrations.csproj", "{86331FF0-2F18-4E87-9E18-E8C74AEEBF06}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Import", "Import", "{9D8BABB6-F1A7-F0B5-3C5A-B697413C2584}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -106,5 +108,6 @@ Global
 		{ABBC9D48-12F3-035D-B9D5-E20A39667723} = {9D9EDF65-0B68-4A1D-964D-D1362E80AAF8}
 		{C042F2F5-9A57-4B95-997C-D82E67EC7B46} = {ABBC9D48-12F3-035D-B9D5-E20A39667723}
 		{86331FF0-2F18-4E87-9E18-E8C74AEEBF06} = {ABBC9D48-12F3-035D-B9D5-E20A39667723}
+		{9D8BABB6-F1A7-F0B5-3C5A-B697413C2584} = {E65FC243-59A2-471B-B319-530DC7D16E3C}
 	EndGlobalSection
 EndGlobal

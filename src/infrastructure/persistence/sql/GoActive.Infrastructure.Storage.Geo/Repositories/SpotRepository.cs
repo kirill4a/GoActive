@@ -1,12 +1,16 @@
 using GoActive.Infrastructure.Storage.Geo.Entities;
+using GoActive.Modules.Geo.Application.Spot.Create;
 using GoActive.Modules.Geo.Application.Spot.Search;
 using GoActive.Shared.Domain.Enums;
 
 using Microsoft.EntityFrameworkCore;
 
+using DomainAddress = GoActive.Modules.Geo.Domain.ValueObjects.Address;
+using DomainSpot = GoActive.Modules.Geo.Domain.SpotAggregate.Spot;
+
 namespace GoActive.Infrastructure.Storage.Geo.Repositories;
 
-internal class SpotRepository(IGeoContext context) : ISpotSearcher
+internal class SpotRepository(IGeoContext context) : ISpotSearcher, ISpotCreator
 {
     public async Task<IReadOnlyCollection<SearchSpotResult>> SearchBySpot(string queryString,
                                                                            IReadOnlyCollection<ActivityTypes> activities,
@@ -28,6 +32,12 @@ internal class SpotRepository(IGeoContext context) : ISpotSearcher
         return Task.FromResult(Array.Empty<SearchSpotResult>() as IReadOnlyCollection<SearchSpotResult>);
     }
 
+    public void CreateSpots(IReadOnlyCollection<DomainSpot> spots)
+    {
+        var dbEntities = spots.Select(Map);
+        context.Spots.AddRange(dbEntities);
+    }
+
     private static SearchSpotResult Map(Spot spot)
         =>
         new(spot.Id,
@@ -36,11 +46,24 @@ internal class SpotRepository(IGeoContext context) : ISpotSearcher
             FlattenAddress(spot.Address),
             spot.ActivityTypes);
 
+    private static Spot Map(DomainSpot spot)
+        =>
+        new()
+        {
+            Id = spot.Id.Value,
+            Title = spot.Title.Value,
+            Location = spot.LocationPoint.Altitude.HasValue
+                ? new(spot.LocationPoint.Location.Latitude.Value, spot.LocationPoint.Location.Longitude.Value, spot.LocationPoint.Altitude.Value.Value)
+                : new(spot.LocationPoint.Location.Latitude.Value, spot.LocationPoint.Location.Longitude.Value),
+            AddressId = spot.AddressId?.Value,
+            ActivityTypes = spot.Activities,
+            Description = spot.Description,
+        };
+
     private static string FlattenAddress(Address? address)
-    {
-        return address is null ? string.Empty
-            : $"{address.Country}, {address.Region}, {address.District}, {address.Settlement}, {address.Street}, {address.Building}, {address.PostCode}";
-    }
+        =>
+        address is null ? string.Empty
+        : DomainAddress.Create(address.Country, address.Region, address.Settlement, address.Street, address.Building, address.PostCode).ToString();
 
     private IQueryable<Spot> GetQuerable()
     {

@@ -16,8 +16,11 @@ public sealed record Address
     public string? Region { get; private init; }
     public string? Settlement { get; private init; }
     public string? Street { get; private init; }
+    public string? Building { get; private init; }
+    public string? PostCode { get; private init; }
 
-    public static Address Create(string country, string? region = null, string? settlement = null, string? street = null)
+    public static Address Create(
+        string country, string? region = null, string? settlement = null, string? street = null, string? building = null, string? postCode = null)
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(country);
 
@@ -25,6 +28,8 @@ public sealed record Address
         ValidateAddressPart(region, nameof(region));
         ValidateAddressPart(settlement, nameof(settlement));
         ValidateAddressPart(street, nameof(street));
+        ValidateAddressPart(building, nameof(building));
+        ValidateAddressPart(postCode, nameof(postCode));
 
         if (!string.IsNullOrWhiteSpace(street) && string.IsNullOrWhiteSpace(region) && string.IsNullOrWhiteSpace(settlement))
         {
@@ -38,6 +43,8 @@ public sealed record Address
             Region = region,
             Settlement = settlement,
             Street = street,
+            Building = building,
+            PostCode = postCode,
         };
     }
 
@@ -62,7 +69,7 @@ public sealed record Address
     public override string ToString()
     {
         var builder = new StringBuilder();
-        var values = new string?[] { Street, Settlement, Region, Country }.Where(x => !string.IsNullOrWhiteSpace(x));
+        var values = new string?[] { Building, Street, Settlement, Region, PostCode, Country }.Where(x => !string.IsNullOrWhiteSpace(x));
         builder.AppendJoin(Separator, values);
 
         return builder.ToString();
