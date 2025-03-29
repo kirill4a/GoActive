@@ -16,7 +16,7 @@ public sealed class GetSketchQueryHandler : IQueryHandler<GetSketchQuery, Result
         var result = Result.Ok(new SketchDto(query.SketchId,
                                              "Some title",
                                              new(latitude, longitude),
-                                             [ActivityTypes.NordicSki]));
+                                             [ActivityType.NordicSki]));
         return ValueTask.FromResult(result);
     }
 }

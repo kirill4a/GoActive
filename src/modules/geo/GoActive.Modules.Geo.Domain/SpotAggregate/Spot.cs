@@ -15,7 +15,7 @@ public sealed class Spot : EntityBase<SpotId>
     private Spot(SpotId id,
                  Title title,
                  GeoCoordinate locationPoint,
-                 IReadOnlyCollection<ActivityTypes> activities,
+                 IReadOnlyCollection<ActivityType> activities,
                  AddressId? addressId = null,
                  Address? address = null,
                  string? description = null)
@@ -42,7 +42,7 @@ public sealed class Spot : EntityBase<SpotId>
 
     public Title Title { get; }
     public GeoCoordinate LocationPoint { get; }
-    public IReadOnlyCollection<ActivityTypes> Activities { get; }
+    public IReadOnlyCollection<ActivityType> Activities { get; }
     public AddressId? AddressId { get; }
 
     [Obsolete("Use AddressId")]
@@ -54,7 +54,7 @@ public sealed class Spot : EntityBase<SpotId>
     public static Spot Create(SpotId id,
                               Title title,
                               GeoCoordinate locationPoint,
-                              IReadOnlyCollection<ActivityTypes> activityTypes,
+                              IReadOnlyCollection<ActivityType> activityTypes,
                               AddressId? addressId = null,
                               Address? address = null,
                               string? description = null)
@@ -86,7 +86,7 @@ public sealed class Spot : EntityBase<SpotId>
             SpotId.FromValue(Guid.Parse("7ce1bbcb-a370-4a54-bf5d-03a1890c3cd6")),
             Title.FromValue("Kontiolahti biathlon stadium"),
             GeoCoordinate.FromLocation(GeoLocation.FromLatLon(62.72097, 29.81627)),
-            [ActivityTypes.NordicSki, ActivityTypes.Biathlon],
+            [ActivityType.NordicSki, ActivityType.Biathlon],
             null,
             Address.Create(
                 country: "Finland",
@@ -98,7 +98,7 @@ public sealed class Spot : EntityBase<SpotId>
             SpotId.FromValue(Guid.Parse("2bafb2ec-09fb-4165-9697-7d0cf5e6c6b5")),
             Title.FromValue("Hochfilzen biathlon stadium"),
             GeoCoordinate.FromLocation(GeoLocation.FromLatLon(47.475781, 12.637753)),
-            [ActivityTypes.Biathlon],
+            [ActivityType.Biathlon],
             null,
             Address.Create(
                 country: "Austria",
@@ -109,7 +109,7 @@ public sealed class Spot : EntityBase<SpotId>
             SpotId.FromValue(Guid.Parse("16015d87-9401-486b-bd3b-cba4cf1cb5c6")),
             Title.FromValue("Ancee - Le Grand Bornand biathlon stadium"),
             GeoCoordinate.FromLocation(GeoLocation.FromLatLon(45.940777944299896, 6.431652646031023)),
-            [ActivityTypes.NordicSki, ActivityTypes.Biathlon, ActivityTypes.Workout, ActivityTypes.RollerSki],
+            [ActivityType.NordicSki, ActivityType.Biathlon, ActivityType.Workout, ActivityType.RollerSki],
             null,
             Address.Create(
                 country: "France",
@@ -121,7 +121,7 @@ public sealed class Spot : EntityBase<SpotId>
             SpotId.FromValue(Guid.Parse("a185ce91-92ba-4750-a43e-cea048c1f8aa")),
             Title.FromValue("Oberhof biathlon stadium"),
             GeoCoordinate.FromLocation(GeoLocation.FromLatLon(50.707222, 10.694722)),
-            [ActivityTypes.NordicSki, ActivityTypes.Biathlon, ActivityTypes.RollerSki],
+            [ActivityType.NordicSki, ActivityType.Biathlon, ActivityType.RollerSki],
             null,
             Address.Create(
                 country: "Germany",
@@ -133,7 +133,7 @@ public sealed class Spot : EntityBase<SpotId>
             SpotId.FromValue(Guid.Parse("0bf70768-5ea0-4b5a-b362-eb4bbdb2ef36")),
             Title.FromValue("Ruhpolding Venue Arena - Chiemgau Arena - f"),
             GeoCoordinate.FromLocationWithAltitude(GeoLocation.FromLatLon(47.715, 12.646111), new(713)),
-            [ActivityTypes.NordicSki, ActivityTypes.Biathlon, ActivityTypes.RollerSki],
+            [ActivityType.NordicSki, ActivityType.Biathlon, ActivityType.RollerSki],
             null,
             Address.Create(
                 country: "Germany",
@@ -145,7 +145,7 @@ public sealed class Spot : EntityBase<SpotId>
             SpotId.FromValue(Guid.Parse("be969cb6-9f06-420c-8597-a091b0a80c07")),
             Title.FromValue("Antholz-Anterselva biathlon stadium - f"),
             GeoCoordinate.FromLocation(GeoLocation.FromLatLon(46.884167, 12.153611)),
-            [ActivityTypes.NordicSki, ActivityTypes.Biathlon],
+            [ActivityType.NordicSki, ActivityType.Biathlon],
             null,
             Address.Create(
                 country: "Italy",
@@ -157,7 +157,7 @@ public sealed class Spot : EntityBase<SpotId>
             SpotId.FromValue(Guid.Parse("c1f217ea-49f1-4f89-89c3-9df38c15015e")),
             Title.FromValue("Lenzerheide - Roland Arena - World 2025 - f"),
             GeoCoordinate.FromLocationWithAltitude(GeoLocation.FromLatLon(46.692222, 9.558333), new(1400)),
-            [ActivityTypes.NordicSki, ActivityTypes.Biathlon, ActivityTypes.RollerSki],
+            [ActivityType.NordicSki, ActivityType.Biathlon, ActivityType.RollerSki],
             null,
             Address.Create(
                 country: "Switzerland",
@@ -169,7 +169,7 @@ public sealed class Spot : EntityBase<SpotId>
             SpotId.FromValue(Guid.Parse("263a2409-b30f-47d6-a565-b6d57d63e286")),
             Title.FromValue("Nové Město na Moravě - Vysočina Arena - f"),
             GeoCoordinate.FromLocationWithAltitude(GeoLocation.FromLatLon(49.578056, 16.052778), new(822)),
-            [ActivityTypes.NordicSki, ActivityTypes.Biathlon, ActivityTypes.RollerSki],
+            [ActivityType.NordicSki, ActivityType.Biathlon, ActivityType.RollerSki],
             null,
             Address.Create(
                 country: "Czech Republic",
@@ -181,7 +181,7 @@ public sealed class Spot : EntityBase<SpotId>
             SpotId.FromValue(Guid.Parse("2a998154-23a4-4a85-aae3-ed15763f1259")),
             Title.FromValue("Pokljuka biathlon stadium - f"),
             GeoCoordinate.FromLocationWithAltitude(GeoLocation.FromLatLon(46.236111, 14.408889), new(1330)),
-            [ActivityTypes.NordicSki, ActivityTypes.Biathlon, ActivityTypes.RollerSki],
+            [ActivityType.NordicSki, ActivityType.Biathlon, ActivityType.RollerSki],
             null,
             Address.Create(
                 country: "Slovenija",
@@ -193,7 +193,7 @@ public sealed class Spot : EntityBase<SpotId>
             SpotId.FromValue(Guid.Parse("b4926828-74de-4adf-88dc-3a40212d57b8")),
             Title.FromValue("Holmenkollen Ski Arena - f"),
             GeoCoordinate.FromLocationWithAltitude(GeoLocation.FromLatLon(59.964444, 10.670833), new(330)),
-            [ActivityTypes.NordicSki, ActivityTypes.Biathlon, ActivityTypes.RollerSki, ActivityTypes.Workout],
+            [ActivityType.NordicSki, ActivityType.Biathlon, ActivityType.RollerSki, ActivityType.Workout],
             null,
             Address.Create(
                 country: "Norway",

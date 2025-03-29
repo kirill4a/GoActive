@@ -68,7 +68,7 @@ public class FeatureExtensionsTests
     public void ExtractEnumValues_WhenIncorrectArguments_ShouldThrowArgumentException(IFeature? feature, string? attributeName)
     {
         // Act
-        var act = () => feature!.ExtractEnumValues<ActivityTypes>(attributeName!);
+        var act = () => feature!.ExtractEnumValues<ActivityType>(attributeName!);
 
         // Assert
         act.Should().Throw<ArgumentException>();
@@ -79,7 +79,7 @@ public class FeatureExtensionsTests
     public void ExtractEnumValues_WhenEnumTypeMismatchData_ShouldThrowInvalidCastException(IFeature? feature, string? attributeName)
     {
         // Act
-        var act = () => feature!.ExtractEnumValues<ActivityTypes>(attributeName!);
+        var act = () => feature!.ExtractEnumValues<ActivityType>(attributeName!);
 
         // Assert
         act.Should().Throw<InvalidCastException>();
@@ -90,7 +90,7 @@ public class FeatureExtensionsTests
     public void ExtractEnumValues_WhenUnexpectedData_ShouldReturnNull(IFeature feature, string attributeName)
     {
         // Act
-        var enumValues = feature.ExtractEnumValues<ActivityTypes>(attributeName);
+        var enumValues = feature.ExtractEnumValues<ActivityType>(attributeName);
 
         // Assert
         enumValues.Should().BeNull();
@@ -105,7 +105,7 @@ public class FeatureExtensionsTests
         var expectedActivities = FakeSpotFeature.Activities;
 
         // Act
-        var activities = feature.ExtractEnumValues<ActivityTypes>(attributeName);
+        var activities = feature.ExtractEnumValues<ActivityType>(attributeName);
 
         // Assert
         activities.Should().NotBeNull();

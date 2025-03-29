@@ -21,7 +21,7 @@ public sealed record GetSpotResult
     /// <summary>
     /// Activities supported by the spot
     /// </summary>
-    public required IEnumerable<ActivityTypes> Activities { get; init; }
+    public required IEnumerable<ActivityType> Activities { get; init; }
 
     /// <summary>
     /// Spot location

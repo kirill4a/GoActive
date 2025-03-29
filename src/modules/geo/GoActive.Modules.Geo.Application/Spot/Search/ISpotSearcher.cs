@@ -12,7 +12,7 @@ public interface ISpotSearcher
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The collection of spots satisfying query conditions.</returns>
     Task<IReadOnlyCollection<SearchSpotResult>> SearchBySpot(string queryString,
-                                                             IReadOnlyCollection<ActivityTypes> activities,
+                                                             IReadOnlyCollection<ActivityType> activities,
                                                              CancellationToken cancellationToken);
 
     /// <summary>
@@ -23,6 +23,6 @@ public interface ISpotSearcher
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The collection of spots satisfying query conditions.</returns>
     Task<IReadOnlyCollection<SearchSpotResult>> SearchByAddress(string queryString,
-                                                                IReadOnlyCollection<ActivityTypes> activities,
+                                                                IReadOnlyCollection<ActivityType> activities,
                                                                 CancellationToken cancellationToken);
 }

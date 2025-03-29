@@ -16,7 +16,7 @@ internal sealed class SearchSpotsEndpoint : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapGet("spots",
                    async Task<Results<ProblemHttpResult, Ok<SearchSpotsResponse>>> ([FromQuery(Name = "q")] string queryText,
-                                                                                    [FromQuery] ActivityTypes[]? activities,
+                                                                                    [FromQuery] ActivityType[]? activities,
                                                                                     ISender sender,
                                                                                     CancellationToken cancellation) =>
         {

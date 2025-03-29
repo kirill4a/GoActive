@@ -8,12 +8,12 @@ namespace GoActive.Modules.Geo.Domain.Tests.SketchTests;
 
 public class TestSketch
 {
-    public static readonly TheoryData<SketchId, Title, GeoCoordinate, IReadOnlyCollection<ActivityTypes>> WrongArguments = [];
+    public static readonly TheoryData<SketchId, Title, GeoCoordinate, IReadOnlyCollection<ActivityType>> WrongArguments = [];
 
     private static readonly SketchId Id = SketchId.FromValue(Guid.NewGuid());
     private static readonly Title Title = Title.FromValue("QWERTY");
     private static readonly GeoCoordinate LocationPoint = GeoCoordinate.FromLocation(GeoLocation.FromLatLon(57.11d, 37.08));
-    private static readonly ActivityTypes Activity = ActivityTypes.NordicSki;
+    private static readonly ActivityType Activity = ActivityType.NordicSki;
 
     static TestSketch()
     {
@@ -28,7 +28,7 @@ public class TestSketch
     public void Create_FromWrongValues_ShouldThrowException(SketchId id,
                                                             Title title,
                                                             GeoCoordinate locationPoint,
-                                                            IReadOnlyCollection<ActivityTypes> activityTypes)
+                                                            IReadOnlyCollection<ActivityType> activityTypes)
     {
         // Act
         var function = () => Sketch.Create(id, title, locationPoint, activityTypes);
@@ -41,7 +41,7 @@ public class TestSketch
     public void Create_FromValidValue_ShouldCreatedAndFilled()
     {
         // Act
-        var expectedActivities = new ActivityTypes[] { Activity };
+        var expectedActivities = new ActivityType[] { Activity };
         var sketch = Sketch.Create(Id, Title, LocationPoint, expectedActivities);
 
         // Assert
@@ -69,8 +69,8 @@ public class TestSketch
     public void TwoSketch_WithSameIds_ShouldBeEqual()
     {
         // Arrange
-        var skiActivity = ActivityTypes.NordicSki;
-        var workoutActivity = ActivityTypes.Workout;
+        var skiActivity = ActivityType.NordicSki;
+        var workoutActivity = ActivityType.Workout;
 
         // Act
         var sketchSki = Sketch.Create(Id, Title, LocationPoint, [skiActivity]);

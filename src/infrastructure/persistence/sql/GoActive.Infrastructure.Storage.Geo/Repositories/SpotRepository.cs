@@ -13,7 +13,7 @@ namespace GoActive.Infrastructure.Storage.Geo.Repositories;
 internal class SpotRepository(IGeoContext context) : ISpotSearcher, ISpotCreator
 {
     public async Task<IReadOnlyCollection<SearchSpotResult>> SearchBySpot(string queryString,
-                                                                           IReadOnlyCollection<ActivityTypes> activities,
+                                                                           IReadOnlyCollection<ActivityType> activities,
                                                                            CancellationToken cancellationToken)
     {
         var query = GetQuerable()
@@ -25,7 +25,7 @@ internal class SpotRepository(IGeoContext context) : ISpotSearcher, ISpotCreator
     }
 
     public Task<IReadOnlyCollection<SearchSpotResult>> SearchByAddress(string queryString,
-                                                                       IReadOnlyCollection<ActivityTypes> activities,
+                                                                       IReadOnlyCollection<ActivityType> activities,
                                                                        CancellationToken cancellationToken)
     {
         // TODO: Implement search by address
