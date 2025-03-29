@@ -24,6 +24,9 @@ public sealed class Spot : EntityBase<SpotId>
         ArgumentNullException.ThrowIfNull(title);
         ArgumentNullException.ThrowIfNull(activities);
 
+        if (activities.Count == 0)
+            throw new ArgumentException("At least one activity should be specified", nameof(activities));
+
         if (locationPoint == default)
             throw new ArgumentException($"Incorrect location for {nameof(Spot)}: {locationPoint}", nameof(locationPoint));
 
@@ -174,7 +177,7 @@ public sealed class Spot : EntityBase<SpotId>
                 settlement: "Nové Město na Moravě"),
             "Nové Město na Moravě is a top biathlon location in the Czech Republic. The venue has been recognised by the international sports public for its excellent organisation and great spectators, in the heart of scenic Vysočina, a region that especially provides ideal conditions for cross-country skiers in winter."),
 
-             Create(
+            Create(
             SpotId.FromValue(Guid.Parse("2a998154-23a4-4a85-aae3-ed15763f1259")),
             Title.FromValue("Pokljuka biathlon stadium - f"),
             GeoCoordinate.FromLocationWithAltitude(GeoLocation.FromLatLon(46.236111, 14.408889), new(1330)),
@@ -186,6 +189,17 @@ public sealed class Spot : EntityBase<SpotId>
                 settlement: "Bled"),
             "Pokljuka is one of the best known Slovenian plateaus, as it holds world famous biathlon competitions. The plateau is mostly forested; the Šijec peat bog is interesting for its great ecological significance and providing shelter to many animals and plants. Pokljuka is a forested high karst plateau in the Julian Alps. It is the largest closed forest area in the Triglav National Park. It is 20 km long and almost as wide. In a span from 1000 to 1400 m there are around 6300 ha of forests, in which spruce prevails."),
 
+            Create(
+            SpotId.FromValue(Guid.Parse("b4926828-74de-4adf-88dc-3a40212d57b8")),
+            Title.FromValue("Holmenkollen Ski Arena - f"),
+            GeoCoordinate.FromLocationWithAltitude(GeoLocation.FromLatLon(59.964444, 10.670833), new(330)),
+            [ActivityTypes.NordicSki, ActivityTypes.Biathlon, ActivityTypes.RollerSki, ActivityTypes.Workout],
+            null,
+            Address.Create(
+                country: "Norway",
+                region: "",
+                settlement: "Oslo (Vestre Aker)"),
+            "Norway’s capitol city Oslo shines like a crown jewel on the shore of the deep blue Oslofjord. The heart of the inner city runs along the stylish boulevard, Karl Johans Gate from the Royal Palace to the Central Station and harbor. At the harbor, the beautiful Oslo Opera House, with its angular design along the harbor seems to rise from the water, as the city does; pointing towards Holmenkollen perched on a distant mountainside. The Holmenkollen Ski Stadium, legendary in the Nordic sports world is the only complex of its kind in a major capitol city. Its distinctive jumping tower, now in its 19th incarnation dates back to wooden skis and a stone jump ramp in 1892. Biathlon, ski jumping and cross-country World Cups bring hundreds of thousands of spectators to the stadium each winter to enjoy Norway’s most popular sports."),
     ];
 #pragma warning restore SA1201 // Elements should appear in the correct order
 

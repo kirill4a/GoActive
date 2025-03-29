@@ -13,8 +13,9 @@
     </PropertyGroup>
 
     <ItemGroup Condition="'$(IsTestProject)'!='true'">
-        <InternalsVisibleTo Include="GoActive.Modules.Shared.Tests"/>
-        <InternalsVisibleTo Include="GoActive.Modules.Geo.Domain.Tests"/>        
+        <InternalsVisibleTo Include="GoActive.Modules.Geo.Domain.Tests"/>
+        <internalsVisibleTo Include="GoActive.Infrastructure.Import.Tests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(DisableStyleAnalyzers)'!='true'">

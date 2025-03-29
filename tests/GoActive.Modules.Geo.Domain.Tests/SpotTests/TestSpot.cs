@@ -24,6 +24,7 @@ public class TestSpot
         WrongArguments.Add(Id, null!, LocationPoint, [Activity], AddressId, Address, Description);
         WrongArguments.Add(Id, Title, default, [Activity], AddressId, Address, Description);
         WrongArguments.Add(Id, Title, LocationPoint, default!, AddressId, Address, Description);
+        WrongArguments.Add(Id, Title, LocationPoint, [], AddressId, Address, Description);
     }
 
     [Theory]

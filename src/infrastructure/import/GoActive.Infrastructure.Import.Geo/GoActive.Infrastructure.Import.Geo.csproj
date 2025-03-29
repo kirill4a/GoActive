@@ -1,0 +1,6 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="../../../modules/geo/GoActive.Modules.Geo.Application/GoActive.Modules.Geo.Application.csproj" />
+    <ProjectReference Include="../../../modules/shared/GoActive.Shared.Serialization/GoActive.Shared.Serialization.csproj" />
+  </ItemGroup>
+</Project>
