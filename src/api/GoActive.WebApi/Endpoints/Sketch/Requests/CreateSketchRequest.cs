@@ -11,7 +11,7 @@ public record CreateSketchRequest
     /// <summary>
     /// The collection of activity types
     /// </summary>
-    public required IReadOnlyCollection<ActivityTypes> ActivityTypes { get; init; }
+    public required IReadOnlyCollection<ActivityType> ActivityTypes { get; init; }
 
     /// <summary>
     /// Sketch title

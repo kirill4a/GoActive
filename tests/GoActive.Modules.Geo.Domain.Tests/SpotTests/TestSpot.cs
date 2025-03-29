@@ -8,12 +8,12 @@ namespace GoActive.Modules.Geo.Domain.Tests.SpotTests;
 
 public class TestSpot
 {
-    public static readonly TheoryData<SpotId, Title, GeoCoordinate, IReadOnlyCollection<ActivityTypes>, AddressId, Address, string> WrongArguments = [];
+    public static readonly TheoryData<SpotId, Title, GeoCoordinate, IReadOnlyCollection<ActivityType>, AddressId, Address, string> WrongArguments = [];
 
     private static readonly SpotId Id = SpotId.FromValue(Guid.NewGuid());
     private static readonly Title Title = Title.FromValue("Test spot title");
     private static readonly GeoCoordinate LocationPoint = GeoCoordinate.FromLocation(GeoLocation.FromLatLon(57.11d, 37.08));
-    private static readonly ActivityTypes Activity = ActivityTypes.NordicSki;
+    private static readonly ActivityType Activity = ActivityType.NordicSki;
     private static readonly AddressId AddressId = AddressId.FromValue(Guid.NewGuid());
     private static readonly Address Address = Address.Create("AQ");
     private static readonly string Description = "Any description";
@@ -32,7 +32,7 @@ public class TestSpot
     public void Create_FromWrongValues_ShouldThrowException(SpotId id,
                                                             Title title,
                                                             GeoCoordinate locationPoint,
-                                                            IReadOnlyCollection<ActivityTypes> activityTypes,
+                                                            IReadOnlyCollection<ActivityType> activityTypes,
                                                             AddressId addressId,
                                                             Address address,
                                                             string description)
@@ -76,8 +76,8 @@ public class TestSpot
     public void TwoSpot_WithSameIds_ShouldBeEqual()
     {
         // Arrange
-        var skiActivity = ActivityTypes.NordicSki;
-        var workoutActivity = ActivityTypes.Workout;
+        var skiActivity = ActivityType.NordicSki;
+        var workoutActivity = ActivityType.Workout;
 
         // Act
         var spotSki = Spot.Create(Id, Title, LocationPoint, [skiActivity]);

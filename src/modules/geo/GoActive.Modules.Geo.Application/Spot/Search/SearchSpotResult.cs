@@ -11,4 +11,4 @@ namespace GoActive.Modules.Geo.Application.Spot.Search;
 /// <param name="Title">Spot title.</param>
 /// <param name="Address">Spot address.</param>
 /// <param name="Activities">Activities supported by the spot.</param>
-public record SearchSpotResult(Guid Id, GeoLocationDto Location, string Title, string? Address, IEnumerable<ActivityTypes> Activities);
+public record SearchSpotResult(Guid Id, GeoLocationDto Location, string Title, string? Address, IEnumerable<ActivityType> Activities);

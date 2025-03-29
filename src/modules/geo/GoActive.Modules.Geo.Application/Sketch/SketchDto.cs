@@ -10,4 +10,4 @@ namespace GoActive.Modules.Geo.Application.Sketch;
 /// <param name="Title">Sketch title</param>
 /// <param name="Location">Sketch location</param>
 /// <param name="ActivityTypes">Activities supported by the sketch</param>
-public sealed record SketchDto(Guid Id, string Title, GeoLocationDto Location, IEnumerable<ActivityTypes> ActivityTypes);
+public sealed record SketchDto(Guid Id, string Title, GeoLocationDto Location, IEnumerable<ActivityType> ActivityTypes);

@@ -30,7 +30,7 @@ public sealed record CreateSpotDto
     /// <summary>
     /// Spot activities.
     /// </summary>
-    public required IReadOnlyCollection<ActivityTypes> Activities { get; init; }
+    public required IReadOnlyCollection<ActivityType> Activities { get; init; }
 
     /// <summary>
     /// Spot description.
