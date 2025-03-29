@@ -12,5 +12,5 @@ namespace GoActive.Modules.Geo.Application.Spot.Locate;
 /// </summary>
 /// <param name="MapRegion">Map boundary to search within</param>
 /// <param name="ActivityTypes">Activities to search</param>
-public record class LocateSpotsQuery(IEnumerable<GeoLocationDto> MapRegion, params ActivityTypes[] ActivityTypes)
+public record class LocateSpotsQuery(IEnumerable<GeoLocationDto> MapRegion, params ActivityType[] ActivityTypes)
     : IQuery<Result<LocateSpotResult[]>>;

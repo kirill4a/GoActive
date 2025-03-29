@@ -22,7 +22,7 @@ internal class SpotConfiguration : IEntityTypeConfiguration<Spot>
 
         builder
             .Property(x => x.ActivityTypes)
-            .HasDefaultValue(Array.Empty<ActivityTypes>())
+            .HasDefaultValue(Array.Empty<ActivityType>())
             .HasReadOnlyCollectionJsonConversion(JsonSerializerCustom.EnumSerializerOptions);
 
         builder

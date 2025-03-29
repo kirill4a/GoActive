@@ -10,7 +10,7 @@ namespace GoActive.Modules.Geo.Domain.SketchAggregate;
 /// </summary>
 public sealed class Sketch : EntityBase<SketchId>
 {
-    private Sketch(SketchId id, Title title, GeoCoordinate locationPoint, IReadOnlyCollection<ActivityTypes> activityTypes)
+    private Sketch(SketchId id, Title title, GeoCoordinate locationPoint, IReadOnlyCollection<ActivityType> activityTypes)
         : base(id)
     {
         ArgumentNullException.ThrowIfNull(title);
@@ -27,9 +27,9 @@ public sealed class Sketch : EntityBase<SketchId>
 
     public Title Title { get; }
     public GeoCoordinate LocationPoint { get; }
-    public IReadOnlyCollection<ActivityTypes> ActivityTypes { get; }
+    public IReadOnlyCollection<ActivityType> ActivityTypes { get; }
 
-    public static Sketch Create(SketchId id, Title title, GeoCoordinate locationPoint, IReadOnlyCollection<ActivityTypes> activityTypes)
+    public static Sketch Create(SketchId id, Title title, GeoCoordinate locationPoint, IReadOnlyCollection<ActivityType> activityTypes)
     {
         var sketch = new Sketch(id, title, locationPoint, activityTypes)
         {

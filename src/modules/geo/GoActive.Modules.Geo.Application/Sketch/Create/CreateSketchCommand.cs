@@ -7,7 +7,7 @@ namespace GoActive.Modules.Geo.Application.Sketch.Create;
 public sealed record CreateSketchCommand : ICommand<Result<SketchDto>>
 {
     public required string Title { get; init; }
-    public required IReadOnlyCollection<ActivityTypes> ActivityTypes { get; init; }
+    public required IReadOnlyCollection<ActivityType> ActivityTypes { get; init; }
     public required SketchLocation Location { get; init; }
     public double? Altitude { get; init; }
 

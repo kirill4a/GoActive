@@ -3,7 +3,7 @@ namespace GoActive.Shared.Domain.Enums;
 /// <summary>
 /// Available types of activities
 /// </summary>
-public enum ActivityTypes
+public enum ActivityType
 {
     /// <summary>
     /// The nordic skiing

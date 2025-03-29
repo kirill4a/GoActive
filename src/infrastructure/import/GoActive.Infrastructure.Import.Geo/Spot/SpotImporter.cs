@@ -88,11 +88,11 @@ internal sealed class SpotImporter(ISender sender, ILogger<SpotImporter> logger)
         return true;
     }
 
-    private bool TryExtractActivities(IFeature feature, [NotNullWhen(true)] out IReadOnlyCollection<ActivityTypes>? activities)
+    private bool TryExtractActivities(IFeature feature, [NotNullWhen(true)] out IReadOnlyCollection<ActivityType>? activities)
     {
         try
         {
-            activities = feature.ExtractEnumValues<ActivityTypes>(Fields.Activities);
+            activities = feature.ExtractEnumValues<ActivityType>(Fields.Activities);
         }
         catch (Exception ex)
         {
