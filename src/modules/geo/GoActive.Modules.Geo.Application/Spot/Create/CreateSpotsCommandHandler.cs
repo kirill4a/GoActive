@@ -8,15 +8,14 @@ using DomainSpot = GoActive.Modules.Geo.Domain.SpotAggregate.Spot;
 
 namespace GoActive.Modules.Geo.Application.Spot.Create;
 
-public class CreateSpotsCommandHandler(ISpotCreator spotCreator, IUnitOfWork unitOfWork) : ICommandHandler<CreateSpotsCommand>
+public class CreateSpotsCommandHandler(ISpotCreator spotCreator, IUnitOfWork unitOfWork) : ICommandHandler<CreateSpotsCommand, int>
 {
-    public async ValueTask<Unit> Handle(CreateSpotsCommand command, CancellationToken cancellationToken)
+    public async ValueTask<int> Handle(CreateSpotsCommand command, CancellationToken cancellationToken)
     {
         var spots = command.SpotDtos.Select(CreateSpot).ToList();
         spotCreator.CreateSpots(spots);
 
-        await unitOfWork.CommitAsync(cancellationToken);
-        return Unit.Value;
+        return await unitOfWork.CommitAsync(cancellationToken);
     }
 
     private static DomainSpot CreateSpot(CreateSpotDto spotDto)

@@ -51,6 +51,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Infrastructure.Sto
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Import", "Import", "{9D8BABB6-F1A7-F0B5-3C5A-B697413C2584}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Infrastructure.Import.Geo", "src\infrastructure\import\GoActive.Infrastructure.Import.Geo\GoActive.Infrastructure.Import.Geo.csproj", "{74B4685B-ABA9-49BA-8887-7F33D860CF9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Infrastructure.Import.Tests", "tests\GoActive.Infrastructure.Import.Tests\GoActive.Infrastructure.Import.Tests.csproj", "{3DD85150-2FCC-48D6-8D27-4B906903D47A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Shared.Serialization", "src\modules\shared\GoActive.Shared.Serialization\GoActive.Shared.Serialization.csproj", "{4AED342A-9846-46FF-8464-AFF53795DED5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Shared.Serialization.Tests", "tests\GoActive.Shared.Serialization.Tests\GoActive.Shared.Serialization.Tests.csproj", "{A119AAFE-4D98-4941-9ED3-8A11ADCE867A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -89,6 +97,22 @@ Global
 		{86331FF0-2F18-4E87-9E18-E8C74AEEBF06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86331FF0-2F18-4E87-9E18-E8C74AEEBF06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86331FF0-2F18-4E87-9E18-E8C74AEEBF06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74B4685B-ABA9-49BA-8887-7F33D860CF9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74B4685B-ABA9-49BA-8887-7F33D860CF9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74B4685B-ABA9-49BA-8887-7F33D860CF9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74B4685B-ABA9-49BA-8887-7F33D860CF9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DD85150-2FCC-48D6-8D27-4B906903D47A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DD85150-2FCC-48D6-8D27-4B906903D47A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DD85150-2FCC-48D6-8D27-4B906903D47A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DD85150-2FCC-48D6-8D27-4B906903D47A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AED342A-9846-46FF-8464-AFF53795DED5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AED342A-9846-46FF-8464-AFF53795DED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AED342A-9846-46FF-8464-AFF53795DED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AED342A-9846-46FF-8464-AFF53795DED5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A119AAFE-4D98-4941-9ED3-8A11ADCE867A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A119AAFE-4D98-4941-9ED3-8A11ADCE867A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A119AAFE-4D98-4941-9ED3-8A11ADCE867A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A119AAFE-4D98-4941-9ED3-8A11ADCE867A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,5 +133,9 @@ Global
 		{C042F2F5-9A57-4B95-997C-D82E67EC7B46} = {ABBC9D48-12F3-035D-B9D5-E20A39667723}
 		{86331FF0-2F18-4E87-9E18-E8C74AEEBF06} = {ABBC9D48-12F3-035D-B9D5-E20A39667723}
 		{9D8BABB6-F1A7-F0B5-3C5A-B697413C2584} = {E65FC243-59A2-471B-B319-530DC7D16E3C}
+		{74B4685B-ABA9-49BA-8887-7F33D860CF9E} = {9D8BABB6-F1A7-F0B5-3C5A-B697413C2584}
+		{3DD85150-2FCC-48D6-8D27-4B906903D47A} = {0A407594-C3CE-416A-A276-5E0E93C0BD58}
+		{4AED342A-9846-46FF-8464-AFF53795DED5} = {D010882A-97FC-447B-9F70-EFDCFACDC069}
+		{A119AAFE-4D98-4941-9ED3-8A11ADCE867A} = {0A407594-C3CE-416A-A276-5E0E93C0BD58}
 	EndGlobalSection
 EndGlobal
