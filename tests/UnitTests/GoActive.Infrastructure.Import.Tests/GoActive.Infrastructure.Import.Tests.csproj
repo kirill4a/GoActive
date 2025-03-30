@@ -6,8 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Mediator.SourceGenerator" />
     <PackageReference Include="FluentAssertions" />  
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Moq" />
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -20,8 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../src/modules/shared/GoActive.Shared.Domain/GoActive.Shared.Domain.csproj" />
-    <ProjectReference Include="../../src/modules/shared/GoActive.Shared.Serialization/GoActive.Shared.Serialization.csproj" />
+    <ProjectReference Include="../../../src/infrastructure/import/GoActive.Infrastructure.Import.Geo/GoActive.Infrastructure.Import.Geo.csproj" />
   </ItemGroup>
 
 </Project>

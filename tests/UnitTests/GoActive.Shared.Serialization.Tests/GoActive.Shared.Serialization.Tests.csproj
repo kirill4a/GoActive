@@ -20,7 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\modules\geo\GoActive.Modules.Geo.Domain\GoActive.Modules.Geo.Domain.csproj" />
+    <ProjectReference Include="../../../src/modules/shared/GoActive.Shared.Domain/GoActive.Shared.Domain.csproj" />
+    <ProjectReference Include="../../../src/modules/shared/GoActive.Shared.Serialization/GoActive.Shared.Serialization.csproj" />
   </ItemGroup>
 
 </Project>
