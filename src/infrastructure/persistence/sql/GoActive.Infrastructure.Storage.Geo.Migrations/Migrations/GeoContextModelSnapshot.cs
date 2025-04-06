@@ -137,6 +137,11 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
+                    b.Property<string>("Description")
+                        .HasMaxLength(2048)
+                        .HasColumnType("character varying(2048)")
+                        .HasColumnName("description");
+
                     b.Property<Point>("Location")
                         .IsRequired()
                         .HasColumnType("geometry (point)")

@@ -15,6 +15,7 @@
     <ItemGroup Condition="'$(IsTestProject)'!='true'">
         <InternalsVisibleTo Include="GoActive.Modules.Geo.Domain.Tests"/>
         <internalsVisibleTo Include="GoActive.Infrastructure.Import.Tests"/>
+        <internalsVisibleTo Include="GoActive.Infrastructure.Import.IntegrationTests"/>
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
     </ItemGroup>
 

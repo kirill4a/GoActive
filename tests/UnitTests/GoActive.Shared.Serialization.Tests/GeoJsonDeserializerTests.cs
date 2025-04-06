@@ -49,13 +49,13 @@ public class GeoJsonDeserializerTests
     [InlineData(null!)]
     [InlineData("")]
     [InlineData("    ")]
-    public void Deserialize_WhenEmptyJson_ShouldThrowArgumentException(string json)
+    public void Deserialize_WhenEmptyJson_ShouldThrowArgumentException(string? json)
     {
         // Arrange
         var serializer = new GeoJsonSerializer();
 
         // Act
-        var act = () => serializer.Deserialize<IFeature>(json);
+        var act = () => serializer.Deserialize<IFeature>(json!);
 
         // Assert
         act.Should().ThrowExactly<ArgumentException>()

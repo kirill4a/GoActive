@@ -29,6 +29,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solutionItems", ".solution
 		assets\c4diagrams\GoActiveFlow-FlowSchema.drawio.png = assets\c4diagrams\GoActiveFlow-FlowSchema.drawio.png
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
+		setup.README.md = setup.README.md
+		tests\IntegrationTests\setup-integration-tests.README.md = tests\IntegrationTests\setup-integration-tests.README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0A407594-C3CE-416A-A276-5E0E93C0BD58}"
@@ -62,6 +64,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Modules.Geo.Domain.Tests", "tests\UnitTests\GoActive.Modules.Geo.Domain.Tests\GoActive.Modules.Geo.Domain.Tests.csproj", "{C68A14EB-538F-4584-89DF-3296A124FE24}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Shared.Serialization.Tests", "tests\UnitTests\GoActive.Shared.Serialization.Tests\GoActive.Shared.Serialization.Tests.csproj", "{33679649-A3A3-42E7-8AB3-82572E6D8465}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Infrastructure.Import.IntegrationTests", "tests\IntegrationTests\GoActive.Infrastructure.Import.IntegrationTests\GoActive.Infrastructure.Import.IntegrationTests.csproj", "{70741BE6-1F2A-4EFE-A01E-773368462702}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,6 +121,10 @@ Global
 		{33679649-A3A3-42E7-8AB3-82572E6D8465}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33679649-A3A3-42E7-8AB3-82572E6D8465}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33679649-A3A3-42E7-8AB3-82572E6D8465}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70741BE6-1F2A-4EFE-A01E-773368462702}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70741BE6-1F2A-4EFE-A01E-773368462702}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70741BE6-1F2A-4EFE-A01E-773368462702}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70741BE6-1F2A-4EFE-A01E-773368462702}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -143,5 +151,6 @@ Global
 		{68543C83-F31B-4D86-905A-E29E2C23B9AE} = {6A090A45-0E9C-9206-0271-39022BCDC1DD}
 		{C68A14EB-538F-4584-89DF-3296A124FE24} = {6A090A45-0E9C-9206-0271-39022BCDC1DD}
 		{33679649-A3A3-42E7-8AB3-82572E6D8465} = {6A090A45-0E9C-9206-0271-39022BCDC1DD}
+		{70741BE6-1F2A-4EFE-A01E-773368462702} = {1B5D89C5-053D-F492-FFEE-BA683369F8E7}
 	EndGlobalSection
 EndGlobal

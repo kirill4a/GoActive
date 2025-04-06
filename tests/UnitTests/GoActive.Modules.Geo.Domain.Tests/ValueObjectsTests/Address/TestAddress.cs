@@ -54,13 +54,13 @@ public class TestAddress
                                                            string? region,
                                                            string? settlement,
                                                            string? street,
-                                                           string textToSearch)
+                                                           string? textToSearch)
     {
         // Arrange
         var address = Address.Create(country, region, settlement, street);
 
         // Act
-        var contains = address.Contains(textToSearch);
+        var contains = address.Contains(textToSearch!);
 
         // Assert
         contains.Should().BeFalse();
@@ -97,13 +97,13 @@ public class TestAddress
     [InlineData(null, null, "Bled", "Upper Carniola", null, "SI", "Bled, Upper Carniola, SI")]
     [InlineData("15a", "Cesta Svobode", "Bled", null, null, "SI", "15a, Cesta Svobode, Bled, SI")]
     [InlineData("15a", "Cesta Svobode", "Bled", "Upper Carniola", "4283", "SI", "15a, Cesta Svobode, Bled, Upper Carniola, 4283, SI")]
-    public void ToString_ShouldBeStringWithSeparator(string building,
+    public void ToString_ShouldBeStringWithSeparator(string? building,
                                                      string? street,
                                                      string? settlement,
                                                      string? region,
-                                                     string postCode,
+                                                     string? postCode,
                                                      string country,
-                                                     string expectedText)
+                                                     string? expectedText)
     {
         // Arrange
         var address = Address.Create(country, region, settlement, street, building, postCode);

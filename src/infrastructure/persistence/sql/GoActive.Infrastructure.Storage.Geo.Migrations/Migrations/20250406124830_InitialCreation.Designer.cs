@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
 {
     [DbContext(typeof(GeoContext))]
-    [Migration("20250306181844_InitialCreation")]
+    [Migration("20250406124830_InitialCreation")]
     partial class InitialCreation
     {
         /// <inheritdoc />
@@ -139,6 +139,11 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(2048)
+                        .HasColumnType("character varying(2048)")
+                        .HasColumnName("description");
 
                     b.Property<Point>("Location")
                         .IsRequired()

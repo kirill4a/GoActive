@@ -87,10 +87,10 @@ public class FeatureExtensionsTests
 
     [Theory]
     [MemberData(nameof(UnexpectedData))]
-    public void ExtractEnumValues_WhenUnexpectedData_ShouldReturnNull(IFeature feature, string attributeName)
+    public void ExtractEnumValues_WhenUnexpectedData_ShouldReturnNull(IFeature? feature, string? attributeName)
     {
         // Act
-        var enumValues = feature.ExtractEnumValues<ActivityType>(attributeName);
+        var enumValues = feature!.ExtractEnumValues<ActivityType>(attributeName!);
 
         // Assert
         enumValues.Should().BeNull();
