@@ -77,10 +77,10 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
                         .HasColumnType("geometry (point)")
                         .HasColumnName("location");
 
-                    b.Property<string>("PostCode")
+                    b.Property<string>("PostalCode")
                         .HasMaxLength(17)
                         .HasColumnType("character varying(17)")
-                        .HasColumnName("post_code");
+                        .HasColumnName("postal_code");
 
                     b.Property<string>("Region")
                         .HasMaxLength(128)
@@ -177,7 +177,7 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
                     b.HasOne("GoActive.Infrastructure.Storage.Geo.Entities.Address", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId")
-                        .HasConstraintName("fk_spots_address_address_id");
+                        .HasConstraintName("fk_spots_addresses_address_id");
 
                     b.Navigation("Address");
                 });

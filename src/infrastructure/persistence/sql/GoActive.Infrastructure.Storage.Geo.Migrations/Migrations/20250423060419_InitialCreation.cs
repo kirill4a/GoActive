@@ -30,7 +30,7 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
                     settlement = table.Column<string>(type: "character varying(82)", maxLength: 82, nullable: true),
                     street = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
                     building = table.Column<string>(type: "character varying(17)", maxLength: 17, nullable: true),
-                    post_code = table.Column<string>(type: "character varying(17)", maxLength: 17, nullable: true),
+                    postal_code = table.Column<string>(type: "character varying(17)", maxLength: 17, nullable: true),
                     hash = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     location = table.Column<Point>(type: "geometry (point)", nullable: false),
                     is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
@@ -59,7 +59,7 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
                 {
                     table.PrimaryKey("pk_spots", x => x.id);
                     table.ForeignKey(
-                        name: "fk_spots_address_address_id",
+                        name: "fk_spots_addresses_address_id",
                         column: x => x.address_id,
                         principalTable: "addresses",
                         principalColumn: "id");

@@ -48,7 +48,7 @@ internal class AddressConfiguration : IEntityTypeConfiguration<Address>
             .HasMaxLength(17);
 
         builder
-            .Property(x => x.PostCode)
+            .Property(x => x.PostalCode)
             .HasMaxLength(17);
 
         builder

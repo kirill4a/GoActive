@@ -1,4 +1,4 @@
-namespace GoActive.Infrastructure.Storage.Geo.Enums;
+namespace GoActive.Modules.Geo.Application.Address;
 
 /// <summary>
 /// The source of address data.

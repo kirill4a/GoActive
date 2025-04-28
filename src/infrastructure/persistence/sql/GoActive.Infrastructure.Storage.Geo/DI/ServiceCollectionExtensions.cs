@@ -1,6 +1,7 @@
 using System.Reflection;
 
 using GoActive.Infrastructure.Storage.Geo.Repositories;
+using GoActive.Modules.Geo.Application.Address;
 using GoActive.Modules.Geo.Application.Shared.Storage;
 using GoActive.Modules.Geo.Application.Spot.Create;
 using GoActive.Modules.Geo.Application.Spot.Search;
@@ -63,6 +64,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<SpotRepository>()
                 .AddScoped<ISpotCreator>(sp => sp.GetRequiredService<SpotRepository>())
                 .AddScoped<ISpotSearcher>(sp => sp.GetRequiredService<SpotRepository>());
+
+        services.AddScoped<AddressRepository>()
+                .AddScoped<IAddressCreator>(sp => sp.GetRequiredService<AddressRepository>());
 
         return services;
     }

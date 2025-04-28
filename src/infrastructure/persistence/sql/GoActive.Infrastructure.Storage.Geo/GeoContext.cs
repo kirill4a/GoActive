@@ -9,6 +9,7 @@ namespace GoActive.Infrastructure.Storage.Geo;
 internal class GeoContext(DbContextOptions<GeoContext> options) : DbContext(options), IGeoContext, IUnitOfWork
 {
     public DbSet<Spot> Spots { get; init; }
+    public DbSet<Address> Addresses { get; init; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

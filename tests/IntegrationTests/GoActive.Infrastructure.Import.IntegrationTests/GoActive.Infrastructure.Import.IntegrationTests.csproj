@@ -27,6 +27,7 @@
   <ItemGroup>
     <ProjectReference Include="../../../src/infrastructure/import/GoActive.Infrastructure.Import.Geo/GoActive.Infrastructure.Import.Geo.csproj" />
     <ProjectReference Include="../../../src/infrastructure/persistence/sql/GoActive.Infrastructure.Storage.Geo.Migrations/GoActive.Infrastructure.Storage.Geo.Migrations.csproj" />
+    <ProjectReference Include="../../Common/GoActive.Tests.Common/GoActive.Tests.Common.csproj" />
   </ItemGroup>
 
 </Project>
