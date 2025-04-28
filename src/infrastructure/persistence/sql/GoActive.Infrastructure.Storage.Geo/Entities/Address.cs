@@ -1,4 +1,4 @@
-using GoActive.Infrastructure.Storage.Geo.Enums;
+using GoActive.Modules.Geo.Application.Address;
 
 using NetTopologySuite.Geometries;
 
@@ -58,7 +58,7 @@ internal class Address : Entity
   /// <summary>
   /// The postal code.
   /// </summary>
-  public string? PostCode { get; set; }
+  public string? PostalCode { get; set; }
 
   /// <summary>
   /// The hash (checksum) of the address valuable fields (country, district, region etc).

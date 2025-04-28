@@ -10,4 +10,5 @@ namespace GoActive.Infrastructure.Storage.Geo;
 internal interface IGeoContext : IDisposable
 {
     DbSet<Spot> Spots { get; }
+    DbSet<Address> Addresses { get; }
 }

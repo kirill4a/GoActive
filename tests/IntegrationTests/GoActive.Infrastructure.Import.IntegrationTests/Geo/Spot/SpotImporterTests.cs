@@ -1,5 +1,4 @@
 using System.Configuration;
-using System.Text;
 
 using FluentAssertions;
 
@@ -9,6 +8,7 @@ using GoActive.Infrastructure.Import.Geo.Spot;
 using GoActive.Infrastructure.Import.IntegrationTests.Configuration;
 using GoActive.Infrastructure.Storage.Geo;
 using GoActive.Infrastructure.Storage.Geo.DI;
+using GoActive.Tests.Common;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,10 +21,12 @@ using Testcontainers.PostgreSql;
 
 namespace GoActive.Infrastructure.Import.IntegrationTests.Geo.Spot;
 
+[Trait("Category", "Integration")]
+[Trait("Category", "Geo")]
 public sealed class SpotImporterTests : IAsyncLifetime
 {
     private const string ConfigurationSectionName = "TestContainers";
-    private readonly Mock<ILogger<SpotImporter>> _loggerkMock = new();
+    private readonly Mock<ILogger<SpotImporter>> _loggerMock = new();
     private readonly PostgreSqlContainer _postGisContainer;
     private IServiceProvider _serviceProvider = default!;
 
@@ -82,8 +84,8 @@ public sealed class SpotImporterTests : IAsyncLifetime
         _serviceProvider = new ServiceCollection()
                 .AddGeoStorage(connectionString, migrationsAssembly)
                 .AddMediator(options => options.ServiceLifetime = ServiceLifetime.Scoped)
-                .AddScoped(_ => _loggerkMock.Object)
-                .AddScoped<IGeoJsonLinesImporter, SpotImporter>()
+                .AddScoped(_ => _loggerMock.Object)
+                .AddScoped<IGeoJsonLinesImporter<BatchImportOptions>, SpotImporter>()
                 .BuildServiceProvider();
 
         await using var scope = CreateAsyncScope();
@@ -94,16 +96,54 @@ public sealed class SpotImporterTests : IAsyncLifetime
 
     [Theory]
     [MemberData(nameof(CorrectData))]
-    public async Task ImportSpots_WhenCorrectSource_ShouldImportDoneAndSaveData(string source, ImportResult expectedResult)
+    public async Task ImportSpots_WhenCorrectSource_ShouldSingleImportDone(string source, ImportResult expectedResult)
     {
         // Arrange
-        var importer = _serviceProvider.GetRequiredService<IGeoJsonLinesImporter>();
-        using var stream = MakeStream(source);
+        var importer = _serviceProvider.GetRequiredService<IGeoJsonLinesImporter<BatchImportOptions>>();
+        using var stream = source.AsMemoryStream();
 
         // Act
-        var result = await importer.Import(stream, CancellationToken.None);
+        var result = await importer.Import(stream, default, CancellationToken.None);
 
         // Assert
+        result.Should().NotBeNull();
+        result.Should().Be(expectedResult);
+        await AssertDatabase(async x =>
+        {
+            (await x.Spots.CountAsync()).Should().Be(expectedResult.Successes);
+        });
+    }
+
+    [Fact]
+    public async Task ImportSpots_WhenCorrectSource_ShouldBatchImportDone()
+    {
+        // Arrange
+        const string source = """
+            
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[30.5,50.5]},"properties":{"title":"Spot 2","activities":["Workout"]}}
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[10.5,10.5]},"properties":{"title":"Spot 1","activities":["NordicSki"]}}
+
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[30.5,50.5]},"properties":{"title":"Spot 3","activities":["NordicSki","Workout"]}}
+                
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[30.5,50.5]},"properties":{"title":"Spot 4","activities":["NordicSki","Workout"]}}
+
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[30.5,50.5]},"properties":{"title":"Spot 5","activities":["NordicSki","Workout"]}}
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[30.5,50.5]},"properties":{"title":"Spot 6","activities":["NordicSki","Workout"]}}
+            {"type":"Feature","geometry":{"type":"Point","coordinates":[30.5,50.5]},"properties":{"title":"Spot 7","activities":["NordicSki","Workout"]}}
+                        
+            """;
+        ushort batchSize = 4;
+        var options = new BatchImportOptions { BatchSize = batchSize };
+        var expectedResult = new ImportResult(Total: 7, Successes: 7, Errors: 0);
+
+        var importer = _serviceProvider.GetRequiredService<IGeoJsonLinesImporter<BatchImportOptions>>();
+        using var stream = source.AsMemoryStream();
+
+        // Act
+        var result = await importer.Import(stream, options, CancellationToken.None);
+
+        // Assert
+        // TODO: assert batches (events) counts
         result.Should().NotBeNull();
         result.Should().Be(expectedResult);
         await AssertDatabase(async x =>
@@ -119,11 +159,7 @@ public sealed class SpotImporterTests : IAsyncLifetime
         await context.Database.MigrateAsync();
     }
 
-    private static MemoryStream MakeStream(string content)
-    {
-        var bytes = Encoding.UTF8.GetBytes(content);
-        return new MemoryStream(bytes);
-    }
+    private AsyncServiceScope CreateAsyncScope() => _serviceProvider.CreateAsyncScope();
 
     private Task AssertDatabase(Func<IGeoContext, Task> action) => AssertInNewScope(sp =>
     {
@@ -136,6 +172,4 @@ public sealed class SpotImporterTests : IAsyncLifetime
         await using var scope = CreateAsyncScope();
         await action(scope.ServiceProvider);
     }
-
-    private AsyncServiceScope CreateAsyncScope() => _serviceProvider.CreateAsyncScope();
 }

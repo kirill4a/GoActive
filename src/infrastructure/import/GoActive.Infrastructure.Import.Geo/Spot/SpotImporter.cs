@@ -16,15 +16,19 @@ using static GoActive.Infrastructure.Import.Geo.Spot.SpotConstants;
 
 namespace GoActive.Infrastructure.Import.Geo.Spot;
 
-internal sealed class SpotImporter(ISender sender, ILogger<SpotImporter> logger) : FeaturesImporter(logger)
+internal sealed class SpotImporter(ISender sender, ILogger<SpotImporter> logger) : FeaturesImporter<BatchImportOptions>(logger)
 {
-    private readonly HashSet<string> _requiedFields =
+    protected override HashSet<string> RequiedFields =>
     [
         Fields.Title,
         Fields.Activities,
     ];
 
-    internal override async ValueTask<ImportResult> HandleFeatures(IReadOnlyCollection<IFeature> features, CancellationToken cancellation)
+    protected override BatchImportOptions? GetBatchOptions(BatchImportOptions options) => options;
+
+    protected override async ValueTask<ImportResult> HandleFeatures(IReadOnlyCollection<IFeature> features,
+                                                                    BatchImportOptions options,
+                                                                    CancellationToken cancellation)
     {
         var errorCount = 0;
         var dtos = new List<CreateSpotDto>(features.Count);
@@ -54,10 +58,10 @@ internal sealed class SpotImporter(ISender sender, ILogger<SpotImporter> logger)
     {
         spotDto = null;
 
-        var missingFields = _requiedFields.Except(feature.Attributes.GetNames()).ToArray();
-        if (missingFields.Length != 0)
+        if (!ValidateRequiredFields(feature) ||
+            !ValidateRequiredValue(feature, Fields.Title, out var title) ||
+            !ValidateRequiredValue(feature, Fields.Activities, out _))
         {
-            logger.LogError("Missing required fields: '{RequiredFields}'", string.Join(", ", missingFields));
             return false;
         }
 
@@ -76,7 +80,7 @@ internal sealed class SpotImporter(ISender sender, ILogger<SpotImporter> logger)
         var addressIdString = feature.Attributes.GetOptionalValue(Fields.AddressId)?.ToString();
         spotDto = new CreateSpotDto
         {
-            Title = feature.Attributes[Fields.Title].ToString()!,
+            Title = title,
             Activities = activities,
             Latitude = point.X,
             Longitude = point.Y,

@@ -63,7 +63,7 @@ internal class SpotRepository(IGeoContext context) : ISpotSearcher, ISpotCreator
     private static string FlattenAddress(Address? address)
         =>
         address is null ? string.Empty
-        : DomainAddress.Create(address.Country, address.Region, address.Settlement, address.Street, address.Building, address.PostCode).ToString();
+        : DomainAddress.Create(address.Country, address.Region, address.Settlement, address.Street, address.Building, address.PostalCode).ToString();
 
     private IQueryable<Spot> GetQuerable()
     {
