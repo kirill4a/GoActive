@@ -82,7 +82,7 @@ public sealed class OpenAddressesImporterTests
         result.Should().NotBeNull();
         result.Should().Be(expectedResult);
         _addressCreatorMock.Verify(
-            x => x.CreateAddresses(It.IsAny<IReadOnlyCollection<CreateAddressDto>>(), It.IsAny<CancellationToken>()),
+            x => x.UpsertAddresses(It.IsAny<IReadOnlyCollection<CreateAddressDto>>(), It.IsAny<CancellationToken>()),
             Times.Never);
     }
 
@@ -115,7 +115,7 @@ public sealed class OpenAddressesImporterTests
         result.Should().NotBeNull();
         result.Should().Be(expectedResult);
         _addressCreatorMock.Verify(
-            x => x.CreateAddresses(It.IsAny<IReadOnlyCollection<CreateAddressDto>>(), It.IsAny<CancellationToken>()),
+            x => x.UpsertAddresses(It.IsAny<IReadOnlyCollection<CreateAddressDto>>(), It.IsAny<CancellationToken>()),
             Times.Never);
     }
 
@@ -138,7 +138,7 @@ public sealed class OpenAddressesImporterTests
         result.Should().NotBeNull();
         result.Should().Be(expectedResult);
         _addressCreatorMock.Verify(
-            x => x.CreateAddresses(It.IsAny<IReadOnlyCollection<CreateAddressDto>>(), It.IsAny<CancellationToken>()),
+            x => x.UpsertAddresses(It.IsAny<IReadOnlyCollection<CreateAddressDto>>(), It.IsAny<CancellationToken>()),
             Times.Never);
     }
 
@@ -175,7 +175,7 @@ public sealed class OpenAddressesImporterTests
         var expectedResult = new ImportResult(Total: 12, Successes: 12, Errors: 0);
 
         _addressCreatorMock
-            .Setup(x => x.CreateAddresses(It.IsAny<IReadOnlyCollection<CreateAddressDto>>(), It.IsAny<CancellationToken>()))
+            .Setup(x => x.UpsertAddresses(It.IsAny<IReadOnlyCollection<CreateAddressDto>>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(batchSize);
         using var stream = source.AsMemoryStream();
 
@@ -187,7 +187,7 @@ public sealed class OpenAddressesImporterTests
         result.Should().NotBeNull();
         result.Should().Be(expectedResult);
         _addressCreatorMock.Verify(
-            x => x.CreateAddresses(It.IsAny<IReadOnlyCollection<CreateAddressDto>>(), It.IsAny<CancellationToken>()),
+            x => x.UpsertAddresses(It.IsAny<IReadOnlyCollection<CreateAddressDto>>(), It.IsAny<CancellationToken>()),
             Times.Exactly(3));
     }
 }

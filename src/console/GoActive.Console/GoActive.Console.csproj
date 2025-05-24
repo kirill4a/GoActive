@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <UserSecretsId>ee28b0fb-2ee5-4b48-a0ef-d84288b63bed</UserSecretsId>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" />
+    <PackageReference Include="System.CommandLine.Hosting" />
+    <PackageReference Include="System.CommandLine.NamingConventionBinder" />
+    <PackageReference Include="Mediator.SourceGenerator" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../infrastructure/import/GoActive.Infrastructure.Import.Geo/GoActive.Infrastructure.Import.Geo.csproj" />
+    <ProjectReference Include="../../infrastructure/persistence/sql/GoActive.Infrastructure.Storage.Geo.Migrations/GoActive.Infrastructure.Storage.Geo.Migrations.csproj" />
+    <ProjectReference Include="../../modules/geo/GoActive.Modules.Geo.Application/GoActive.Modules.Geo.Application.csproj" />
+  </ItemGroup>
+
+</Project>

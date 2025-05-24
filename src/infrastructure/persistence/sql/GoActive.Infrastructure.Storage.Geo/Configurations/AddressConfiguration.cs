@@ -25,7 +25,7 @@ internal class AddressConfiguration : IEntityTypeConfiguration<Address>
         builder
             .Property(x => x.Country)
             .HasMaxLength(2)
-            .HasColumnType("char(2)");
+            .IsFixedLength(fixedLength: true);
 
         builder
             .Property(x => x.Region)
@@ -65,5 +65,9 @@ internal class AddressConfiguration : IEntityTypeConfiguration<Address>
 
         builder
             .HasIndex(x => x.Country);
+
+        builder
+            .HasIndex(x => new { x.Source, x.ExternalId })
+            .IsUnique();
     }
 }

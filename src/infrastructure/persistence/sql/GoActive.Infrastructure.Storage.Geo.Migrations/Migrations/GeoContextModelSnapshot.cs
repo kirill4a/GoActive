@@ -42,8 +42,9 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
                     b.Property<string>("Country")
                         .IsRequired()
                         .HasMaxLength(2)
-                        .HasColumnType("char(2)")
-                        .HasColumnName("country");
+                        .HasColumnType("character(2)")
+                        .HasColumnName("country")
+                        .IsFixedLength();
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -111,6 +112,10 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
 
                     b.HasIndex("Country")
                         .HasDatabaseName("ix_addresses_country");
+
+                    b.HasIndex("Source", "ExternalId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_addresses_source_external_id");
 
                     b.ToTable("addresses", (string)null);
                 });
