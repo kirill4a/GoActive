@@ -24,7 +24,7 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     source = table.Column<string>(type: "text", nullable: false),
                     external_id = table.Column<string>(type: "character varying(31)", maxLength: 31, nullable: false),
-                    country = table.Column<string>(type: "char(2)", maxLength: 2, nullable: false),
+                    country = table.Column<string>(type: "character(2)", fixedLength: true, maxLength: 2, nullable: false),
                     region = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
                     district = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
                     settlement = table.Column<string>(type: "character varying(82)", maxLength: 82, nullable: true),
@@ -69,6 +69,12 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
                 name: "ix_addresses_country",
                 table: "addresses",
                 column: "country");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_addresses_source_external_id",
+                table: "addresses",
+                columns: new[] { "source", "external_id" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "ix_spots_address_id",

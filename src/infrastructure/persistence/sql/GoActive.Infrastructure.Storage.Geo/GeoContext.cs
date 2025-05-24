@@ -1,3 +1,5 @@
+using EFCore.BulkExtensions;
+
 using GoActive.Infrastructure.Storage.Geo.Entities;
 using GoActive.Infrastructure.Storage.Geo.Extensions;
 using GoActive.Modules.Geo.Application.Shared.Storage;
@@ -46,5 +48,26 @@ internal class GeoContext(DbContextOptions<GeoContext> options) : DbContext(opti
                     throw new InvalidOperationException($"Tracked entry state {entry.State} is not supported.");
             }
         }
+    }
+
+    async Task IGeoContext.BulkInsertOrUpdateAsync<TEntity>(IEnumerable<TEntity> entities,
+                                                            Action<BulkConfig> bulkAction,
+                                                            CancellationToken cancellationToken)
+    {
+        static void DatesAction(BulkConfig cfg)
+        {
+            cfg.PropertiesToExcludeOnUpdate =
+            [
+                nameof(Entity.CreatedAt),
+                .. cfg.PropertiesToExcludeOnUpdate ?? [],
+            ];
+        }
+
+        bulkAction += DatesAction;
+
+        await this.BulkInsertOrUpdateAsync(entities,
+                                           bulkAction: bulkAction,
+                                           type: typeof(TEntity),
+                                           cancellationToken: cancellationToken);
     }
 }

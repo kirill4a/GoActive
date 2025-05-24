@@ -7,6 +7,7 @@ using GoActive.Modules.Geo.Application.Spot.Create;
 using GoActive.Modules.Geo.Application.Spot.Search;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -51,6 +52,7 @@ public static class ServiceCollectionExtensions
                                                                 x.MigrationsAssembly(migrationsAssembly);
                                                             }
                                                         })
+                                                        .ConfigureWarnings(warn => warn.Ignore(RelationalEventId.CommandExecuted))
                                                         .UseSnakeCaseNamingConvention());
 
         services.AddScoped<IGeoContext>(sp => sp.GetRequiredService<GeoContext>());

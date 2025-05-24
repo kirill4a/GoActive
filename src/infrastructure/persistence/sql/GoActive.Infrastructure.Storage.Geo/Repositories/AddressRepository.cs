@@ -1,22 +1,34 @@
 using GoActive.Infrastructure.Storage.Geo.Entities;
 using GoActive.Modules.Geo.Application.Address;
-using GoActive.Modules.Geo.Application.Shared.Storage;
 
 namespace GoActive.Infrastructure.Storage.Geo.Repositories;
 
-internal sealed class AddressRepository(IGeoContext context, IUnitOfWork unitOfWork) : IAddressCreator
+internal sealed class AddressRepository(IGeoContext context) : IAddressCreator
 {
-    public async Task<int> CreateAddresses(IReadOnlyCollection<CreateAddressDto> addresses, CancellationToken cancellation)
+    public async Task<int> UpsertAddresses(IReadOnlyCollection<CreateAddressDto> addresses, CancellationToken cancellation)
     {
-        var dbEntities = addresses.Select(Map);
-        context.Addresses.AddRange(dbEntities);
+        var dbEntities = addresses.Select(Map).ToList();
 
-        return await unitOfWork.CommitAsync(cancellation);
+        const int defaultBatchSize = 2_000;
+
+        await context.BulkInsertOrUpdateAsync(
+                    dbEntities,
+                    bulkAction: cfg =>
+                    {
+                        cfg.BatchSize = dbEntities.Count > defaultBatchSize ? dbEntities.Count : defaultBatchSize;
+                        cfg.UpdateByProperties = [nameof(Address.Source), nameof(Address.ExternalId)];
+                        cfg.PropertiesToExcludeOnUpdate = [nameof(Address.Id)];
+                    },
+                    cancellationToken: cancellation);
+
+        return addresses.Count;
     }
 
     private static Address Map(CreateAddressDto address)
-        =>
-        new()
+    {
+        var now = DateTime.UtcNow;
+
+        return new()
         {
             Id = Guid.NewGuid(),
             Source = address.Source,
@@ -31,5 +43,14 @@ internal sealed class AddressRepository(IGeoContext context, IUnitOfWork unitOfW
             Hash = address.Hash,
             Location = address.Location,
             IsActive = true,
+
+            CreatedAt = now,
+            UpdatedAt = now,
         };
+    }
+
+    public void Dispose()
+    {
+        context.Dispose();
+    }
 }

@@ -106,6 +106,10 @@ internal abstract class FeaturesImporter<TOptions>(ILogger logger) : IGeoJsonLin
         var batchResult = await HandleFeatures(batch, options, cancellation);
         batch.Clear();
 
+        logger.LogInformation("Imported next {Count} features. Total imported: {Total}",
+                              batchResult.Successes,
+                              batchResult.Successes + totalResult.Successes);
+
         return totalResult.Concat(batchResult);
     }
 }

@@ -5,6 +5,7 @@ using FluentAssertions;
 using GoActive.Infrastructure.Import.Geo;
 
 using GoActive.Infrastructure.Import.Geo.Address.OpenAddresses;
+using GoActive.Infrastructure.Import.Geo.Extensions;
 using GoActive.Infrastructure.Import.Geo.Models;
 using GoActive.Infrastructure.Import.IntegrationTests.Configuration;
 using GoActive.Infrastructure.Storage.Geo;
@@ -108,7 +109,7 @@ public sealed class OpenAddressesImporterTests : IAsyncLifetime
                 .AddGeoStorage(connectionString, migrationsAssembly)
                 .AddMediator(options => options.ServiceLifetime = ServiceLifetime.Scoped)
                 .AddScoped(_ => _loggerMock.Object)
-                .AddScoped<IGeoJsonLinesImporter<OpenAddressesImportOptions>, OpenAddressesImporter>()
+                .AddOpenAdressesImport()
                 .BuildServiceProvider();
 
         await using var scope = CreateAsyncScope();
@@ -252,6 +253,67 @@ public sealed class OpenAddressesImporterTests : IAsyncLifetime
         });
     }
 
+    [Fact]
+    public async Task ImportAddresses_WhenUpsert_ShouldHaveConsistentData()
+    {
+        // Arrange
+        const string firstCountryCode = "HR";
+        const string secondCountryCode = CountryCode;
+        const string source = """
+
+            {"type": "Feature", "properties": {"hash": "8d0aec538f933efd", "number": "11a", "street": "Ob potoku", "unit": "", "city": "Ljubljana", "district": "Ljubljana", "region": "Osrednjeslovenska", "postcode": "1000", "id": "100400000128271057"}, "geometry": {"type": "Point", "coordinates": [14.5458106, 46.043336]}}
+            {"type": "Feature", "properties": {"hash": "88a41a28c0cb8de9", "number": "43a", "street": "Na Grivi", "unit": "", "city": "Dragomer", "district": "Log-Dragomer", "region": "Osrednjeslovenska", "postcode": "1351", "id": "100400000188011591"}, "geometry": {"type": "Point", "coordinates": [14.3808095, 46.0170259]}}
+            {"type": "Feature", "properties": {"hash": "f9f13ace5318e8c5", "number": "5b", "street": "Ledarska ulica", "unit": "", "city": "Ljubljana", "district": "Ljubljana", "region": "Osrednjeslovenska", "postcode": "1000", "id": "100400000241525298"}, "geometry": {"type": "Point", "coordinates": [14.4703976, 46.0752227]}}
+            {"type": "Feature", "properties": {"hash": "d31c69fd9d24b8b4", "number": "9", "street": "Ragovo", "unit": "", "city": "Novo mesto", "district": "Novo mesto", "region": "Jugovzhodna Slovenija", "postcode": "8000", "id": "100400000138723337"}, "geometry": {"type": "Point", "coordinates": [15.1763958, 45.808046]}}
+                        
+            """;
+        var options = new OpenAddressesImportOptions()
+        {
+            BatchOptions = default,
+            CountryCode = firstCountryCode,
+        };
+        var expectedResult = new ImportResult(Total: 4, Successes: 4, Errors: 0);
+
+        var importer = _serviceProvider.GetRequiredService<IGeoJsonLinesImporter<OpenAddressesImportOptions>>();
+        using var insertStream = source.AsMemoryStream();
+        using var updateStream = source.AsMemoryStream();
+
+        // Act
+        var insertResult = await importer.Import(insertStream, options, CancellationToken.None);
+        await Task.Delay(100);
+        var timestamp = DateTime.UtcNow;
+
+        // Assert
+        insertResult.Should().NotBeNull();
+        insertResult.Should().Be(expectedResult);
+        await AssertDatabase(async x =>
+        {
+            (await x.Addresses.CountAsync(x => x.Country == firstCountryCode)).Should().Be(expectedResult.Successes);
+            (await x.Addresses.AnyAsync(x => x.Country == secondCountryCode)).Should().BeFalse();
+            (await x.Addresses.AllAsync(x => x.CreatedAt < timestamp && x.UpdatedAt < timestamp)).Should().BeTrue();
+        });
+
+        // Arrange
+        var idsOnInsert = await ExtractIdsFromDatabase(async x => await x.Addresses.Select(a => a.Id).ToListAsync());
+
+        // Act
+        var updateResult = await importer.Import(updateStream, options with { CountryCode = secondCountryCode }, CancellationToken.None);
+
+        // Assert
+        updateResult.Should().NotBeNull();
+        updateResult.Should().Be(expectedResult);
+
+        var idsOnUpdate = await ExtractIdsFromDatabase(async x => await x.Addresses.Select(a => a.Id).ToListAsync());
+        idsOnUpdate.Should().BeEquivalentTo(idsOnInsert);
+
+        await AssertDatabase(async x =>
+        {
+            (await x.Addresses.AnyAsync(x => x.Country == firstCountryCode)).Should().BeFalse();
+            (await x.Addresses.CountAsync(x => x.Country == secondCountryCode)).Should().Be(expectedResult.Successes);
+            (await x.Addresses.AllAsync(x => x.CreatedAt < timestamp && x.UpdatedAt > timestamp)).Should().BeTrue();
+        });
+    }
+
     private static async Task CreateDatabase(IServiceProvider serviceProvider)
     {
         var context = serviceProvider.GetRequiredService<GeoContext>();
@@ -266,6 +328,13 @@ public sealed class OpenAddressesImporterTests : IAsyncLifetime
         var context = sp.GetRequiredService<IGeoContext>();
         return action(context);
     });
+
+    private async Task<IReadOnlyCollection<Guid>> ExtractIdsFromDatabase(Func<IGeoContext, Task<IReadOnlyCollection<Guid>>> action)
+    {
+        await using var scope = CreateAsyncScope();
+        var context = scope.ServiceProvider.GetRequiredService<IGeoContext>();
+        return await action(context);
+    }
 
     private async Task AssertInNewScope(Func<IServiceProvider, Task> action)
     {

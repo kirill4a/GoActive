@@ -51,7 +51,7 @@ internal sealed class OpenAddressesImporter(IAddressCreator addressCreator, ILog
             return new(features.Count, 0, errorCount);
         }
 
-        var successCount = await addressCreator.CreateAddresses(dtos, cancellation);
+        var successCount = await addressCreator.UpsertAddresses(dtos, cancellation);
 
         return new(features.Count, successCount, errorCount);
     }
