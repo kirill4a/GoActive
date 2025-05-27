@@ -4,14 +4,11 @@ using System.CommandLine.Hosting;
 using System.CommandLine.Parsing;
 
 using GoActive.Console;
-using GoActive.Infrastructure.Import.Geo.Extensions;
 using GoActive.Infrastructure.Storage.Geo.DI;
 
 using Microsoft.Extensions.Hosting;
 
 using Microsoft.Extensions.DependencyInjection;
-using GoActive.Console.Features.Import.Commands;
-using GoActive.Console.Features.Import;
 
 var rootCommand = new GoActive.Console.RootCommand();
 
@@ -31,10 +28,9 @@ var parser = new CommandLineBuilder(rootCommand)
                     {
                         services.AddGeoStorage()
                                 .AddMediator(options => options.ServiceLifetime = ServiceLifetime.Scoped)
-                                .AddOpenAdressesImport()
-                                .AddScoped<AddressImportStrategy>();
+                                .AddImports();
                     })
-                    .UseCommandHandler<ImportAddressCommand, ImportAddressCommand.CommandHandler>();
+                    .UseCommandHandlers();
                 })
     .Build();
 

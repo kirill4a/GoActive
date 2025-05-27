@@ -3,6 +3,7 @@ using System.Configuration;
 using FluentAssertions;
 
 using GoActive.Infrastructure.Import.Geo;
+using GoActive.Infrastructure.Import.Geo.Extensions;
 using GoActive.Infrastructure.Import.Geo.Models;
 using GoActive.Infrastructure.Import.Geo.Spot;
 using GoActive.Infrastructure.Import.IntegrationTests.Configuration;
@@ -25,6 +26,7 @@ namespace GoActive.Infrastructure.Import.IntegrationTests.Geo.Spot;
 [Trait("Category", "Geo")]
 public sealed class SpotImporterTests : IAsyncLifetime
 {
+    private const string ImporterKey = nameof(SpotImporter);
     private const string ConfigurationSectionName = "TestContainers";
     private readonly Mock<ILogger<SpotImporter>> _loggerMock = new();
     private readonly PostgreSqlContainer _postGisContainer;
@@ -85,7 +87,7 @@ public sealed class SpotImporterTests : IAsyncLifetime
                 .AddGeoStorage(connectionString, migrationsAssembly)
                 .AddMediator(options => options.ServiceLifetime = ServiceLifetime.Scoped)
                 .AddScoped(_ => _loggerMock.Object)
-                .AddScoped<IGeoJsonLinesImporter<BatchImportOptions>, SpotImporter>()
+                .AddSpotImport(ImporterKey)
                 .BuildServiceProvider();
 
         await using var scope = CreateAsyncScope();
@@ -99,7 +101,7 @@ public sealed class SpotImporterTests : IAsyncLifetime
     public async Task ImportSpots_WhenCorrectSource_ShouldSingleImportDone(string source, ImportResult expectedResult)
     {
         // Arrange
-        var importer = _serviceProvider.GetRequiredService<IGeoJsonLinesImporter<BatchImportOptions>>();
+        var importer = _serviceProvider.GetRequiredKeyedService<IGeoJsonLinesImporter<BatchImportOptions>>(ImporterKey);
         using var stream = source.AsMemoryStream();
 
         // Act
@@ -136,7 +138,7 @@ public sealed class SpotImporterTests : IAsyncLifetime
         var options = new BatchImportOptions { BatchSize = batchSize };
         var expectedResult = new ImportResult(Total: 7, Successes: 7, Errors: 0);
 
-        var importer = _serviceProvider.GetRequiredService<IGeoJsonLinesImporter<BatchImportOptions>>();
+        var importer = _serviceProvider.GetRequiredKeyedService<IGeoJsonLinesImporter<BatchImportOptions>>(ImporterKey);
         using var stream = source.AsMemoryStream();
 
         // Act
