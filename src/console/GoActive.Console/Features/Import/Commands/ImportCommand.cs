@@ -4,7 +4,7 @@ using GoActive.Console.Features.Import.Options;
 
 namespace GoActive.Console.Features.Import.Commands;
 
-public class ImportCommand : Command
+internal class ImportCommand : Command
 {
     private const string CommandName = "import";
 
