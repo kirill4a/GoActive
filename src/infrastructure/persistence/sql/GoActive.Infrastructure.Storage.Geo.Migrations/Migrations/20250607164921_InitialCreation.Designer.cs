@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
 {
     [DbContext(typeof(GeoContext))]
-    [Migration("20250519165039_InitialCreation")]
+    [Migration("20250607164921_InitialCreation")]
     partial class InitialCreation
     {
         /// <inheritdoc />
@@ -155,6 +155,12 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
                         .HasColumnType("geometry (point)")
                         .HasColumnName("location");
 
+                    b.Property<string>("NormalizedTitle")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
+                        .HasColumnName("normalized_title");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -176,6 +182,10 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
 
                     NpgsqlIndexBuilderExtensions.HasMethod(b.HasIndex("Title"), "gin");
                     NpgsqlIndexBuilderExtensions.HasOperators(b.HasIndex("Title"), new[] { "gin_trgm_ops" });
+
+                    b.HasIndex("NormalizedTitle", "Location")
+                        .IsUnique()
+                        .HasDatabaseName("ix_spots_normalized_title_location");
 
                     b.ToTable("spots", (string)null);
                 });

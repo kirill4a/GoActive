@@ -12,17 +12,22 @@ internal class Spot : Entity
     /// <summary>
     /// Unique spot identifier.
     /// </summary>
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
     /// <summary>
     /// Spot title.
     /// </summary>
-    public required string Title { get; set; }
+    public required string Title { get; init; }
+
+    /// <summary>
+    /// Normalized spot title for uniqueness.
+    /// </summary>
+    public required string NormalizedTitle { get; init; }
 
     /// <summary>
     /// Spot location point.
     /// </summary>
-    public required Point Location { get; set; }
+    public required Point Location { get; init; }
 
     /// <summary>
     /// Spot address indentifier (if any).

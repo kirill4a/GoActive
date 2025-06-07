@@ -7,11 +7,18 @@ using Microsoft.EntityFrameworkCore;
 
 using DomainAddress = GoActive.Modules.Geo.Domain.ValueObjects.Address;
 using DomainSpot = GoActive.Modules.Geo.Domain.SpotAggregate.Spot;
+using DomainSpotKey = GoActive.Modules.Geo.Domain.SpotAggregate.SpotKey;
 
 namespace GoActive.Infrastructure.Storage.Geo.Repositories;
 
 internal class SpotRepository(IGeoContext context) : ISpotSearcher, ISpotCreator
 {
+    public async Task<bool> ExistsAsync(DomainSpotKey key, CancellationToken cancellationToken)
+    {
+        var (normalizedTitle, location) = (key.NormalizedTitle.Value, key.LocationPoint.ToPoint());
+        return await context.Spots.AnyAsync(x => x.NormalizedTitle == normalizedTitle && x.Location == location, cancellationToken);
+    }
+
     public async Task<IReadOnlyCollection<SearchSpotResult>> SearchBySpot(string queryString,
                                                                            IReadOnlyCollection<ActivityType> activities,
                                                                            CancellationToken cancellationToken)
@@ -52,6 +59,7 @@ internal class SpotRepository(IGeoContext context) : ISpotSearcher, ISpotCreator
         {
             Id = spot.Id.Value,
             Title = spot.Title.Value,
+            NormalizedTitle = spot.Key.NormalizedTitle.Value,
             Location = spot.LocationPoint.Altitude.HasValue
                 ? new(spot.LocationPoint.Location.Latitude.Value, spot.LocationPoint.Location.Longitude.Value, spot.LocationPoint.Altitude.Value.Value)
                 : new(spot.LocationPoint.Location.Latitude.Value, spot.LocationPoint.Location.Longitude.Value),

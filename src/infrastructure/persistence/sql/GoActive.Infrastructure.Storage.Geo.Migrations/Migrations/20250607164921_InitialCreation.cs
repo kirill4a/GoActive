@@ -48,6 +48,7 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    normalized_title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     location = table.Column<Point>(type: "geometry (point)", nullable: false),
                     address_id = table.Column<Guid>(type: "uuid", nullable: true),
                     activity_types = table.Column<string>(type: "text", nullable: false, defaultValue: "[]"),
@@ -80,6 +81,12 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
                 name: "ix_spots_address_id",
                 table: "spots",
                 column: "address_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_spots_normalized_title_location",
+                table: "spots",
+                columns: new[] { "normalized_title", "location" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "ix_spots_title",

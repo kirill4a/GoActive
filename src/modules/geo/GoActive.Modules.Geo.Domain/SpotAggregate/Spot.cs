@@ -30,8 +30,8 @@ public sealed class Spot : EntityBase<SpotId>
         if (locationPoint == default)
             throw new ArgumentException($"Incorrect location for {nameof(Spot)}: {locationPoint}", nameof(locationPoint));
 
+        Key = new SpotKey(title.ToNormalized(), locationPoint);
         Title = title;
-        LocationPoint = locationPoint;
         Activities = activities;
         AddressId = addressId;
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -40,8 +40,9 @@ public sealed class Spot : EntityBase<SpotId>
         Description = description;
     }
 
+    public SpotKey Key { get; }
     public Title Title { get; }
-    public GeoCoordinate LocationPoint { get; }
+    public GeoCoordinate LocationPoint => Key.LocationPoint;
     public IReadOnlyCollection<ActivityType> Activities { get; }
     public AddressId? AddressId { get; }
 

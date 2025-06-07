@@ -21,6 +21,10 @@ internal class SpotConfiguration : IEntityTypeConfiguration<Spot>
             .HasMaxLength(100);
 
         builder
+            .Property(x => x.NormalizedTitle)
+            .HasMaxLength(100);
+
+        builder
             .Property(x => x.ActivityTypes)
             .HasDefaultValue(Array.Empty<ActivityType>())
             .HasReadOnlyCollectionJsonConversion(JsonSerializerCustom.EnumSerializerOptions);
@@ -37,6 +41,10 @@ internal class SpotConfiguration : IEntityTypeConfiguration<Spot>
             .HasIndex(x => x.Title)
             .HasMethod("gin")
             .HasOperators("gin_trgm_ops");
+
+        builder
+            .HasIndex(x => new { x.NormalizedTitle, x.Location })
+            .IsUnique();
 
         builder
             .HasOne(x => x.Address)

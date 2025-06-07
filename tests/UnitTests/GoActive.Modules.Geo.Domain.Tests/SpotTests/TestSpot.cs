@@ -8,11 +8,14 @@ namespace GoActive.Modules.Geo.Domain.Tests.SpotTests;
 
 public class TestSpot
 {
-    public static readonly TheoryData<SpotId, Title, GeoCoordinate, IReadOnlyCollection<ActivityType>, AddressId, Address, string> WrongArguments = [];
+    private const string TestTitle = "Test spot title";
+
+    public static readonly TheoryData<SpotId, Title, GeoCoordinate, IReadOnlyCollection<ActivityType>, AddressId, Address, string> WrongArguments = new();
 
     private static readonly SpotId Id = SpotId.FromValue(Guid.NewGuid());
-    private static readonly Title Title = Title.FromValue("Test spot title");
+    private static readonly Title Title = Title.FromValue(TestTitle);
     private static readonly GeoCoordinate LocationPoint = GeoCoordinate.FromLocation(GeoLocation.FromLatLon(57.11d, 37.08));
+    private static readonly SpotKey Key = new(NormalizedTitle.FromValue(TestTitle), LocationPoint);
     private static readonly ActivityType Activity = ActivityType.NordicSki;
     private static readonly AddressId AddressId = AddressId.FromValue(Guid.NewGuid());
     private static readonly Address Address = Address.Create("AQ");
@@ -53,6 +56,7 @@ public class TestSpot
         // Assert
         spot.Should().NotBeNull();
         spot.Id.Should().Be(Id);
+        spot.Key.Should().Be(Key);
         spot.Title.Should().Be(Title);
         spot.LocationPoint.Should().Be(LocationPoint);
         spot.Activities.Should().BeEquivalentTo([Activity]);
@@ -90,5 +94,27 @@ public class TestSpot
         spotSki.Should().NotBeSameAs(spotWorkout);
         spotSki.Should().Be(spotWorkout);
         (spotSki == spotWorkout).Should().BeTrue();
+    }
+
+    [Fact]
+    public void TwoSpot_WithSameKeys_ShouldBeEqual()
+    {
+        // Arrange
+        var firstTitle = "Test spot title";
+        var secondTitle = "TeSt  Spot        t i t l e";
+
+        // Act
+        var firstSpot = Spot.Create(Id, Title.FromValue(firstTitle), LocationPoint, [ActivityType.NordicSki]);
+        var secondSpot = Spot.Create(Id, Title.FromValue(secondTitle), LocationPoint, [ActivityType.Workout]);
+
+        // Assert
+        firstSpot.Key.Should().Be(secondSpot.Key);
+        firstSpot.Title.Should().NotBe(secondSpot.Title);
+        firstSpot.LocationPoint.Should().Be(secondSpot.LocationPoint);
+
+        firstSpot.Id.Should().Be(secondSpot.Id);
+        firstSpot.Should().NotBeSameAs(secondSpot);
+        firstSpot.Should().Be(secondSpot);
+        (firstSpot == secondSpot).Should().BeTrue();
     }
 }
