@@ -55,12 +55,12 @@ public sealed class Spot : EntityBase<SpotId>
     public static Spot Create(SpotId id,
                               Title title,
                               GeoCoordinate locationPoint,
-                              IReadOnlyCollection<ActivityType> activityTypes,
+                              IReadOnlyCollection<ActivityType> activities,
                               AddressId? addressId = null,
                               Address? address = null,
                               string? description = null)
     {
-        var spot = new Spot(id, title, locationPoint, activityTypes, addressId, address, description)
+        var spot = new Spot(id, title, locationPoint, activities, addressId, address, description)
         {
             CreatedAt = DateTime.UtcNow,
         };

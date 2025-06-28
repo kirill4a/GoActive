@@ -17,8 +17,8 @@ internal class CreateSketchEndpoint : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app) =>
         app.MapPost("sketches/",
                     async Task<Results<ProblemHttpResult, CreatedAtRoute<SketchDto>>> (CreateSketchRequest request,
-                                                                                  ISender sender,
-                                                                                  CancellationToken cancellation) =>
+                                                                                       ISender sender,
+                                                                                       CancellationToken cancellation) =>
                     {
                         var command = new CreateSketchCommand
                         {

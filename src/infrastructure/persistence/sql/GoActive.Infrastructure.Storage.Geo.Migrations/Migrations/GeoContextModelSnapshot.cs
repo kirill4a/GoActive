@@ -127,16 +127,20 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("ActivityTypes")
+                    b.Property<string>("Activities")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("text")
                         .HasDefaultValue("[]")
-                        .HasColumnName("activity_types");
+                        .HasColumnName("activities");
 
                     b.Property<Guid?>("AddressId")
                         .HasColumnType("uuid")
                         .HasColumnName("address_id");
+
+                    b.Property<float?>("Altitude")
+                        .HasColumnType("real")
+                        .HasColumnName("altitude");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -149,7 +153,7 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
 
                     b.Property<Point>("Location")
                         .IsRequired()
-                        .HasColumnType("geometry (point)")
+                        .HasColumnType("geometry (point, 4326)")
                         .HasColumnName("location");
 
                     b.Property<string>("NormalizedTitle")

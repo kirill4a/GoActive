@@ -2,10 +2,10 @@ using System.Diagnostics.CodeAnalysis;
 
 using GoActive.Infrastructure.Import.Geo.Models;
 using GoActive.Modules.Geo.Application.Spot.Create;
+using GoActive.Modules.Geo.Domain.SpotAggregate;
+using GoActive.Modules.Geo.Domain.ValueObjects;
 using GoActive.Shared.Domain.Enums;
 using GoActive.Shared.Serialization.NetTopologySuite;
-
-using Mediator;
 
 using Microsoft.Extensions.Logging;
 
@@ -14,12 +14,15 @@ using NetTopologySuite.Geometries;
 
 using static GoActive.Infrastructure.Import.Geo.Spot.SpotConstants;
 
+using DomainSpot = GoActive.Modules.Geo.Domain.SpotAggregate.Spot;
+
 namespace GoActive.Infrastructure.Import.Geo.Spot;
 
-internal sealed class SpotImporter(ISender sender, ILogger<SpotImporter> logger) : FeaturesImporter<BatchImportOptions>(logger)
+internal sealed class SpotImporter(ISpotCreator spotCreator, ILogger<SpotImporter> logger) : FeaturesImporter<BatchImportOptions>(logger)
 {
     protected override HashSet<string> RequiedFields =>
     [
+        Fields.Id,
         Fields.Title,
         Fields.Activities,
     ];
@@ -28,40 +31,77 @@ internal sealed class SpotImporter(ISender sender, ILogger<SpotImporter> logger)
 
     protected override async ValueTask<ImportResult> HandleFeatures(IReadOnlyCollection<IFeature> features,
                                                                     BatchImportOptions options,
-                                                                    CancellationToken cancellation)
+                                                                    CancellationToken cancellationToken)
     {
         var errorCount = 0;
-        var dtos = new List<CreateSpotDto>(features.Count);
+        var spots = new List<DomainSpot>(features.Count);
 
         foreach (var feature in features)
         {
-            if (!TryMap(feature, out var dto))
+            if (!TryMap(feature, out var spot))
             {
                 errorCount++;
                 continue;
             }
 
-            dtos.Add(dto);
+            spots.Add(spot);
         }
 
-        if (dtos.Count == 0)
+        if (spots.Count == 0)
         {
             return new(features.Count, 0, errorCount);
         }
 
-        var successCount = await sender.Send(new CreateSpotsCommand(dtos), cancellation);
+        var successCount = await spotCreator.BulkInsertSpotsAsync(spots, cancellationToken);
 
         return new(features.Count, successCount, errorCount);
     }
 
-    private bool TryMap(IFeature feature, [NotNullWhen(true)] out CreateSpotDto? spotDto)
+    private static float ToFloatWithCheck(double input)
     {
-        spotDto = null;
+        if (input >= float.MinValue && input <= float.MaxValue)
+        {
+            return (float)input;
+        }
+
+        throw new OverflowException($"Value '{input}' is out of float range.");
+    }
+
+    private static GeoCoordinate ExtractLocationPoint(Point point)
+    {
+        var location = GeoLocation.FromLatLon(point.X, point.Y);
+
+        return point.Z is Coordinate.NullOrdinate
+            ? GeoCoordinate.FromLocation(location)
+            : GeoCoordinate.FromLocationWithAltitude(location, new(ToFloatWithCheck(point.Z)));
+    }
+
+    private static AddressId? ExtractAddressId(IFeature feature)
+    {
+        var addressIdString = feature.Attributes.GetOptionalValue(Fields.AddressId)?.ToString();
+        if (string.IsNullOrWhiteSpace(addressIdString))
+        {
+            return null;
+        }
+
+        return AddressId.FromValue(Guid.Parse(addressIdString));
+    }
+
+    private bool TryMap(IFeature feature, [NotNullWhen(true)] out DomainSpot? spot)
+    {
+        spot = null;
 
         if (!ValidateRequiredFields(feature) ||
+            !ValidateRequiredValue(feature, Fields.Id, out var id) ||
             !ValidateRequiredValue(feature, Fields.Title, out var title) ||
             !ValidateRequiredValue(feature, Fields.Activities, out _))
         {
+            return false;
+        }
+
+        if (!Guid.TryParse(id, out var spotId))
+        {
+            logger.LogError("Incorrect Spot ID (should be Guid) '{Id}' in feature: {Feature}", id, feature);
             return false;
         }
 
@@ -77,18 +117,17 @@ internal sealed class SpotImporter(ISender sender, ILogger<SpotImporter> logger)
             return false;
         }
 
-        var addressIdString = feature.Attributes.GetOptionalValue(Fields.AddressId)?.ToString();
-        spotDto = new CreateSpotDto
-        {
-            Title = title,
-            Activities = activities,
-            Latitude = point.X,
-            Longitude = point.Y,
+        var addressId = ExtractAddressId(feature);
+        var locationPoint = ExtractLocationPoint(point);
 
-            Altitude = point.Z is Coordinate.NullOrdinate ? null : point.Z,
-            Description = feature.Attributes.GetOptionalValue(Fields.Description)?.ToString(),
-            AddressId = !string.IsNullOrEmpty(addressIdString) && Guid.TryParse(addressIdString, out var addressId) ? addressId : null,
-        };
+        spot = DomainSpot.Create(
+                            id: SpotId.FromValue(spotId),
+                            title: Title.FromValue(title),
+                            locationPoint: locationPoint,
+                            activities: activities,
+                            addressId: addressId,
+                            address: null,
+                            description: feature.Attributes.GetOptionalValue(Fields.Description)?.ToString());
         return true;
     }
 

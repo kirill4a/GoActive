@@ -1,4 +1,3 @@
-using GoActive.Modules.Geo.Application.Shared.Storage;
 using GoActive.Modules.Geo.Domain.SpotAggregate;
 using GoActive.Modules.Geo.Domain.ValueObjects;
 
@@ -8,14 +7,22 @@ using DomainSpot = GoActive.Modules.Geo.Domain.SpotAggregate.Spot;
 
 namespace GoActive.Modules.Geo.Application.Spot.Create;
 
-public class CreateSpotsCommandHandler(ISpotCreator spotCreator, IUnitOfWork unitOfWork) : ICommandHandler<CreateSpotsCommand, int>
+public class CreateSpotsCommandHandler(ISpotCreator spotCreator) : ICommandHandler<CreateSpotsCommand, int>
 {
     public async ValueTask<int> Handle(CreateSpotsCommand command, CancellationToken cancellationToken)
     {
-        var spots = command.SpotDtos.Select(CreateSpot).ToList();
-        spotCreator.CreateSpots(spots);
+        await Task.Yield(); // Simulate async operation
+        _ = spotCreator;
+        _ = command.SpotDtos.Select(CreateSpot).ToList();
 
-        return await unitOfWork.CommitAsync(cancellationToken);
+#pragma warning disable S125 // Sections of code should not be commented out
+        /*
+        return await spotCreator.CreateSpotsAsync(spots, cancellationToken);
+        */
+#pragma warning restore S125 // Sections of code should not be commented out
+
+        throw new NotImplementedException();
+
     }
 
     private static DomainSpot CreateSpot(CreateSpotDto spotDto)

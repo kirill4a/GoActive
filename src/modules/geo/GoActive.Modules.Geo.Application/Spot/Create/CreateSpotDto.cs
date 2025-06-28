@@ -25,7 +25,7 @@ public sealed record CreateSpotDto
     /// <summary>
     /// Spot altitude.
     /// </summary>
-    public double? Altitude { get; init; }
+    public float? Altitude { get; init; }
 
     /// <summary>
     /// Spot activities.
