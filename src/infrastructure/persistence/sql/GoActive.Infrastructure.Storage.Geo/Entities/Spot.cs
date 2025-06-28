@@ -30,6 +30,11 @@ internal class Spot : Entity
     public required Point Location { get; init; }
 
     /// <summary>
+    /// Spot altitude (if any), in meters.
+    /// </summary>
+    public float? Altitude { get; init; }
+
+    /// <summary>
     /// Spot address indentifier (if any).
     /// </summary>
     public Guid? AddressId { get; set; }
@@ -42,7 +47,7 @@ internal class Spot : Entity
     /// <summary>
     /// Activities available on the spot.
     /// </summary>
-    public required IReadOnlyCollection<ActivityType> ActivityTypes { get; set; }
+    public required IReadOnlyCollection<ActivityType> Activities { get; set; }
 
     /// <summary>
     /// Spot description.

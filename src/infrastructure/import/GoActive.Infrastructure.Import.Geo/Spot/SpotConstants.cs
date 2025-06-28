@@ -4,6 +4,7 @@ internal static class SpotConstants
 {
     internal static class Fields
     {
+        internal const string Id = "id";
         internal const string Title = "title";
         internal const string Activities = "activities";
         internal const string Latitude = "latitude";

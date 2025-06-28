@@ -49,9 +49,10 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     normalized_title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    location = table.Column<Point>(type: "geometry (point)", nullable: false),
+                    location = table.Column<Point>(type: "geometry (point, 4326)", nullable: false),
+                    altitude = table.Column<float>(type: "real", nullable: true),
                     address_id = table.Column<Guid>(type: "uuid", nullable: true),
-                    activity_types = table.Column<string>(type: "text", nullable: false, defaultValue: "[]"),
+                    activities = table.Column<string>(type: "text", nullable: false, defaultValue: "[]"),
                     description = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)

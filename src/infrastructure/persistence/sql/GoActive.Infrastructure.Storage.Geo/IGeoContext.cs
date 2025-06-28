@@ -11,12 +11,17 @@ namespace GoActive.Infrastructure.Storage.Geo;
 /// </summary>
 internal interface IGeoContext : IDisposable
 {
-    DbSet<Spot> Spots { get; }
+        DbSet<Spot> Spots { get; }
 
-    DbSet<Address> Addresses { get; }
+        DbSet<Address> Addresses { get; }
 
-    Task BulkInsertOrUpdateAsync<TEntity>(IEnumerable<TEntity> entities,
-                                          Action<BulkConfig> bulkAction,
-                                          CancellationToken cancellationToken = default)
-        where TEntity : Entity;
+        Task<StatsInfo> BulkInsertAsync<TEntity>(IEnumerable<TEntity> entities,
+                                                 Action<BulkConfig> bulkAction,
+                                                 CancellationToken cancellationToken = default)
+                where TEntity : Entity;
+
+        Task BulkInsertOrUpdateAsync<TEntity>(IEnumerable<TEntity> entities,
+                                              Action<BulkConfig> bulkAction,
+                                              CancellationToken cancellationToken = default)
+            where TEntity : Entity;
 }

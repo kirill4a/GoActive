@@ -25,13 +25,13 @@ internal class SpotConfiguration : IEntityTypeConfiguration<Spot>
             .HasMaxLength(100);
 
         builder
-            .Property(x => x.ActivityTypes)
+            .Property(x => x.Activities)
             .HasDefaultValue(Array.Empty<ActivityType>())
             .HasReadOnlyCollectionJsonConversion(JsonSerializerCustom.EnumSerializerOptions);
 
         builder
             .Property(x => x.Location)
-            .HasColumnType("geometry (point)");
+            .HasColumnType($"geometry (point, {Modules.Geo.Domain.Constants.Srid.Wgs84})");
 
         builder
             .Property(x => x.Description)

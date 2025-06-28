@@ -26,5 +26,5 @@ public record CreateSketchRequest
     /// <summary>
     /// Sketch location altitude, if set
     /// </summary>
-    public double? Altitude { get; init; }
+    public float? Altitude { get; init; }
 }

@@ -50,6 +50,38 @@ internal class GeoContext(DbContextOptions<GeoContext> options) : DbContext(opti
         }
     }
 
+    async Task<StatsInfo> IGeoContext.BulkInsertAsync<TEntity>(IEnumerable<TEntity> entities,
+                                                               Action<BulkConfig> bulkAction,
+                                                               CancellationToken cancellationToken)
+    {
+        static void StatsAction(BulkConfig cfg)
+        {
+            cfg.CalculateStats = true;
+            cfg.SetOutputIdentity = true;
+        }
+
+        bulkAction += StatsAction;
+
+        var config = new BulkConfig();
+        bulkAction?.Invoke(config);
+
+        try
+        {
+            await this.Database.OpenConnectionAsync(cancellationToken);
+            await this.BulkInsertAsync(entities,
+                                   bulkConfig: config,
+                                   type: typeof(TEntity),
+                                   cancellationToken: cancellationToken);
+            return config.StatsInfo
+                ?? throw new InvalidOperationException(
+                    $"{nameof(config.StatsInfo)} is null but shouldn't be. Check if the BulkConfig was properly configured.");
+        }
+        finally
+        {
+            await this.Database.CloseConnectionAsync();
+        }
+    }
+
     async Task IGeoContext.BulkInsertOrUpdateAsync<TEntity>(IEnumerable<TEntity> entities,
                                                             Action<BulkConfig> bulkAction,
                                                             CancellationToken cancellationToken)

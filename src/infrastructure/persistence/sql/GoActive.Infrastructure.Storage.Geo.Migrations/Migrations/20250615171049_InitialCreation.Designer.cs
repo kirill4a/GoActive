@@ -14,7 +14,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
 {
     [DbContext(typeof(GeoContext))]
-    [Migration("20250607164921_InitialCreation")]
+    [Migration("20250615171049_InitialCreation")]
     partial class InitialCreation
     {
         /// <inheritdoc />
@@ -130,16 +130,20 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<string>("ActivityTypes")
+                    b.Property<string>("Activities")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
                         .HasColumnType("text")
                         .HasDefaultValue("[]")
-                        .HasColumnName("activity_types");
+                        .HasColumnName("activities");
 
                     b.Property<Guid?>("AddressId")
                         .HasColumnType("uuid")
                         .HasColumnName("address_id");
+
+                    b.Property<float?>("Altitude")
+                        .HasColumnType("real")
+                        .HasColumnName("altitude");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -152,7 +156,7 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
 
                     b.Property<Point>("Location")
                         .IsRequired()
-                        .HasColumnType("geometry (point)")
+                        .HasColumnType("geometry (point, 4326)")
                         .HasColumnName("location");
 
                     b.Property<string>("NormalizedTitle")
