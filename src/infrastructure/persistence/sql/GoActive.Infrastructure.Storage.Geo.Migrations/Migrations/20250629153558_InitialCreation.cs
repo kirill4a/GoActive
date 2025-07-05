@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
 using NetTopologySuite.Geometries;
 
 #nullable disable
@@ -22,7 +22,7 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
-                    source = table.Column<string>(type: "text", nullable: false),
+                    source = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
                     external_id = table.Column<string>(type: "character varying(31)", maxLength: 31, nullable: false),
                     country = table.Column<string>(type: "character(2)", fixedLength: true, maxLength: 2, nullable: false),
                     region = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
@@ -52,7 +52,7 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
                     location = table.Column<Point>(type: "geometry (point, 4326)", nullable: false),
                     altitude = table.Column<float>(type: "real", nullable: true),
                     address_id = table.Column<Guid>(type: "uuid", nullable: true),
-                    activities = table.Column<string>(type: "text", nullable: false, defaultValue: "[]"),
+                    activities = table.Column<string[]>(type: "text[]", maxLength: 128, nullable: false),
                     description = table.Column<string>(type: "character varying(2048)", maxLength: 2048, nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)

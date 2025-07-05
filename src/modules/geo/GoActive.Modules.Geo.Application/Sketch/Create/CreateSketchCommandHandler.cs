@@ -5,7 +5,6 @@ using GoActive.Modules.Geo.Application.Shared.Dto;
 using Mediator;
 using GoActive.Modules.Geo.Domain.SketchAggregate;
 using GoActive.Modules.Geo.Domain.ValueObjects;
-using GoActive.Shared.Domain.Enums;
 
 namespace GoActive.Modules.Geo.Application.Sketch.Create;
 

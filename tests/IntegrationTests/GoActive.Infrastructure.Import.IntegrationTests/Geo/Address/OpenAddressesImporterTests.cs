@@ -7,10 +7,10 @@ using GoActive.Infrastructure.Import.Geo;
 using GoActive.Infrastructure.Import.Geo.Address.OpenAddresses;
 using GoActive.Infrastructure.Import.Geo.Extensions;
 using GoActive.Infrastructure.Import.Geo.Models;
-using GoActive.Infrastructure.Import.IntegrationTests.Configuration;
 using GoActive.Infrastructure.Storage.Geo;
 using GoActive.Infrastructure.Storage.Geo.DI;
 using GoActive.Tests.Common;
+using GoActive.Tests.Common.Configuration;
 
 using Microsoft.EntityFrameworkCore;
 

@@ -9,6 +9,12 @@
             "type": "dotnet",
             "request": "launch",
             "projectPath": "${workspaceFolder}/src/console/GoActive.Console/GoActive.Console.csproj"
+        },
+        {
+            "name": "GoActive.WebApi Debug",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}/src/api/GoActive.WebApi/GoActive.WebApi.csproj"
         }
     ]
 }

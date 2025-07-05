@@ -1,7 +1,6 @@
+using GoActive.Infrastructure.Storage.Geo.Converters;
 using GoActive.Infrastructure.Storage.Geo.Entities;
-using GoActive.Infrastructure.Storage.Geo.Extensions;
 using GoActive.Shared.Domain.Enums;
-using GoActive.Shared.Infrastructure;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -25,9 +24,13 @@ internal class SpotConfiguration : IEntityTypeConfiguration<Spot>
             .HasMaxLength(100);
 
         builder
-            .Property(x => x.Activities)
-            .HasDefaultValue(Array.Empty<ActivityType>())
-            .HasReadOnlyCollectionJsonConversion(JsonSerializerCustom.EnumSerializerOptions);
+            .PrimitiveCollection(x => x.Activities)
+            .ElementType(x =>
+            {
+                x.IsRequired()
+                 .HasConversion(typeof(EnumArrayConverter<ActivityType>));
+            })
+            .HasMaxLength(128);
 
         builder
             .Property(x => x.Location)

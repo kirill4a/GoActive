@@ -6,11 +6,11 @@ using GoActive.Infrastructure.Import.Geo;
 using GoActive.Infrastructure.Import.Geo.Extensions;
 using GoActive.Infrastructure.Import.Geo.Models;
 using GoActive.Infrastructure.Import.Geo.Spot;
-using GoActive.Infrastructure.Import.IntegrationTests.Configuration;
 using GoActive.Infrastructure.Storage.Geo;
 using GoActive.Infrastructure.Storage.Geo.DI;
 using GoActive.Shared.Domain.Enums;
 using GoActive.Tests.Common;
+using GoActive.Tests.Common.Configuration;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
