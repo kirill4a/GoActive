@@ -16,7 +16,8 @@ internal class AddressConfiguration : IEntityTypeConfiguration<Address>
 
         builder
             .Property(x => x.Source)
-            .HasEnumConversion();
+            .HasEnumConversion()
+            .HasMaxLength(32);
 
         builder
             .Property(x => x.ExternalId)

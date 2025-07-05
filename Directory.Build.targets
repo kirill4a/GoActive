@@ -16,6 +16,7 @@
         <InternalsVisibleTo Include="GoActive.Modules.Geo.Domain.Tests"/>
         <internalsVisibleTo Include="GoActive.Infrastructure.Import.Tests"/>
         <internalsVisibleTo Include="GoActive.Infrastructure.Import.IntegrationTests"/>
+        <internalsVisibleTo Include="GoActive.Infrastructure.Storage.Geo.IntegrationTests"/>
         <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
     </ItemGroup>
 

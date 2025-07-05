@@ -75,6 +75,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Console", "Console", "{09D8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Console", "src\console\GoActive.Console\GoActive.Console.csproj", "{D8F9798E-8D9B-4C64-99C5-7767F4398F94}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoActive.Infrastructure.Storage.Geo.IntegrationTests", "tests\IntegrationTests\GoActive.Infrastructure.Storage.Geo.IntegrationTests\GoActive.Infrastructure.Storage.Geo.IntegrationTests.csproj", "{3F5ED69D-A1F3-4CAC-B529-E6A79D622B20}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,6 +143,10 @@ Global
 		{D8F9798E-8D9B-4C64-99C5-7767F4398F94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8F9798E-8D9B-4C64-99C5-7767F4398F94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8F9798E-8D9B-4C64-99C5-7767F4398F94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F5ED69D-A1F3-4CAC-B529-E6A79D622B20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F5ED69D-A1F3-4CAC-B529-E6A79D622B20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F5ED69D-A1F3-4CAC-B529-E6A79D622B20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F5ED69D-A1F3-4CAC-B529-E6A79D622B20}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -171,5 +177,6 @@ Global
 		{ABE29EF0-47F6-2850-66E4-636987095767} = {0A407594-C3CE-416A-A276-5E0E93C0BD58}
 		{DEF8C709-A68D-40C4-B686-674C9A1A24EC} = {ABE29EF0-47F6-2850-66E4-636987095767}
 		{D8F9798E-8D9B-4C64-99C5-7767F4398F94} = {09D8FB36-4898-7C8E-B3F7-02AC6C3AAC25}
+		{3F5ED69D-A1F3-4CAC-B529-E6A79D622B20} = {1B5D89C5-053D-F492-FFEE-BA683369F8E7}
 	EndGlobalSection
 EndGlobal

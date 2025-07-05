@@ -15,7 +15,7 @@ public class SearchSpotsQueryHandler(ISpotSearcher spotSearcher) : IQueryHandler
 
         await Task.WhenAll(searchBySpotTask, searchByAddressTask);
 
-        var searchResult = searchBySpotTask.Result.Intersect(searchByAddressTask.Result);
+        var searchResult = searchBySpotTask.Result.Union(searchByAddressTask.Result);
         return Result.Ok(searchResult.ToArray());
     }
 }
