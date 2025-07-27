@@ -10,12 +10,10 @@ public class SearchSpotsQueryHandler(ISpotSearcher spotSearcher) : IQueryHandler
     {
         query.Deconstruct(out var queryString, out var activities);
 
-        var searchBySpotTask = spotSearcher.SearchBySpot(queryString, activities, cancellationToken);
-        var searchByAddressTask = spotSearcher.SearchByAddress(queryString, activities, cancellationToken);
+        var searchedBySpot = await spotSearcher.SearchBySpot(queryString, activities, cancellationToken);
+        var searchedByAddress = await spotSearcher.SearchByAddress(queryString, activities, cancellationToken);
 
-        await Task.WhenAll(searchBySpotTask, searchByAddressTask);
-
-        var searchResult = searchBySpotTask.Result.Union(searchByAddressTask.Result);
+        var searchResult = searchedBySpot.Union(searchedByAddress);
         return Result.Ok(searchResult.ToArray());
     }
 }

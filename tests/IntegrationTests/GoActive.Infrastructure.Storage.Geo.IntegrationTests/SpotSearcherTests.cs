@@ -3,6 +3,8 @@ using System.Configuration;
 using FluentAssertions;
 
 using GoActive.Infrastructure.Storage.Geo.DI;
+using GoActive.Infrastructure.Storage.Geo.Repositories;
+using GoActive.Modules.Geo.Application.Address;
 using GoActive.Modules.Geo.Application.Spot.Create;
 using GoActive.Modules.Geo.Application.Spot.Search;
 using GoActive.Modules.Geo.Domain.SpotAggregate;
@@ -13,6 +15,9 @@ using GoActive.Tests.Common.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+using Moq;
 
 using Testcontainers.PostgreSql;
 
@@ -24,7 +29,10 @@ namespace GoActive.Infrastructure.Storage.Geo.IntegrationTests;
 [Trait("Category", "Geo")]
 public sealed class SpotSearcherTests : IAsyncLifetime
 {
+    private const string CountryCode = "00";
+    private const string LinkedCityName = "Test City Linked";
     private const string ConfigurationSectionName = "TestContainers";
+    private readonly Mock<ILogger<AddressRepository>> _loggerRepositoryMock = new();
     private readonly PostgreSqlContainer _postGisContainer;
     private IServiceProvider _serviceProvider = default!;
 
@@ -59,6 +67,7 @@ public sealed class SpotSearcherTests : IAsyncLifetime
 
         _serviceProvider = new ServiceCollection()
                 .AddGeoStorage(connectionString, migrationsAssembly)
+                .AddScoped(_ => _loggerRepositoryMock.Object)
                 .BuildServiceProvider();
 
         await using var scope = CreateAsyncScope();
@@ -105,6 +114,26 @@ public sealed class SpotSearcherTests : IAsyncLifetime
         });
     }
 
+    [Fact]
+    public async Task SearchSpots_WhenAddressMatches_ShouldReturnData()
+    {
+        // Arrange
+        const string searchQuery = "eSt";
+        var searcher = _serviceProvider.GetRequiredService<ISpotSearcher>();
+
+        // Act
+        var result = await searcher.SearchByAddress(searchQuery, [], CancellationToken.None);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.Should().NotBeEmpty();
+        result.Should().AllSatisfy(x =>
+        {
+            x.Address.Should().NotBeNullOrWhiteSpace();
+            x.Address!.Contains(searchQuery, StringComparison.OrdinalIgnoreCase).Should().BeTrue();
+        });
+    }
+
     private static async Task CreateDatabase(IServiceProvider serviceProvider)
     {
         var context = serviceProvider.GetRequiredService<GeoContext>();
@@ -114,15 +143,68 @@ public sealed class SpotSearcherTests : IAsyncLifetime
 
     private static async Task SeedDatabase(IServiceProvider serviceProvider)
     {
+        await SeedAddresses(serviceProvider);
+        await SeedSpots(serviceProvider);
+    }
+
+    private static async Task SeedSpots(IServiceProvider serviceProvider)
+    {
+        var context = serviceProvider.GetRequiredService<GeoContext>();
+        var address = await context.Addresses.FirstAsync(a => a.Settlement == LinkedCityName, CancellationToken.None);
+
         var spot = DomainSpot.Create(
-            id: SpotId.FromValue(Guid.NewGuid()),
-            title: Title.FromValue("Test Spot"),
-            locationPoint: GeoCoordinate.FromLocation(GeoLocation.FromLatLon(52.616670, 39.600000)),
-            activities: [ActivityType.Workout],
-            description: "A test spot for integration tests");
+               id: SpotId.FromValue(Guid.NewGuid()),
+               title: Title.FromValue("Test Spot"),
+               locationPoint: GeoCoordinate.FromLocationWithAltitude(GeoLocation.FromLatLon(52.616670, 39.600000), new Altitude(160)),
+               activities: [ActivityType.Workout],
+               description: "A test spot for integration tests",
+               addressId: null);
+
+        var spotWithAddress = DomainSpot.Create(
+        id: SpotId.FromValue(Guid.NewGuid()),
+        title: Title.FromValue("Test Spot with address"),
+        locationPoint: GeoCoordinate.FromLocation(GeoLocation.FromLatLon(52.616670, 39.600000)),
+        activities: [ActivityType.Workout],
+        description: "A test spot with address for integration tests",
+        addressId: AddressId.FromValue(address.Id));
 
         var creator = serviceProvider.GetRequiredService<ISpotCreator>();
-        await creator.BulkInsertSpotsAsync([spot], CancellationToken.None);
+        await creator.BulkInsertSpotsAsync([spot, spotWithAddress], CancellationToken.None);
+    }
+
+    private static async Task SeedAddresses(IServiceProvider serviceProvider)
+    {
+        var addressLinked = new CreateAddressDto
+        {
+            Source = AddressSource.None,
+            ExternalId = Guid.NewGuid().ToString(),
+            CountryCode = CountryCode,
+            Location = GeoCoordinate.FromLocation(
+                            GeoLocation.FromLatLon(52.616778, 39.600000))
+                            .ToPoint(),
+            Settlement = LinkedCityName,
+            Street = "Test Street Linked",
+            PostalCode = "12345",
+            Hash = "TestHashLinked",
+        };
+
+        var addressStandalone = new CreateAddressDto
+        {
+            Source = AddressSource.None,
+            ExternalId = Guid.NewGuid().ToString(),
+            CountryCode = CountryCode,
+            Location = GeoCoordinate.FromLocationWithAltitude(
+                            GeoLocation.FromLatLon(52.616778, 39.600000),
+                            new Altitude(169))
+                            .ToPoint(),
+            Settlement = "Test City Standalone",
+            Street = "Test Street Standalone",
+            PostalCode = "54321",
+            Hash = "TestHashStandalone",
+        };
+
+        var addressCreator = serviceProvider.GetRequiredService<IAddressCreator>();
+        await addressCreator.UpsertAddresses([addressLinked, addressStandalone], CancellationToken.None);
     }
 
     private AsyncServiceScope CreateAsyncScope() => _serviceProvider.CreateAsyncScope();

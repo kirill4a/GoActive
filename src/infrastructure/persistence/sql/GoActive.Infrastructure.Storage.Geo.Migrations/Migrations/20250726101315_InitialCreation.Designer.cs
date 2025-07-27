@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
 {
     [DbContext(typeof(GeoContext))]
-    [Migration("20250629153558_InitialCreation")]
+    [Migration("20250726101315_InitialCreation")]
     partial class InitialCreation
     {
         /// <inheritdoc />
@@ -59,8 +59,8 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
 
                     b.Property<string>("ExternalId")
                         .IsRequired()
-                        .HasMaxLength(31)
-                        .HasColumnType("character varying(31)")
+                        .HasMaxLength(36)
+                        .HasColumnType("character varying(36)")
                         .HasColumnName("external_id");
 
                     b.Property<string>("Hash")

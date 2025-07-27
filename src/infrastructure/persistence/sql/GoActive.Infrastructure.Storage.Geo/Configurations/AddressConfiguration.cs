@@ -21,7 +21,7 @@ internal class AddressConfiguration : IEntityTypeConfiguration<Address>
 
         builder
             .Property(x => x.ExternalId)
-            .HasMaxLength(31);
+            .HasMaxLength(36);
 
         builder
             .Property(x => x.Country)

@@ -9,6 +9,7 @@ using GoActive.Infrastructure.Import.Geo.Extensions;
 using GoActive.Infrastructure.Import.Geo.Models;
 using GoActive.Infrastructure.Storage.Geo;
 using GoActive.Infrastructure.Storage.Geo.DI;
+using GoActive.Infrastructure.Storage.Geo.Repositories;
 using GoActive.Tests.Common;
 using GoActive.Tests.Common.Configuration;
 
@@ -33,6 +34,7 @@ public sealed class OpenAddressesImporterTests : IAsyncLifetime
 
     private const string ConfigurationSectionName = "TestContainers";
     private readonly Mock<ILogger<OpenAddressesImporter>> _loggerMock = new();
+    private readonly Mock<ILogger<AddressRepository>> _loggerRepositoryMock = new();
     private readonly PostgreSqlContainer _postGisContainer;
     private IServiceProvider _serviceProvider = default!;
 
@@ -109,6 +111,7 @@ public sealed class OpenAddressesImporterTests : IAsyncLifetime
                 .AddGeoStorage(connectionString, migrationsAssembly)
                 .AddMediator(options => options.ServiceLifetime = ServiceLifetime.Scoped)
                 .AddScoped(_ => _loggerMock.Object)
+                .AddScoped(_ => _loggerRepositoryMock.Object)
                 .AddOpenAdressesImport()
                 .BuildServiceProvider();
 

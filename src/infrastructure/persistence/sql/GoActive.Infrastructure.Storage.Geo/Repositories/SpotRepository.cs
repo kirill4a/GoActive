@@ -42,28 +42,35 @@ internal class SpotRepository(IGeoContext context) : ISpotSearcher, ISpotCreator
                                                                           IReadOnlyCollection<ActivityType> activities,
                                                                           CancellationToken cancellationToken)
     {
-        var query = GetQuerable()
+        var query = context.Spots
+            .Include(x => x.Address)
             .Where(x => EF.Functions.ILike(x.Title, $"%{queryString}%")
                         && (activities.Count == 0 || activities.Intersect(x.Activities).Any()))
-            .Select(x => Map(x));
+            .Select(x => Map(x, x.Address));
 
         return await query.ToArrayAsync(cancellationToken);
     }
 
-    public Task<IReadOnlyCollection<SearchSpotResult>> SearchByAddress(string queryString,
+    public async Task<IReadOnlyCollection<SearchSpotResult>> SearchByAddress(string queryString,
                                                                        IReadOnlyCollection<ActivityType> activities,
                                                                        CancellationToken cancellationToken)
     {
-        // TODO: Implement search by address
-        return Task.FromResult(Array.Empty<SearchSpotResult>() as IReadOnlyCollection<SearchSpotResult>);
+        var query =
+            from address in context.Addresses
+            where address.Settlement != null && EF.Functions.ILike(address.Settlement, $"%{queryString}%")
+            join spot in context.Spots on address.Id equals spot.AddressId
+            where activities.Count == 0 || activities.Intersect(spot.Activities).Any()
+            select Map(spot, address);
+
+        return await query.ToArrayAsync(cancellationToken);
     }
 
-    private static SearchSpotResult Map(Spot spot)
+    private static SearchSpotResult Map(Spot spot, Address? address)
         =>
         new(spot.Id,
             new(spot.Location.X, spot.Location.Y),
             spot.Title,
-            FlattenAddress(spot.Address),
+            FlattenAddress(address),
             spot.Activities);
 
     private static Spot Map(DomainSpot spot)
@@ -89,9 +96,4 @@ internal class SpotRepository(IGeoContext context) : ISpotSearcher, ISpotCreator
         =>
         address is null ? string.Empty
         : DomainAddress.Create(address.Country, address.Region, address.Settlement, address.Street, address.Building, address.PostalCode).ToString();
-
-    private IQueryable<Spot> GetQuerable()
-    {
-        return context.Spots.AsNoTracking();
-    }
 }

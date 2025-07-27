@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using NetTopologySuite.Geometries;
 
 #nullable disable
@@ -23,7 +23,7 @@ namespace GoActive.Infrastructure.Storage.Geo.Migrations.Migrations
                 {
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     source = table.Column<string>(type: "character varying(32)", maxLength: 32, nullable: false),
-                    external_id = table.Column<string>(type: "character varying(31)", maxLength: 31, nullable: false),
+                    external_id = table.Column<string>(type: "character varying(36)", maxLength: 36, nullable: false),
                     country = table.Column<string>(type: "character(2)", fixedLength: true, maxLength: 2, nullable: false),
                     region = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
                     district = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: true),
