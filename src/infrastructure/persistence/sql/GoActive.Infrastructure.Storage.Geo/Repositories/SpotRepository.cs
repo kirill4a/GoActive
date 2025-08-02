@@ -42,8 +42,8 @@ internal class SpotRepository(IGeoContext context) : ISpotSearcher, ISpotCreator
                                                                           IReadOnlyCollection<ActivityType> activities,
                                                                           CancellationToken cancellationToken)
     {
-        var query = context.Spots
-            .Include(x => x.Address)
+        var query = context.Spots.AsNoTracking()
+            .Include(x => x.Address).AsNoTracking()
             .Where(x => EF.Functions.ILike(x.Title, $"%{queryString}%")
                         && (activities.Count == 0 || activities.Intersect(x.Activities).Any()))
             .Select(x => Map(x, x.Address));
@@ -56,9 +56,9 @@ internal class SpotRepository(IGeoContext context) : ISpotSearcher, ISpotCreator
                                                                        CancellationToken cancellationToken)
     {
         var query =
-            from address in context.Addresses
+            from address in context.Addresses.AsNoTracking()
             where address.Settlement != null && EF.Functions.ILike(address.Settlement, $"%{queryString}%")
-            join spot in context.Spots on address.Id equals spot.AddressId
+            join spot in context.Spots.AsNoTracking() on address.Id equals spot.AddressId
             where activities.Count == 0 || activities.Intersect(spot.Activities).Any()
             select Map(spot, address);
 
