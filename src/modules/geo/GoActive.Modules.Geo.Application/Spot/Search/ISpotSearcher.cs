@@ -1,3 +1,4 @@
+using GoActive.Modules.Geo.Application.Spot.Get;
 using GoActive.Modules.Geo.Domain.SpotAggregate;
 using GoActive.Shared.Domain.Enums;
 
@@ -12,6 +13,14 @@ public interface ISpotSearcher
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>True if the spot exists, otherwise false.</returns>
     Task<bool> ExistsAsync(SpotKey key, CancellationToken cancellationToken);
+
+    /// <summary>
+    /// Gets the spot with the specified identifier from the storage.
+    /// </summary>
+    /// <param name="id">Spot identifier.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The spot or null if does not exist.</returns>
+    Task<GetSpotResult?> GetAsync(SpotId id, CancellationToken cancellationToken);
 
     /// <summary>
     /// Performs the search for spots based on spot attributies.

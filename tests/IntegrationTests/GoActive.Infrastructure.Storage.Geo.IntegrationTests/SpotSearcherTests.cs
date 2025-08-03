@@ -5,6 +5,7 @@ using FluentAssertions;
 using GoActive.Infrastructure.Storage.Geo.DI;
 using GoActive.Infrastructure.Storage.Geo.Repositories;
 using GoActive.Modules.Geo.Application.Address;
+using GoActive.Modules.Geo.Application.Shared.Dto;
 using GoActive.Modules.Geo.Application.Spot.Create;
 using GoActive.Modules.Geo.Application.Spot.Search;
 using GoActive.Modules.Geo.Domain.SpotAggregate;
@@ -32,6 +33,8 @@ public sealed class SpotSearcherTests : IAsyncLifetime
     private const string CountryCode = "00";
     private const string LinkedCityName = "Test City Linked";
     private const string ConfigurationSectionName = "TestContainers";
+    private readonly Guid _spotId = Guid.NewGuid();
+    private readonly Guid _spotWithAddressId = Guid.NewGuid();
     private readonly Mock<ILogger<AddressRepository>> _loggerRepositoryMock = new();
     private readonly PostgreSqlContainer _postGisContainer;
     private IServiceProvider _serviceProvider = default!;
@@ -76,6 +79,71 @@ public sealed class SpotSearcherTests : IAsyncLifetime
     }
 
     public Task DisposeAsync() => _postGisContainer.DisposeAsync().AsTask();
+
+    [Fact]
+    public async Task GetSpot_WhenNotFound_ShouldReturnNull()
+    {
+        // Arrange
+        var randomId = SpotId.FromValue(Guid.NewGuid());
+        var searcher = _serviceProvider.GetRequiredService<ISpotSearcher>();
+
+        // Act
+        var result = await searcher.GetAsync(randomId, CancellationToken.None);
+
+        // Assert
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetSpot_WithNoAddress_ShouldReturnData()
+    {
+        // Arrange
+        var expectedTitle = "Test Spot";
+        var expectedLocation = new GeoLocationDto(52.616670, 39.600000);
+        IEnumerable<ActivityType> expectedActivities = [ActivityType.Workout];
+        var expectedDescription = "A test spot for integration tests";
+
+        var id = SpotId.FromValue(_spotId);
+        var searcher = _serviceProvider.GetRequiredService<ISpotSearcher>();
+
+        // Act
+        var result = await searcher.GetAsync(id, CancellationToken.None);
+
+        // Assert
+        result.Should().NotBeNull();
+        result!.Id.Should().Be(id.Value).And.Be(_spotId);
+        result.Title.Should().Be(expectedTitle);
+        result.Location.Should().Be(expectedLocation);
+        result.Activities.Should().BeEquivalentTo(expectedActivities);
+        result.Description.Should().Be(expectedDescription);
+        result.Address.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetSpot_WithAddress_ShouldReturnData()
+    {
+        // Arrange
+        var expectedTitle = "Test Spot with address";
+        var expectedLocation = new GeoLocationDto(52.616670, 39.600000);
+        IEnumerable<ActivityType> expectedActivities = [ActivityType.Workout];
+        var expectedDescription = "A test spot with address for integration tests";
+
+        var id = SpotId.FromValue(_spotWithAddressId);
+        var searcher = _serviceProvider.GetRequiredService<ISpotSearcher>();
+
+        // Act
+        var result = await searcher.GetAsync(id, CancellationToken.None);
+
+        // Assert
+        result.Should().NotBeNull();
+        result!.Id.Should().Be(id.Value).And.Be(_spotWithAddressId);
+        result.Title.Should().Be(expectedTitle);
+        result.Location.Should().Be(expectedLocation);
+        result.Activities.Should().BeEquivalentTo(expectedActivities);
+        result.Description.Should().Be(expectedDescription);
+        result.Address.Should().NotBeNull();
+        result.Address!.Settlement.Should().Be(LinkedCityName);
+    }
 
     [Fact]
     public async Task SearchSpots_WhenTitleMatches_ShouldReturnData()
@@ -141,19 +209,19 @@ public sealed class SpotSearcherTests : IAsyncLifetime
         await context.Database.MigrateAsync();
     }
 
-    private static async Task SeedDatabase(IServiceProvider serviceProvider)
+    private async Task SeedDatabase(IServiceProvider serviceProvider)
     {
         await SeedAddresses(serviceProvider);
         await SeedSpots(serviceProvider);
     }
 
-    private static async Task SeedSpots(IServiceProvider serviceProvider)
+    private async Task SeedSpots(IServiceProvider serviceProvider)
     {
         var context = serviceProvider.GetRequiredService<GeoContext>();
         var address = await context.Addresses.FirstAsync(a => a.Settlement == LinkedCityName, CancellationToken.None);
 
         var spot = DomainSpot.Create(
-               id: SpotId.FromValue(Guid.NewGuid()),
+               id: SpotId.FromValue(_spotId),
                title: Title.FromValue("Test Spot"),
                locationPoint: GeoCoordinate.FromLocationWithAltitude(GeoLocation.FromLatLon(52.616670, 39.600000), new Altitude(160)),
                activities: [ActivityType.Workout],
@@ -161,18 +229,18 @@ public sealed class SpotSearcherTests : IAsyncLifetime
                addressId: null);
 
         var spotWithAddress = DomainSpot.Create(
-        id: SpotId.FromValue(Guid.NewGuid()),
-        title: Title.FromValue("Test Spot with address"),
-        locationPoint: GeoCoordinate.FromLocation(GeoLocation.FromLatLon(52.616670, 39.600000)),
-        activities: [ActivityType.Workout],
-        description: "A test spot with address for integration tests",
-        addressId: AddressId.FromValue(address.Id));
+                id: SpotId.FromValue(_spotWithAddressId),
+                title: Title.FromValue("Test Spot with address"),
+                locationPoint: GeoCoordinate.FromLocation(GeoLocation.FromLatLon(52.616670, 39.600000)),
+                activities: [ActivityType.Workout],
+                description: "A test spot with address for integration tests",
+                addressId: AddressId.FromValue(address.Id));
 
         var creator = serviceProvider.GetRequiredService<ISpotCreator>();
         await creator.BulkInsertSpotsAsync([spot, spotWithAddress], CancellationToken.None);
     }
 
-    private static async Task SeedAddresses(IServiceProvider serviceProvider)
+    private async Task SeedAddresses(IServiceProvider serviceProvider)
     {
         var addressLinked = new CreateAddressDto
         {
