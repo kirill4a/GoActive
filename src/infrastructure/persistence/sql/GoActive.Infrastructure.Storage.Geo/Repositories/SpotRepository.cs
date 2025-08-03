@@ -1,5 +1,7 @@
 using GoActive.Infrastructure.Storage.Geo.Entities;
+using GoActive.Modules.Geo.Application.Shared.Dto;
 using GoActive.Modules.Geo.Application.Spot.Create;
+using GoActive.Modules.Geo.Application.Spot.Get;
 using GoActive.Modules.Geo.Application.Spot.Search;
 using GoActive.Shared.Domain.Enums;
 
@@ -7,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 using DomainAddress = GoActive.Modules.Geo.Domain.ValueObjects.Address;
 using DomainSpot = GoActive.Modules.Geo.Domain.SpotAggregate.Spot;
+using DomainSpotId = GoActive.Modules.Geo.Domain.SpotAggregate.SpotId;
 using DomainSpotKey = GoActive.Modules.Geo.Domain.SpotAggregate.SpotKey;
 
 namespace GoActive.Infrastructure.Storage.Geo.Repositories;
@@ -18,6 +21,29 @@ internal class SpotRepository(IGeoContext context) : ISpotSearcher, ISpotCreator
         var (normalizedTitle, location) = (key.NormalizedTitle.Value, key.LocationPoint.ToPoint());
         return await context.Spots.AnyAsync(x => x.NormalizedTitle == normalizedTitle && x.Location == location, cancellationToken);
     }
+
+    public Task<GetSpotResult?> GetAsync(DomainSpotId id, CancellationToken cancellationToken)
+        =>
+        context.Spots
+            .Where(x => x.Id == id.Value)
+            .Select(x => new GetSpotResult
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Location = new(x.Location.X, x.Location.Y),
+                Activities = x.Activities,
+                Address = x.AddressId == null ? null
+                                : new AddressDto
+                                {
+                                    Country = x.Address!.Country,
+                                    Region = x.Address.Region,
+                                    Settlement = x.Address.Settlement,
+                                    Street = x.Address.Street,
+                                    Building = x.Address.Building,
+                                },
+                Description = x.Description,
+            })
+            .FirstOrDefaultAsync(cancellationToken);
 
     public async Task<int> BulkInsertSpotsAsync(IReadOnlyCollection<DomainSpot> spots, CancellationToken cancellationToken)
     {

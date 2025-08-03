@@ -24,4 +24,9 @@ public sealed record AddressDto
     /// Street
     /// </summary>
     public string? Street { get; init; }
+
+    /// <summary>
+    /// Building number
+    /// </summary>
+    public string? Building { get; init; }
 }
